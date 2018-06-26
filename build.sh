@@ -19,7 +19,7 @@ echo "Building Angular app for distribution..."
 
 echo "Copying angular dist into out directory..."
 mkdir ../out/src/dist
-cp -rf dist ../out/src
+cp -Rf dist ../out/src
 
 echo "Removing angular-src dist directory..."
 rm -rf dist
