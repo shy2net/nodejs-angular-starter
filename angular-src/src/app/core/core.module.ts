@@ -12,6 +12,9 @@ import {
   ToastyHelperService
 } from './services';
 import { SharedModule } from '../shared/shared.module';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -20,9 +23,10 @@ import { SharedModule } from '../shared/shared.module';
     CookieModule.forRoot(),
     SlimLoadingBarModule.forRoot(),
     ToastyModule.forRoot(),
+    RouterModule,
     SharedModule
   ],
-  declarations: [],
+  declarations: [HeaderComponent, FooterComponent],
   providers: [
     HttpClient,
     ApiService,
@@ -30,6 +34,8 @@ import { SharedModule } from '../shared/shared.module';
     ToastyHelperService
   ],
   exports: [
+    HeaderComponent,
+    FooterComponent,
     SlimLoadingBarModule,
     ToastyModule
   ]

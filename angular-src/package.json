@@ -27,6 +27,7 @@
         "ng2-toasty": "^4.0.3",
         "ngx-cookie": "^4.0.2",
         "popper.js": "^1.14.3",
+        "roboto-fontface": "^0.9.0",
         "rxjs": "^6.0.0",
         "rxjs-compat": "^6.2.1",
         "tether": "^1.4.4",
