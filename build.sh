@@ -12,7 +12,7 @@ echo "Copying configuration files..."
 cp -Rf src/config out/src/config
 
 echo "Installing Angular app dependencies..."
-cd angular-src && npm install && npm install --only=dev
+cd angular-src && npm install --only=dev
 
 echo "Building Angular app for distribution..."
 ./node_modules/.bin/ng build --aot --prod
