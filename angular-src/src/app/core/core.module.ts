@@ -28,6 +28,10 @@ import { SharedModule } from '../shared/shared.module';
     ApiService,
     AppService,
     ToastyHelperService
+  ],
+  exports: [
+    SlimLoadingBarModule,
+    ToastyModule
   ]
 })
 export class CoreModule { }

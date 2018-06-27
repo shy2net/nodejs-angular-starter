@@ -1,17 +1,15 @@
-export function sendOk(res, data?: any) {
-  res.json({
+import { ActionResponse } from "../../shared/models";
+
+export function getOkayResponse(data?: any) {
+  return {
     status: 'ok',
-    error: null,
     data: data
-  });
+  } as ActionResponse<any>;
 }
 
-export function sendError(res, status?, error?) {
-  // Log the error
-  error && console.error(error);
-
-  res.status(status || 400).json({
+export function getErrorResponse(error: any) {
+  return {
     status: 'error',
     error: error
-  });
+  } as ActionResponse<any>;
 }
