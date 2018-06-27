@@ -1,5 +1,5 @@
-export interface ActionResponse {
+export interface ActionResponse<T> {
   status: string;
   error?: string;
-  data?: any;
+  data?: T;
 }

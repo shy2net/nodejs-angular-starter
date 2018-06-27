@@ -24,6 +24,8 @@
                         ],
                         "styles": [
                             "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                            "node_modules/ng2-slim-loading-bar/bundles/style.css",
+                            "node_modules/ng2-toasty/bundles/style-bootstrap.css",
                             "src/styles.css"
                         ],
                         "scripts": [
