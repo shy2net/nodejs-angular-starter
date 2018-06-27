@@ -6,6 +6,18 @@ class ApiController {
   test() {
     return responses.getOkayResponse();
   }
+
+  login(username, password) {
+
+  }
+
+  getProfile() {
+    
+  }
+
+  logout() {
+
+  }
 }
 
 export default new ApiController();
