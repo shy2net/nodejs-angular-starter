@@ -10,6 +10,7 @@ import { UserProfile, ActionResponse } from '../../../../../shared/models';
 @Injectable()
 export class AuthService {
   loginObservable: Observable<UserProfile>;
+
   get hasCredentails() {
     return this.cookieService.get('auth_token');
   }
