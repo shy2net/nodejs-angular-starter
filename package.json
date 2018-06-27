@@ -3,6 +3,7 @@
     "version": "0.0.0",
     "description": "",
     "scripts": {
+        "postinstall": "cd angular-src && npm install",
         "build": "sh ./build.sh",
         "angular": "cd angular-src && ng serve",
         "start": "node out/src/index.js",
