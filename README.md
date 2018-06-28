@@ -56,3 +56,13 @@ In order to compile and build this template for your server run the following:
     npm start
 
 These list of commands will install, compile and run the output NodeJS.
+
+## Sharing code (models, interfaces, etc)
+
+You can use the `shared` directory in order for NodeJS and Angular to share the same code to be used on both sides
+without the need of re-writing the models for each.
+
+The already existing models are:
+
+- ActionResponse - a simple response to a user action performed on the api. The server will send this response, and the client will read it.
+- UserProfile - a simple user profile model to used for authentication.
