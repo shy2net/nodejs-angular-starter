@@ -52,7 +52,7 @@ We don't run the `npm start` command as it is reserved only for the compiled cod
 In order to compile and build this template for your server run the following:
 
     npm install
-    npm run build
+    npm run build # Run the build.sh script to compile and NodeJS and Angular for production
     npm start
 
 These list of commands will install, compile and run the output NodeJS.
