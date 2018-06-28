@@ -36,17 +36,17 @@ It comes with the following features:
 
 # Starting with this template
 
-In order to work with this template, follow this commands:
+## In order to work with this template, follow this commands:
 
-  npm install # Install NodeJS dependencies and angular
-  npm run debug # Run the NodeJS at debug mode
-  npm run angular # Run Angular 6
+    npm install # Install NodeJS dependencies and angular
+    npm run debug # Run the NodeJS at debug mode
+    npm run angular # Run Angular 6
 
 We don't run the `npm start` command as it is reserved only for the compiled code to run on a production server.
 
 In order to compile and build this template for your server run the following:
-  npm install
-  npm run build
-  npm start
+    npm install
+    npm run build
+    npm start
 
 These list of commands will install, compile and run the output NodeJS.
