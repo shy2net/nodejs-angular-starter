@@ -12,17 +12,24 @@ Technologies used in this template:
 
 # About this template
 
-This template comes with a ready to go server and client integration with authentication and basic styling.
+This template comes with a ready to go server and client integration, authentication and basic styling.
 
 ## Angular 6
 
 Angular 6 comes with the following features:
 
-- Bootstrap v4 with header and sticky footer
-- Built in toasty which automatically pops up on HTTP errors obtained from the server
-- Built in ng2-slim-loading bar (Youtube styled) when moving between routes
+- Bootstrap v4 with header and sticky footer.
+- Built in toasty which automatically pops up on HTTP errors obtained from the server API.
+- Built in ng2-slim-loading bar (Youtube styled) when moving between routes.
+- Built in auth-guard and authentication, saved on session cookie.
 
 ## NodeJS
 
 Comes with built in typescript support and compilation. It comes with the support of running NodeJS
 and compiled and production ready Angular 6.
+
+It comes with the following features:
+
+- Authentication (including middlewares and token generation)
+- Angular 6 routes support (redirect to index.html of compiled Angular code)
+- Configuration according to environment (using config npm package).
