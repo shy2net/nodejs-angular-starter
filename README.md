@@ -45,6 +45,7 @@ It comes with the following features:
 We don't run the `npm start` command as it is reserved only for the compiled code to run on a production server.
 
 In order to compile and build this template for your server run the following:
+
     npm install
     npm run build
     npm start
