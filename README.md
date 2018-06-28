@@ -23,6 +23,8 @@ Angular 6 comes with the following features:
 - Built in ng2-slim-loading bar (Youtube styled) when moving between routes.
 - Built in auth-guard and authentication, saved on session cookie.
 
+The code of Angular 6 is stored under the `angular-src` directory.
+
 ## NodeJS
 
 Comes with built in typescript support and compilation. It comes with the support of running NodeJS
@@ -33,6 +35,9 @@ It comes with the following features:
 - Authentication (including middlewares and token generation)
 - Angular 6 routes support (redirect to index.html of compiled Angular code)
 - Configuration according to environment (using config npm package).
+
+The code of NodeJS is stored under the `src` directory.
+The output directory of the compiled typescript will be available in the `out` directory.
 
 # Starting with this template
 
