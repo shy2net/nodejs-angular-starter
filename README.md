@@ -36,7 +36,7 @@ It comes with the following features:
 
 # Starting with this template
 
-## In order to work with this template, follow this commands:
+In order to work with this template, follow these commands:
 
     npm install # Install NodeJS dependencies and angular
     npm run debug # Run the NodeJS at debug mode
