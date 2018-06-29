@@ -8,6 +8,10 @@
     - [Environment configurations](#environment-configurations)
   - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
 - [Running on production](#running-on-production)
+  - [Running Angular and NodeJS on the same server](#running-angular-and-nodejs-on-the-same-server)
+  - [Seperating client and server](#seperating-client-and-server)
+    - [Server as standalone](#server-as-standalone)
+    - [Angular as standalone](#angular-as-standalone)
 
 # Introduction
 
@@ -197,6 +201,7 @@ And you will get this output:
 ```
 
 ### Environment configurations
+
 This template is using the npm `config` package load configurations. You can read more about it here:
 https://www.npmjs.com/package/config
 
@@ -206,7 +211,6 @@ In order to change the environment you must specify the `NODE_ENV` environment v
 
 For example, if you run on production specify:
 `NODE_ENV = production`.
-
 
 ## Sharing code (models, interfaces, etc)
 
@@ -219,3 +223,43 @@ The already existing models are:
 - UserProfile - a simple user profile model to used for authentication.
 
 # Running on production
+
+In order to run this code on production, you must first compile it.
+There a few things to take into consideration:
+
+## Running Angular and NodeJS on the same server
+
+This template comes with Angular and NodeJS bundled together and can
+be up and running together on the same NodeJS server. This takes place using the `build.sh` bash script
+that knows how to compile them together and bundle them.
+
+How does it work? Well it simply compiles each one seperatly and then copies the angular-src output dist directory
+into the NodeJS src directory and delievers them in the `src/app.ts` like this:
+
+```typescript
+// Point static path to Angular 2 distribution
+this.express.use(express.static(path.join(__dirname, 'dist')));
+
+// Deliever the Angular 2 distribution
+this.express.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
+```
+
+Take into consideration that it will only work on debug mode.
+
+## Seperating client and server
+
+### Server as standalone
+
+In order to run the server as standalone, simply compile it:
+npm run build:node
+
+The output will be projected into the `out` directory.
+
+### Angular as standalone
+
+In order to run angular as a standalone, simple compiled it:
+npm run build:angular
+
+The output will be projected into the `angular-src/dist` directory.
