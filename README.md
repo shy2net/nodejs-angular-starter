@@ -2,6 +2,8 @@
 - [Starting with this template](#starting-with-this-template)
 - [Template architecture](#template-architecture)
   - [Angular 6](#angular-6)
+    - [Angular services](#angular-services)
+    - [Angular components](#angular-components)
   - [NodeJS](#nodejs)
     - [How the API works](#how-the-api-works)
       - [Working with API params](#working-with-api-params)
@@ -57,6 +59,24 @@ Angular 6 comes with the following features:
 - Built in auth-guard and authentication, saved on session cookie.
 
 The code of Angular 6 is stored under the `angular-src` directory.
+
+### Angular services
+
+This template comes with multiple services which can be used accross the template.
+
+- `ApiService` - This service wraps the access to the server api. It should contain a 'mirror' of the functions that the server has.
+- `AuthService` - This service exposes all of the authentication mechanisem and handles all of the login, including login to the api, obtaining the token and saving the token to a cookie for next refresh.
+- `HttpService` - This service provides a wrapper for the angular http service. It holds information about the number of requests currently running, holds information about if a request is currently on-going, and shows an error toast if the server returned an error.
+- `ToastyHelperService` - This service wraps the `ng2-toasty` and allows easier access to the toasty.
+- `AuthGuardService` - An auth guard which used the `AuthService` to guard routes.
+- `AppService` - Holds information about the current user and app related data.
+
+### Angular components
+
+- `AppComponent` - The app component is the bootstrap component of this template. It contain the HTML of the app (such the header, router-oulet and footer). It contains logic to listen to routing changes and showing or hiding the slim loading bar (Youtube styled routing progress bar).
+
+- `HeaderComponent` - The header part of the template. It shows a simple header based on bootstrap which is suitable for mobile as well.
+- `FooterComponent` - A simple sticky footer that always appear at the bottom of the page.
 
 ## NodeJS
 
