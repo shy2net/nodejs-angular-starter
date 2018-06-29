@@ -12,6 +12,10 @@ class ApiController {
     return Promise.reject(createError(401, 'This is an error!'));
   }
 
+  saySomething(whatToSay: string) {
+    return Promise.resolve(responses.getOkayResponse(whatToSay));
+  }
+
   login(username, password) {
 
   }

@@ -59,7 +59,7 @@ The output directory of the compiled typescript will be available in the `out` d
 
 ### How the API works
 
-The NodeJS comes with two working examples of a working api called `test` and `errorTest`,
+The NodeJS comes with three working examples of a working api called `test`, `errorTest` and `saySomething`,
 which can be viewed under `src/api/controller`.
 
 The way this template is built makes the whole code alot more readable, and easier for testing.
@@ -69,7 +69,7 @@ specific function requires.
 On each call to the controller function we provide the params obtained from the request and then we
 call the `next(data?: any)` method in order to let the postResponseMiddleware handle the data and send it back to the client.
 
-For example, let's look at the test method.
+For example, let's look at the test eaxmple.
 
 routes.ts:
 
@@ -142,6 +142,44 @@ export function handlePromiseResponse(
     .catch((error: any) => {
       next && next(error instanceof Error ? error : new Error(error));
     });
+}
+```
+
+So how does it work with params? simply take a look at the saySomething example:
+
+controller.ts:
+
+```typescript
+  saySomething(whatToSay: string) {
+    return Promise.resolve(responses.getOkayResponse(whatToSay));
+  }
+```
+
+routes.ts:
+
+```typescript
+router.get(
+  '/say-something',
+  (req: express.Request, res: express.Response, next: (data) => void) => {
+    // Ready the url param say
+    const whatToSay = req.param('what') as string;
+
+    // Move the promise response to be handled by the postResponseMiddleware
+    next(controller.saySomething(whatToSay));
+  }
+);
+```
+
+Now simple open up your browser to the api url with a 'what' param:
+
+> http://localhost:3000/api/say-something?what=Hello
+
+And you will get this output:
+
+```json
+{
+  "status": "ok",
+  "data": "Hello"
 }
 ```
 

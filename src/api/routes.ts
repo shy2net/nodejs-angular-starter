@@ -26,6 +26,18 @@ router.get(
   }
 );
 
+router.get(
+  '/say-something',
+  (req: express.Request, res: express.Response, next: (data) => void) => {
+    // Ready the url param say
+    const whatToSay = req.param('what') as string;
+
+    // Move the promise response to be handled by the postResponseMiddleware
+    next(controller.saySomething(whatToSay));
+  }
+);
+
+
 router.use(middlewares.postResponseMiddleware);
 router.use(middlewares.postErrorMiddleware);
 
