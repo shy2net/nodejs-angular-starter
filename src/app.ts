@@ -5,12 +5,14 @@ import * as mongoose from 'mongoose';
 import * as morgan from 'morgan';
 import * as path from 'path';
 
+import { Authentication } from './auth';
 import config from './config';
 
 // App class will encapsulate our web server.
 export class App {
-  public express: express.Application;
-  public mongoose;
+  express: express.Application;
+  mongoose;
+  auth: Authentication;
 
   constructor() {}
 
@@ -19,6 +21,8 @@ export class App {
     // Allow parsing JSON data obtained from post
     this.express.use(bodyParser.json());
     console.log(`Connecting to database...`);
+
+    this.auth = new Authentication();
 
     this.initDatabase(() => {
       this.mountRoutes();
@@ -34,6 +38,9 @@ export class App {
     this.express.use(bodyParser.json());
 
     this.express.use(morgan('dev'));
+
+    // Initialize authentication using passport
+    this.auth.init(this.express);
   }
 
   private mountRoutes(): void {

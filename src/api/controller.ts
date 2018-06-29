@@ -1,5 +1,12 @@
+import { UserProfile } from './../../shared/models';
 import * as express from 'express';
 import * as createError from 'http-errors';
+import {
+  Model,
+  PaginateModel,
+  PaginateOptions,
+  PaginateResult
+} from 'mongoose';
 
 import { UserProfileModel } from '../models';
 import * as responses from './responses';
@@ -20,8 +27,8 @@ class ApiController {
 
   login(username: string, password: string) {}
 
-  getProfile(user: UserProfileModel) {
-    return user;
+  getProfile(user: UserProfile) {
+    return Promise.resolve(user);
   }
 
   logout() {}

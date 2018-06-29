@@ -1,16 +1,37 @@
-import { UserProfileModel } from './models/user-profile.model';
-import { UserProfileModel } from './models';
+import { Application } from 'express';
+import { Strategy as LocalStrategy } from 'passport-local';
+
 import * as passport from 'passport';
 
-export function localAuthentication(
-  username: string,
-  password: string,
-  done: () => void
-) {
-  UserProfileModel.findOne(
-    { where: { username: username, password: password } },
-    (err: any, user) => {
-      return user;
-    }
-  );
+import { UserProfileModel } from './models';
+
+export class Authentication {
+  init(express: Application) {
+    express.use(passport.initialize());
+    express.use(passport.session());
+
+    passport.use(
+      new LocalStrategy((username, password, done) => {
+        this.authenticate(username, password)
+          .then(user => {
+            done(null, user);
+          })
+          .catch(error => {
+            done(error, false);
+          });
+      })
+    );
+
+    passport.serializeUser((user, done) => {
+      return done(null, user);
+    });
+
+    passport.deserializeUser((user, done) => {
+      return done(null, user);
+    });
+  }
+
+  private authenticate(username: string, password: string) {
+    return UserProfileModel.findOne({ where: { username, password } });
+  }
 }

@@ -1,8 +1,9 @@
 import * as express from 'express';
 import * as cors from 'cors';
+
 import * as middlewares from './middlewares';
 import * as apiHelper from './api-helper';
-
+import { AppRequest, AppResponse } from '../models';
 import config from '../config';
 import controller from './controller';
 
@@ -37,6 +38,13 @@ router.get(
   }
 );
 
+router.get(
+  '/profile',
+  middlewares.authenticationMiddleware,
+  (req: AppRequest, res: AppResponse, next: (data) => void) => {
+    next(controller.getProfile(req.user));
+  }
+);
 
 router.use(middlewares.postResponseMiddleware);
 router.use(middlewares.postErrorMiddleware);
