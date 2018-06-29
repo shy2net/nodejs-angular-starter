@@ -1,25 +1,67 @@
 import { Request, Response } from 'express';
 import { HttpError } from 'http-errors';
 import { AppRequest, AppResponse } from '../models/app-req-res';
+import * as apiHelper from './api-helper';
 import * as responses from './responses';
 
-export function authenticationMiddleware() {
+export function authenticationMiddleware() {}
 
-};
+/**
+ * Manages runtime errors the occured within a controller (async error occur in a promise are handled in the postErrorMiddleware).
+ * @param req
+ * @param res
+ * @param next
+ */
+export function unhandledErrorMiddleware(
+  req: Request,
+  res: Response,
+  next: (error?: any) => void
+) {
+  try {
+    next();
+  } catch (error) {
+    next(error instanceof Error ? error : new Error(error));
+  }
+}
 
-export function unhandledErrorMiddleware(req: Request, res: Response, next: () => void) {
-    try {
-        next();
+
+/**
+ * This middleware handles data obtained from responses that return either and error or a promise with data.
+ * If none of the above return, it will throw an exception.
+ * @param data
+ * @param req
+ * @param res
+ * @param next
+ */
+export function postResponseMiddleware(
+  data: any,
+  req: AppRequest,
+  res: AppResponse,
+  next: (error) => any
+) {
+  if (data instanceof Error) {
+    return next(data);
+  } else if (data instanceof Promise) {
+    return apiHelper.handlePromiseResponse(data, req, res, next);
+  } else {
+    throw 'Data is not recognized, please make sure the controller you use returns a promise or an error';
+  }
+}
+
+export function postErrorMiddleware(
+  error: any,
+  req: AppRequest,
+  res: AppResponse,
+  next: () => void
+) {
+  if (error) {
+    if (error instanceof HttpError) {
+      return res
+        .status(error.statusCode)
+        .json(responses.getErrorResponse(error.message));
     }
-    catch (error) {
-        if (error instanceof HttpError) {
-            return res.status(error.statusCode).json(responses.getErrorResponse(error.message))
-        }
 
-        res.status(500).json(responses.getErrorResponse(error));
-    }
-};
-
-export function postErrorMiddleware(req: AppRequest, res: AppResponse, next: () => void) {
-
-};
+    // An unknown error has occured
+    return res.status(500).json(responses.getErrorResponse(error));
+  }
+}

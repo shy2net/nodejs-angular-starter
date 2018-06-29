@@ -1,4 +1,4 @@
-import { ActionResponse } from "../../shared/models";
+import { ActionResponse } from '../../shared/models';
 
 export function getOkayResponse(data?: any) {
   return {

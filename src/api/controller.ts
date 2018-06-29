@@ -5,11 +5,11 @@ import config from '../config';
 
 class ApiController {
   test() {
-    return responses.getOkayResponse();
+    return Promise.resolve(responses.getOkayResponse());
   }
 
   errorTest() {
-    throw createError(401, 'This is an errro!');
+    return Promise.reject(createError(401, 'This is an error!'));
   }
 
   login(username, password) {
@@ -17,7 +17,7 @@ class ApiController {
   }
 
   getProfile() {
-    
+
   }
 
   logout() {

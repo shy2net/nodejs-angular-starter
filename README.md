@@ -44,7 +44,7 @@ The output directory of the compiled typescript will be available in the `out` d
 In order to work with this template, follow these commands:
 
     npm install # Install NodeJS dependencies and angular
-    npm run debug # Run the NodeJS at debug mode
+    npm run debug # Run the NodeJS on debug mode
     npm run angular # Run Angular 6
 
 We don't run the `npm start` command as it is reserved only for the compiled code to run on a production server.
