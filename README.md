@@ -73,6 +73,40 @@ controller.ts:
   }
 ```
 
+The response.getOkayResponse is just a simple method that returns a JSON response:
+
+```typescript
+export function getOkayResponse(data?: any) {
+  return {
+    status: 'ok',
+    data: data
+  } as ActionResponse<any>;
+}
+```
+
+ActionResponse objects are objects that specify a response to an action done on the server. You can provide
+data which comes with the response.
+
+You probably ask yourself, how does the data sent back to the client? well it is done using the call for `next(data?: any)`.
+This call will send the back to the postResponseMiddleware:
+
+```typescript
+export function postResponseMiddleware(
+  data: any,
+  req: AppRequest,
+  res: AppResponse,
+  next: (error) => any
+) {
+  if (data instanceof Error) {
+    return next(data);
+  } else if (data instanceof Promise) {
+    return apiHelper.handlePromiseResponse(data, req, res, next);
+  } else {
+    throw 'Data is not recognized, please make sure the controller you use returns a promise or an error';
+  }
+}
+```
+
 # Starting with this template
 
 In order to work with this template, follow these commands:
