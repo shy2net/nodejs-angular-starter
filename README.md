@@ -10,6 +10,24 @@ Technologies used in this template:
 - NodeJS typescript
 - Bootstrap v4
 
+# Starting with this template
+
+In order to work with this template, follow these commands:
+
+    npm install # Install NodeJS dependencies and angular
+    npm run debug # Run the NodeJS on debug mode
+    npm run angular # Run Angular 6
+
+We don't run the `npm start` command as it is reserved only for the compiled code to run on a production server.
+
+In order to compile and build this template for your server run the following:
+
+    npm install
+    npm run build # Run the build.sh script to compile and NodeJS and Angular for production
+    npm start
+
+These list of commands will install, compile and run the output NodeJS.
+
 # About this template
 
 This template comes with a ready to go server and client integration, authentication and basic styling.
@@ -126,24 +144,6 @@ export function handlePromiseResponse(
     });
 }
 ```
-
-# Starting with this template
-
-In order to work with this template, follow these commands:
-
-    npm install # Install NodeJS dependencies and angular
-    npm run debug # Run the NodeJS on debug mode
-    npm run angular # Run Angular 6
-
-We don't run the `npm start` command as it is reserved only for the compiled code to run on a production server.
-
-In order to compile and build this template for your server run the following:
-
-    npm install
-    npm run build # Run the build.sh script to compile and NodeJS and Angular for production
-    npm start
-
-These list of commands will install, compile and run the output NodeJS.
 
 ## Sharing code (models, interfaces, etc)
 
