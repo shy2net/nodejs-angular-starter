@@ -5,7 +5,9 @@
   - [NodeJS](#nodejs)
     - [How the API works](#how-the-api-works)
       - [Working with API params](#working-with-api-params)
+    - [Environment configurations](#environment-configurations)
   - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
+- [Running on production](#running-on-production)
 
 # Introduction
 
@@ -194,6 +196,18 @@ And you will get this output:
 }
 ```
 
+### Environment configurations
+This template is using the npm `config` package load configurations. You can read more about it here:
+https://www.npmjs.com/package/config
+
+All of the configurations are located at the `src/config` directory. The way it loads the configuration is by first loading the `default.json` files and then load the associated environment configuration (by default `development.json`).
+
+In order to change the environment you must specify the `NODE_ENV` environment variable.
+
+For example, if you run on production specify:
+`NODE_ENV = production`.
+
+
 ## Sharing code (models, interfaces, etc)
 
 You can use the `shared` directory in order for NodeJS and Angular to share the same code to be used on both sides
@@ -203,3 +217,5 @@ The already existing models are:
 
 - ActionResponse - a simple response to a user action performed on the api. The server will send this response, and the client will read it.
 - UserProfile - a simple user profile model to used for authentication.
+
+# Running on production
