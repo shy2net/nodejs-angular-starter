@@ -145,7 +145,9 @@ export function handlePromiseResponse(
 }
 ```
 
-So how does it work with params? simply take a look at the saySomething example:
+#### Working with API params
+
+Let's review the working example of saySomething:
 
 controller.ts:
 
