@@ -11,6 +11,13 @@ export function getHandleRequest(
   };
 }
 
+/**
+ * Handles a promise obtained from a controller.
+ * @param promise
+ * @param req
+ * @param res
+ * @param next
+ */
 export function handlePromiseResponse(
   promise: Promise<any>,
   req: Request,
