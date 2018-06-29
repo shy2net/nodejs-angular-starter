@@ -1,3 +1,5 @@
+import { AuthGuardService } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
@@ -30,6 +32,8 @@ import { RouterModule } from '@angular/router';
   providers: [
     HttpClient,
     ApiService,
+    AuthService,
+    AuthGuardService,
     AppService,
     ToastyHelperService
   ],
@@ -40,4 +44,4 @@ import { RouterModule } from '@angular/router';
     ToastyModule
   ]
 })
-export class CoreModule { }
+export class CoreModule {}

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Route } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -8,12 +9,17 @@ import { CoreModule } from './core/core.module';
 
 import { HomeComponent } from './components/home/home.component';
 import { ExamplePageComponent } from './components/example-page/example-page.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
     component: HomeComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: 'example',
@@ -26,15 +32,17 @@ const routes: Route[] = [
   declarations: [
     AppComponent,
     HomeComponent,
-    ExamplePageComponent
+    ExamplePageComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     SharedModule,
     CoreModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
