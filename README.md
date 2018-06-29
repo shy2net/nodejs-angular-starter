@@ -1,3 +1,12 @@
+- [Introduction](#introduction)
+- [Starting with this template](#starting-with-this-template)
+- [About this template](#about-this-template)
+  - [Angular 6](#angular-6)
+  - [NodeJS](#nodejs)
+    - [How the API works](#how-the-api-works)
+      - [Working with API params](#working-with-api-params)
+  - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
+
 # Introduction
 
 This starter template comes with NodeJS (typescript) and Angular 6. It shares models between Angular
