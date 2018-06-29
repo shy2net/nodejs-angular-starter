@@ -1,5 +1,7 @@
 import * as express from 'express';
 import * as createError from 'http-errors';
+
+import { UserProfileModel } from '../models';
 import * as responses from './responses';
 import config from '../config';
 
@@ -16,17 +18,13 @@ class ApiController {
     return Promise.resolve(responses.getOkayResponse(whatToSay));
   }
 
-  login(username, password) {
+  login(username: string, password: string) {}
 
+  getProfile(user: UserProfileModel) {
+    return user;
   }
 
-  getProfile() {
-
-  }
-
-  logout() {
-
-  }
+  logout() {}
 }
 
 export default new ApiController();
