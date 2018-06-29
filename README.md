@@ -39,6 +39,40 @@ It comes with the following features:
 The code of NodeJS is stored under the `src` directory.
 The output directory of the compiled typescript will be available in the `out` directory.
 
+### How the API works
+
+The NodeJS comes with two working examples of a working api called `test` and `errorTest`,
+which can be viewed under `src/api/controller`.
+
+The way this template is built makes the whole code alot more readable, and easier for testing.
+Each route has a function asscoiated in the controller which contains only the parameters that
+specific function requires.
+
+On each call to the controller function we provide the params obtained from the request and then we
+call the next(data?: any) method in order to let the postResponseMiddleware handle the data and sent it back to the client.
+
+For example, let's look at the test method.
+
+routes.ts:
+
+```typescript
+router.get(
+  '/test',
+  (req: express.Request, res: express.Response, next: (data) => void) => {
+    // Move the promise response to be handled by the postResponseMiddleware
+    next(controller.test());
+  }
+);
+```
+
+controller.ts:
+
+```typescript
+  test() {
+    return Promise.resolve(responses.getOkayResponse());
+  }
+```
+
 # Starting with this template
 
 In order to work with this template, follow these commands:
