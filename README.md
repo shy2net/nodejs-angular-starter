@@ -246,7 +246,16 @@ this.express.get('*', function(req, res) {
 });
 ```
 
-Take into consideration that it will only work on debug mode.
+**Take into consideration that it will not work on debug mode.**
+
+When building your image for production it should contain the following commands:
+
+    npm install
+    npm run build
+
+And to run this code simple:
+
+    npm start
 
 ## Seperating client and server
 
