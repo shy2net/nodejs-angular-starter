@@ -27,7 +27,7 @@ Technologies used in this template:
 
 # Starting with this template
 
-In order to work with this template, follow these commands:
+In order to work with this **locally (debug mode) **template, follow these commands:
 
     npm install # Install NodeJS dependencies and angular
     npm run debug # Run the NodeJS on debug mode
@@ -35,7 +35,7 @@ In order to work with this template, follow these commands:
 
 We don't run the `npm start` command as it is reserved only for the compiled code to run on a production server.
 
-In order to compile and build this template for your server run the following:
+In order to compile and build this template for your **production server** run the following:
 
     npm install
     npm run build # Run the build.sh script to compile and NodeJS and Angular for production
