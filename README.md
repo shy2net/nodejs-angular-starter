@@ -262,13 +262,15 @@ And to run this code simple:
 ### Server as standalone
 
 In order to run the server as standalone, simply compile it:
-npm run build:node
+
+    npm run build:node
 
 The output will be projected into the `out` directory.
 
 ### Angular as standalone
 
-In order to run angular as a standalone, simple compiled it:
-npm run build:angular
+In order to run angular as a standalone, simply compile it:
+
+    npm run build:angular
 
 The output will be projected into the `angular-src/dist` directory.
