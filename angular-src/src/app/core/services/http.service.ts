@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, URLSearchParams } from '@angular/http';
 import { ToastyService } from 'ng2-toasty';
 import { CookieService, CookieBackendService } from 'ngx-cookie';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/share';
 
 import { RequestOptionsArgs } from '@angular/http/src/interfaces';
@@ -9,13 +10,22 @@ import { ActionResponse } from '../../../../../shared/models';
 import { ToastyHelperService } from './toasty-helper.service';
 import { AppService } from './app.service';
 
+export enum RequestState {
+  started,
+  ended
+}
+
 @Injectable()
 export class HttpClient {
+  onRequestStateChanged: Subject<RequestState> = new Subject<RequestState>();
   private requestsCount = 0;
+
+  get isRequestLoading() {
+    return this.requestsCount > 0;
+  }
 
   constructor(
     private http: Http,
-    private appService: AppService,
     private cookieService: CookieService,
     private toastyHelperService: ToastyHelperService
   ) {}
@@ -83,7 +93,9 @@ export class HttpClient {
 
   onRequestStarted(observable, disableErrorToast?: boolean) {
     ++this.requestsCount;
-    this.appService.isRequestLoading = true;
+    if (!this.isRequestLoading) {
+      this.onRequestStateChanged.next(RequestState.started);
+    }
 
     observable.subscribe(
       response => {
@@ -116,7 +128,7 @@ export class HttpClient {
 
   onRequestEnded() {
     if (--this.requestsCount === 0) {
-      this.appService.isRequestLoading = false;
+      this.onRequestStateChanged.next(RequestState.ended);
     }
   }
 }
