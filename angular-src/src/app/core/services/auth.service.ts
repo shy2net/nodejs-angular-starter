@@ -1,22 +1,40 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import 'rxjs/operators/map';
 
-import { AppService } from './app.service';
 import { ApiService } from './api.service';
 import { UserProfile, ActionResponse } from '../../../../../shared/models';
 
 @Injectable()
 export class AuthService {
   loginObservable: Observable<UserProfile>;
+  _user: UserProfile;
+  userChanged: Subject<UserProfile> = new Subject<UserProfile>();
+  private _loginChecked: boolean;
+
+  get user(): UserProfile {
+    return this._user;
+  }
+
+  set user(user: UserProfile) {
+    this._user = user;
+  }
+
+  get loginChecked() {
+    return this._loginChecked;
+  }
+
+  set loginChecked(loginChecked: boolean) {
+    this.loginChecked = loginChecked;
+  }
 
   get hasCredentails() {
     return this.cookieService.get('auth_token');
   }
 
   get isLoggedIn() {
-    return this.hasCredentails && this.appService.isLoggedIn;
+    return this.hasCredentails && this.isLoggedIn;
   }
 
   get isLoggedInAsync() {
@@ -24,7 +42,7 @@ export class AuthService {
       return false;
     }
 
-    if (!this.appService.loginChecked) {
+    if (!this.loginChecked) {
       return this.loginObservable.map(userProfile => userProfile != null);
     }
 
@@ -32,26 +50,25 @@ export class AuthService {
   }
 
   constructor(
-    private appService: AppService,
     private apiService: ApiService,
     private cookieService: CookieService
-  ) { }
+  ) {}
 
   checkLogin(): void {
     if (!this.hasCredentails) {
-      this.appService.loginChecked = true;
+      this.loginChecked = true;
       return;
     }
 
-    this.appService.loginChecked = false;
+    this.loginChecked = false;
     this.loginObservable = this.apiService.getProfile(true);
     this.loginObservable.subscribe(
       response => {
-        this.appService.user = response;
-        this.appService.loginChecked = true;
+        this.user = response;
+        this.loginChecked = true;
       },
       error => {
-        this.appService.loginChecked = true;
+        this.loginChecked = true;
       }
     );
   }
@@ -61,7 +78,7 @@ export class AuthService {
     observable.subscribe(
       result => {
         this.cookieService.put(`auth_token`, result.token);
-        this.appService.user = result.profile;
+        this.user = result.profile;
       },
       error => {
         alert(`Failed to login with error: ${error}`);
@@ -73,15 +90,15 @@ export class AuthService {
   }
 
   logout() {
-    this.appService.loginChecked = false;
+    this.loginChecked = false;
     this.apiService.logout().subscribe(
       response => {
-        this.appService.user = null;
+        this.user = null;
         this.cookieService.remove('auth_token');
-        this.appService.loginChecked = true;
+        this.loginChecked = true;
       },
       error => {
-        this.appService.loginChecked = true;
+        this.loginChecked = true;
         console.error(error);
       }
     );
