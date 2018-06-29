@@ -49,7 +49,7 @@ Each route has a function asscoiated in the controller which contains only the p
 specific function requires.
 
 On each call to the controller function we provide the params obtained from the request and then we
-call the next(data?: any) method in order to let the postResponseMiddleware handle the data and sent it back to the client.
+call the `next(data?: any)` method in order to let the postResponseMiddleware handle the data and send it back to the client.
 
 For example, let's look at the test method.
 
@@ -73,7 +73,7 @@ controller.ts:
   }
 ```
 
-The response.getOkayResponse is just a simple method that returns a JSON response:
+The `responses.getOkayResponse(data?: any)` is just a simple method that returns a JSON response:
 
 ```typescript
 export function getOkayResponse(data?: any) {
@@ -85,7 +85,8 @@ export function getOkayResponse(data?: any) {
 ```
 
 ActionResponse objects are objects that specify a response to an action done on the server. You can provide
-data which comes with the response.
+data which comes with the response. If the status of the ActionResponse is error, it will appear as toast
+by default in the client.
 
 You probably ask yourself, how does the data sent back to the client? well it is done using the call for `next(data?: any)`.
 This call will send the back to the postResponseMiddleware:
@@ -104,6 +105,25 @@ export function postResponseMiddleware(
   } else {
     throw 'Data is not recognized, please make sure the controller you use returns a promise or an error';
   }
+}
+```
+
+And the `apiHelper.handlePromiseResponse` method will just do the following:
+
+```typescript
+export function handlePromiseResponse(
+  promise: Promise<any>,
+  req: Request,
+  res: Response,
+  next?: (error: any) => void
+) {
+  promise
+    .then(data => {
+      res.json(data);
+    })
+    .catch((error: any) => {
+      next && next(error instanceof Error ? error : new Error(error));
+    });
 }
 ```
 
