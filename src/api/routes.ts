@@ -39,10 +39,26 @@ router.get(
 );
 
 router.get(
+  '/login',
+  (req: express.Request, res: express.Response, next: (data) => void) => {
+    const loginForm: { username: string; password: string } = req.body;
+    next(controller.login(loginForm.username, loginForm.password));
+  }
+);
+
+router.get(
   '/profile',
   middlewares.authenticationMiddleware,
   (req: AppRequest, res: AppResponse, next: (data) => void) => {
     next(controller.getProfile(req.user));
+  }
+);
+
+router.get(
+  '/logout',
+  middlewares.authenticationMiddleware,
+  (req: AppRequest, res: AppResponse, next: (data) => void) => {
+    next(controller.logout());
   }
 );
 

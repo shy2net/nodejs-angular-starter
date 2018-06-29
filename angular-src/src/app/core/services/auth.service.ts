@@ -77,8 +77,8 @@ export class AuthService {
     const observable = this.apiService.login(email, password);
     observable.subscribe(
       result => {
-        this.cookieService.put(`auth_token`, result.token);
-        this.user = result.profile;
+        this.cookieService.put(`auth_token`, result.data.token);
+        this.user = result.data.profile;
       },
       error => {
         alert(`Failed to login with error: ${error}`);
