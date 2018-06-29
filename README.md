@@ -1,3 +1,12 @@
+- [Introduction](#introduction)
+- [Starting with this template](#starting-with-this-template)
+- [Template architecture](#template-architecture)
+  - [Angular 6](#angular-6)
+  - [NodeJS](#nodejs)
+    - [How the API works](#how-the-api-works)
+      - [Working with API params](#working-with-api-params)
+  - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
+
 # Introduction
 
 This starter template comes with NodeJS (typescript) and Angular 6. It shares models between Angular
@@ -9,16 +18,6 @@ Technologies used in this template:
 - Angular 6
 - NodeJS typescript
 - Bootstrap v4
-
-
-- [Introduction](#introduction)
-- [Starting with this template](#starting-with-this-template)
-- [About this template](#about-this-template)
-  - [Angular 6](#angular-6)
-  - [NodeJS](#nodejs)
-    - [How the API works](#how-the-api-works)
-      - [Working with API params](#working-with-api-params)
-  - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
 
 # Starting with this template
 
@@ -38,7 +37,7 @@ In order to compile and build this template for your server run the following:
 
 These list of commands will install, compile and run the output NodeJS.
 
-# About this template
+# Template architecture
 
 This template comes with a ready to go server and client integration, authentication and basic styling.
 
