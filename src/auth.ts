@@ -1,3 +1,4 @@
+import { IUserProfileModel } from './models/user-profile.model';
 import { Application } from 'express';
 import { Strategy as LocalStrategy } from 'passport-local';
 
@@ -23,21 +24,21 @@ export class Authentication {
       })
     );
 
-    passport.serializeUser((user, done) => {
-      return done(null, user);
+    passport.serializeUser((user: IUserProfileModel, done) => {
+      return done(null, user.id);
     });
 
-    passport.deserializeUser((user, done) => {
-      return done(null, user);
+    passport.deserializeUser((id, done) => {
+      UserProfileModel.findById(id, function(err, user) {
+        done(err, user);
+      });
     });
   }
 
   private authenticate(username: string, password: string): Promise<boolean> {
-    return UserProfileModel.findOne({ username } ).then(
-      user => {
-        return bcrypt.compare(password, user.password);
-      }
-    );
+    return UserProfileModel.findOne({ username }).then(user => {
+      return bcrypt.compare(password, user.password);
+    });
   }
 
   getAuthenticationMiddleware() {
