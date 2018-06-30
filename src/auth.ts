@@ -2,6 +2,7 @@ import { Application } from 'express';
 import { Strategy as LocalStrategy } from 'passport-local';
 
 import * as passport from 'passport';
+import * as bcrypt from 'bcrypt';
 
 import { UserProfileModel } from './models';
 
@@ -31,7 +32,9 @@ export class Authentication {
     });
   }
 
-  private authenticate(username: string, password: string) {
-    return UserProfileModel.findOne({ where: { username, password } });
+  private authenticate(username: string, password: string): Promise<boolean> {
+    return UserProfileModel.findOne({ where: { username } }).then(user => {
+      return bcrypt.compare(password, user.password);
+    });
   }
 }

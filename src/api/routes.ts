@@ -6,6 +6,7 @@ import * as apiHelper from './api-helper';
 import { AppRequest, AppResponse } from '../models';
 import config from '../config';
 import controller from './controller';
+import { RegisterForm } from './forms';
 
 const router = express.Router();
 
@@ -59,6 +60,14 @@ router.get(
   middlewares.authenticationMiddleware,
   (req: AppRequest, res: AppResponse, next: (data) => void) => {
     next(controller.logout());
+  }
+);
+
+router.post(
+  '/register',
+  (req: express.Request, res: express.Response, next: (data) => void) => {
+    const registerForm = req.body as RegisterForm;
+    next(controller.register(registerForm));
   }
 );
 

@@ -4,7 +4,8 @@ import {
   Model,
   PaginateModel,
   PaginateOptions,
-  PaginateResult
+  PaginateResult,
+  PromiseProvider
 } from 'mongoose';
 
 import {
@@ -12,6 +13,8 @@ import {
   ActionResponse,
   LoginActionResponse
 } from './../../shared/models';
+
+import { RegisterForm } from './forms';
 import { UserProfileModel } from '../models';
 import * as responses from './responses';
 import config from '../config';
@@ -39,6 +42,21 @@ class ApiController {
 
   logout(): Promise<ActionResponse<any>> {
     return null;
+  }
+
+  register(registerForm: RegisterForm): Promise<ActionResponse<UserProfile>> {
+    if (!registerForm.isValid()) {
+      return Promise.reject(registerForm.getFormError());
+    }
+
+    registerForm.getHashedPassword().then(hashedPassword => {
+      return UserProfileModel.create({
+        username: registerForm.username,
+        password: hashedPassword
+      }).then(user => {
+        return responses.getOkayResponse(user);
+      });
+    });
   }
 }
 
