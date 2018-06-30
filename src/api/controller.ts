@@ -49,7 +49,7 @@ class ApiController {
       return Promise.reject(registerForm.getFormError());
     }
 
-    registerForm.getHashedPassword().then(hashedPassword => {
+    return registerForm.getHashedPassword().then(hashedPassword => {
       return UserProfileModel.create({
         username: registerForm.username,
         password: hashedPassword

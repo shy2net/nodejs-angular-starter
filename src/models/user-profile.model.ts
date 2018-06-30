@@ -7,6 +7,7 @@ export interface IUserProfileModel extends UserProfile, Document {}
 
 export const UserProfileSchema = new Schema({
   username: {
+    unique: true,
     type: String,
     required: true
   },
@@ -15,6 +16,12 @@ export const UserProfileSchema = new Schema({
     required: true
   }
 });
+
+UserProfileSchema.methods.toJSON = function() {
+  const instance = this as UserProfile;
+  delete instance.password; // Remove the password file
+  return instance;
+};
 
 export const UserProfileModel: Model<IUserProfileModel> = model<
   IUserProfileModel

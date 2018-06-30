@@ -32,9 +32,13 @@ export class App {
   }
 
   private mountPreMiddlewares(): void {
+    // parse application/x-www-form-urlencoded
+    this.express.use(bodyParser.urlencoded({ extended: false }));
+
     // Allow parsing JSON data obtained from post
     this.express.use(bodyParser.json());
 
+    // TODO: Fix according to the environment
     this.express.use(morgan('dev'));
 
     // Initialize authentication using passport

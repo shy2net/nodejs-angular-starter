@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import * as express from 'express';
 import * as cors from 'cors';
 
@@ -12,17 +13,15 @@ const router = express.Router();
 
 router.use(cors(config.CORS_OPTIONS));
 router.use(middlewares.unhandledErrorMiddleware);
-router.get(
-  '/test',
-  (req: express.Request, res: express.Response, next: (data) => void) => {
-    // Move the promise response to be handled by the postResponseMiddleware
-    next(controller.test());
-  }
-);
+
+router.get('/test', (req: Request, res: Response, next: (data) => void) => {
+  // Move the promise response to be handled by the postResponseMiddleware
+  next(controller.test());
+});
 
 router.get(
   '/error-test',
-  (req: express.Request, res: express.Response, next: (data) => void) => {
+  (req: Request, res: Response, next: (data) => void) => {
     // Move the error returned from the promise to be handled by the postResponseMiddleware
     next(controller.errorTest());
   }
@@ -30,22 +29,19 @@ router.get(
 
 router.get(
   '/say-something',
-  (req: express.Request, res: express.Response, next: (data) => void) => {
+  (req: Request, res: Response, next: (data) => void) => {
     // Ready the url param say
-    const whatToSay = req.param('what') as string;
+    const whatToSay = req.query['what'] as string;
 
     // Move the promise response to be handled by the postResponseMiddleware
     next(controller.saySomething(whatToSay));
   }
 );
 
-router.get(
-  '/login',
-  (req: express.Request, res: express.Response, next: (data) => void) => {
-    const loginForm: { username: string; password: string } = req.body;
-    next(controller.login(loginForm.username, loginForm.password));
-  }
-);
+router.get('/login', (req: Request, res: Response, next: (data) => void) => {
+  const loginForm: { username: string; password: string } = req.body;
+  next(controller.login(loginForm.username, loginForm.password));
+});
 
 router.get(
   '/profile',
@@ -65,7 +61,7 @@ router.get(
 
 router.post(
   '/register',
-  (req: express.Request, res: express.Response, next: (data) => void) => {
+  (req: Request, res: Response, next: (data) => void) => {
     const registerForm = new RegisterForm(req.body as RegisterForm);
     next(controller.register(registerForm));
   }
