@@ -5,6 +5,12 @@ export abstract class Form {
     return this.getFormIssues().length === 0;
   }
 
+  constructor(formData?: Form) {
+    if (formData) {
+      Object.assign(this, formData);
+    }
+  }
+
   getFormError(): Error {
     let output = `Supplied form is invalid, please fix the following issues:\n`;
     this.getFormIssues()

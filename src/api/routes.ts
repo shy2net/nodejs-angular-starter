@@ -66,7 +66,7 @@ router.get(
 router.post(
   '/register',
   (req: express.Request, res: express.Response, next: (data) => void) => {
-    const registerForm = req.body as RegisterForm;
+    const registerForm = new RegisterForm(req.body as RegisterForm);
     next(controller.register(registerForm));
   }
 );
