@@ -33,7 +33,7 @@ class ApiController {
   }
 
   login(username: string, password: string): Promise<LoginActionResponse> {
-    return null;
+    return Promise.resolve(responses.getOkayResponse());
   }
 
   getProfile(user: UserProfile): Promise<UserProfile> {

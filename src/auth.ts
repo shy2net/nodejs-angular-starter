@@ -33,9 +33,15 @@ export class Authentication {
   }
 
   private authenticate(username: string, password: string): Promise<boolean> {
-    return UserProfileModel.findOne({ where: { username } }).then(user => {
-      return bcrypt.compare(password, user.password);
-    });
+    return UserProfileModel.findOne({ username } ).then(
+      user => {
+        return bcrypt.compare(password, user.password);
+      }
+    );
+  }
+
+  getAuthenticationMiddleware() {
+    return passport.authenticate('local');
   }
 }
 

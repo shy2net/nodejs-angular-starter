@@ -4,6 +4,7 @@ import * as cors from 'cors';
 
 import * as middlewares from './middlewares';
 import * as apiHelper from './api-helper';
+import auth from '../auth';
 import { AppRequest, AppResponse } from '../models';
 import config from '../config';
 import controller from './controller';
@@ -38,10 +39,14 @@ router.get(
   }
 );
 
-router.get('/login', (req: Request, res: Response, next: (data) => void) => {
-  const loginForm: { username: string; password: string } = req.body;
-  next(controller.login(loginForm.username, loginForm.password));
-});
+router.post(
+  '/login',
+  auth.getAuthenticationMiddleware(),
+  (req: Request, res: Response, next: (data) => void) => {
+    const loginForm: { username: string; password: string } = req.body;
+    next(controller.login(loginForm.username, loginForm.password));
+  }
+);
 
 router.get(
   '/profile',
