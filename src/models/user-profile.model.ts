@@ -18,7 +18,7 @@ export const UserProfileSchema = new Schema({
 });
 
 UserProfileSchema.methods.toJSON = function() {
-  const instance = this as UserProfile;
+  const instance = (this as IUserProfileModel).toObject();
   delete instance.password; // Remove the password file
   return instance;
 };
