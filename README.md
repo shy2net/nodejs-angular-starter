@@ -7,6 +7,7 @@
   - [NodeJS](#nodejs)
     - [How the API works](#how-the-api-works)
       - [Working with API params](#working-with-api-params)
+      - [API middlewares](#api-middlewares)
     - [Database](#database)
     - [Authentication](#authentication)
     - [Environment configurations](#environment-configurations)
@@ -224,6 +225,15 @@ And you will get this output:
   "data": "Hello"
 }
 ```
+
+#### API middlewares
+
+The api comes with some prepacked middlewares which can be found in the `src/api/middlewares.ts` file:
+
+- `unhandledErrorMiddleware` - Manages runtime errors the occured within a controller (async error occur in a promise are handled in the postErrorMiddleware).
+- `postResponseMiddleware` -This middleware handles data obtained from responses that return either and error or a promise with data. If none of the above return, it will throw an exception.
+- `postErrorMiddleware` - This middleware will handle the errors obtained from the postResponseMiddleware.
+
 
 ### Database
 

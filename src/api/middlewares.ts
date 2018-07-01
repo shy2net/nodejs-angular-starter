@@ -45,6 +45,13 @@ export function postResponseMiddleware(
   }
 }
 
+/**
+ * This middleware will handle the errors obtained from the postResponseMiddleware.
+ * @param error 
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 export function postErrorMiddleware(
   error: any,
   req: AppRequest,
