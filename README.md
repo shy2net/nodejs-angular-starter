@@ -235,7 +235,7 @@ In order to configure the database connection string, please review the `Environ
 ### Authentication
 
 This template comes prepacked with JWT authentication and associated middlewares to authenticate users.
-in the `/src/auth.ts` file you will be able to see how the authentication is implemented.
+in the `src/auth.ts` file you will be able to see how the authentication is implemented.
 
 Basically, when a login occurs, the user is being authenticated against a hased password using bcrypt, if the passwords match,
 a token is being generated containing the user data within.
