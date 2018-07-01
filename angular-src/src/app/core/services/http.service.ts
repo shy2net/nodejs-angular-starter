@@ -84,7 +84,7 @@ export class HttpClient {
     const authToken = this.cookieService.get('auth_token');
 
     if (authToken) {
-      headers.append(`Authorization`, `Token ${authToken}`);
+      headers.append(`Authorization`, `Bearer ${authToken}`);
     }
 
     newOptions.headers = headers;

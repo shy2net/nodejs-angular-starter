@@ -1,4 +1,5 @@
 import { AuthService, ToastyHelperService } from './../../core/services';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -11,6 +12,7 @@ export class LoginComponent implements OnInit {
   password: string;
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     private toastyService: ToastyHelperService
   ) { }
@@ -24,6 +26,8 @@ export class LoginComponent implements OnInit {
           `Login successfully`,
           `You are now logged in`
         );
+
+        this.router.navigateByUrl('/user');
       },
       error => { }
     );

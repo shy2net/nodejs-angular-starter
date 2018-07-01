@@ -10,6 +10,8 @@ import { CoreModule } from './core/core.module';
 import { HomeComponent } from './components/home/home.component';
 import { ExamplePageComponent } from './components/example-page/example-page.component';
 import { LoginComponent } from './components/login/login.component';
+import { UserPageComponent } from './components/user-page/user-page.component';
+import { AuthGuardService } from './core/services';
 
 const routes: Route[] = [
   {
@@ -25,6 +27,12 @@ const routes: Route[] = [
     path: 'example',
     pathMatch: 'full',
     component: ExamplePageComponent
+  },
+  {
+    path: 'user',
+    component: UserPageComponent,
+    canLoad: [AuthGuardService],
+    canActivate: [AuthGuardService]
   }
 ];
 
@@ -33,7 +41,8 @@ const routes: Route[] = [
     AppComponent,
     HomeComponent,
     ExamplePageComponent,
-    LoginComponent
+    LoginComponent,
+    UserPageComponent
   ],
   imports: [
     BrowserModule,
@@ -45,4 +54,4 @@ const routes: Route[] = [
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

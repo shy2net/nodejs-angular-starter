@@ -8,7 +8,6 @@ import { UserProfile, ActionResponse } from '../../../../../shared/models';
 
 @Injectable()
 export class AuthService {
-  loginObservable: Observable<UserProfile>;
   _user: UserProfile;
   userChanged: Subject<UserProfile> = new Subject<UserProfile>();
   private _loginChecked: boolean;
@@ -26,7 +25,7 @@ export class AuthService {
   }
 
   set loginChecked(loginChecked: boolean) {
-    this.loginChecked = loginChecked;
+    this._loginChecked = loginChecked;
   }
 
   get hasCredentails() {
@@ -43,7 +42,7 @@ export class AuthService {
     }
 
     if (!this.loginChecked) {
-      return this.loginObservable.map(userProfile => userProfile != null);
+      return this.checkLogin().map(user => !!user);
     }
 
     return this.isLoggedIn;
@@ -54,15 +53,15 @@ export class AuthService {
     private cookieService: CookieService
   ) { }
 
-  checkLogin(): void {
+  checkLogin(): Observable<UserProfile> {
     if (!this.hasCredentails) {
       this.loginChecked = true;
       return;
     }
 
     this.loginChecked = false;
-    this.loginObservable = this.apiService.getProfile(true);
-    this.loginObservable.subscribe(
+    const loginObservable = this.apiService.getProfile(true);
+    loginObservable.subscribe(
       response => {
         this.user = response;
         this.loginChecked = true;
@@ -71,6 +70,8 @@ export class AuthService {
         this.loginChecked = true;
       }
     );
+
+    return loginObservable;
   }
 
   login(email: string, password: string) {
@@ -81,7 +82,6 @@ export class AuthService {
         this.user = result.data.profile;
       },
       error => {
-        alert(`Failed to login with error: ${error}`);
         console.error(error);
       }
     );
@@ -90,17 +90,8 @@ export class AuthService {
   }
 
   logout() {
-    this.loginChecked = false;
-    this.apiService.logout().subscribe(
-      response => {
-        this.user = null;
-        this.cookieService.remove('auth_token');
-        this.loginChecked = true;
-      },
-      error => {
-        this.loginChecked = true;
-        console.error(error);
-      }
-    );
+    this.user = null;
+    this.cookieService.remove('auth_token');
+    this.loginChecked = true;
   }
 }
