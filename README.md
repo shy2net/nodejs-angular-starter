@@ -7,6 +7,7 @@
   - [NodeJS](#nodejs)
     - [How the API works](#how-the-api-works)
       - [Working with API params](#working-with-api-params)
+    - [Database](#database)
     - [Authentication](#authentication)
     - [Environment configurations](#environment-configurations)
   - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
@@ -26,6 +27,7 @@ Technologies used in this template:
 
 - Angular 6
 - NodeJS typescript
+- Mongoose (with basic user model)
 - Bootstrap v4
 - JWT and token authentication built-in
 
@@ -93,11 +95,11 @@ It comes with the following features:
 - Configuration according to environment (using config npm package).
 
 The code of NodeJS is stored under the `src` directory.
-The output directory of the compiled typescript will be available in the `out` directory.
+Output directory of the compiled typescript will be available in the `out` directory.
 
 ### How the API works
 
-The NodeJS comes with three working examples of a working api called `test`, `errorTest` and `saySomething`,
+NodeJS comes with three working examples of a working api called `test`, `errorTest` and `saySomething`,
 which can be viewed under `src/api/controller`.
 
 The way this template is built makes the whole code alot more readable, and easier for testing.
@@ -222,6 +224,13 @@ And you will get this output:
   "data": "Hello"
 }
 ```
+
+### Database
+
+This template uses mongoose as the backend server to store users. It has only one model called UserProfileModel which you can find in the `src/models` directory.
+You can view the database code at the `src/db.ts` file, which basically is responible with the communication to the database.
+
+In order to configure the database connection string, please review the `Environment configurations` part of this readme.
 
 ### Authentication
 
