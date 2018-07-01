@@ -12,6 +12,10 @@ export class AppService {
     return this.authService.user;
   }
 
+  get isLoggedIn(): boolean {
+    return this.user != null && this.loginChecked;
+  }
+
   get loginChecked() {
     return this.authService.loginChecked;
   }
@@ -24,9 +28,5 @@ export class AppService {
     this.httpService.onRequestStateChanged.subscribe(
       newState => (this.isRequestLoading = newState === RequestState.started)
     );
-  }
-
-  get isLoggedIn(): boolean {
-    return this.user != null && this.loginChecked;
   }
 }

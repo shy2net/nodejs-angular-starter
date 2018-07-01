@@ -52,7 +52,7 @@ export class AuthService {
   constructor(
     private apiService: ApiService,
     private cookieService: CookieService
-  ) {}
+  ) { }
 
   checkLogin(): void {
     if (!this.hasCredentails) {

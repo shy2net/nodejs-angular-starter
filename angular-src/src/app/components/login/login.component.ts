@@ -1,4 +1,4 @@
-import { ApiService, ToastyHelperService } from './../../core/services';
+import { AuthService, ToastyHelperService } from './../../core/services';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -11,21 +11,21 @@ export class LoginComponent implements OnInit {
   password: string;
 
   constructor(
-    private apiService: ApiService,
+    private authService: AuthService,
     private toastyService: ToastyHelperService
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onLoginClick() {
-    this.apiService.login(this.username, this.password).subscribe(
+    this.authService.login(this.username, this.password).subscribe(
       result => {
         this.toastyService.showSuccess(
           `Login successfully`,
           `You are now logged in`
         );
       },
-      error => {}
+      error => { }
     );
   }
 }

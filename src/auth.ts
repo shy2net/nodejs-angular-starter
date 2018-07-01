@@ -24,6 +24,8 @@ export class Authentication {
    */
   authenticate(username: string, password: string): Promise<IUserProfileModel> {
     return UserProfileModel.findOne({ username }).then(user => {
+      if (!user) return null;
+
       return bcrypt.compare(password, user.password).then(match => {
         return match && user;
       });
@@ -39,9 +41,9 @@ export class Authentication {
           req.user = user;
           return next();
         })
-        .catch(error => {
-          throw createError(500, `Internal server error`);
-        });
+          .catch(error => {
+            throw createError(500, `Internal server error`);
+          });
       }
     }
 

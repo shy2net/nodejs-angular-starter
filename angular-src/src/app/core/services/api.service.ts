@@ -33,11 +33,14 @@ export class ApiService {
 
   login(username, password) {
     const url = this.getApiEndpoint(
-      `login/?username=${username}&password=${password}`
+      `login`
     );
 
     return this.httpService
-      .post(url, null)
+      .post(url, {
+        username,
+        password
+      })
       .map(response => response.json() as LoginActionResponse);
   }
 
