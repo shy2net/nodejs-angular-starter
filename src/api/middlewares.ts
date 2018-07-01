@@ -4,22 +4,6 @@ import { AppRequest, AppResponse } from '../models';
 import * as apiHelper from './api-helper';
 import * as responses from './responses';
 
-export function authenticationMiddleware(
-  req: Request,
-  res: Response,
-  next: () => void
-) {
-  if (!req.isAuthenticated()) {
-    return res
-      .status(400)
-      .json(
-        responses.getErrorResponse(`Authentication credentails not provided!`)
-      );
-  }
-
-  next();
-}
-
 /**
  * Manages runtime errors the occured within a controller (async error occur in a promise are handled in the postErrorMiddleware).
  * @param req

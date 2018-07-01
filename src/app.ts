@@ -41,7 +41,6 @@ export class App {
     // TODO: Fix according to the environment
     this.express.use(morgan('dev'));
 
-    // Initialize authentication using passport
     auth.init(this.express);
   }
 

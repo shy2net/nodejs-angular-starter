@@ -17,6 +17,7 @@ import {
 import { RegisterForm } from './forms';
 import { UserProfileModel } from '../models';
 import * as responses from './responses';
+import auth from '../auth';
 import config from '../config';
 
 class ApiController {
@@ -33,7 +34,22 @@ class ApiController {
   }
 
   login(username: string, password: string): Promise<LoginActionResponse> {
-    return Promise.resolve(responses.getOkayResponse());
+    return auth.authenticate(username, password).then(user => {
+      if (!user) {
+        throw createError(400, `Username or password are invalid!`);
+      }
+
+      const token = auth.generateToken(user);
+      const response = responses.getOkayResponse();
+
+      return {
+        ...response,
+        data: {
+          token: token,
+          profile: user
+        }
+      };
+    });
   }
 
   getProfile(user: UserProfile): Promise<UserProfile> {

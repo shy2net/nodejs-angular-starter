@@ -40,9 +40,7 @@ router.get(
 );
 
 router.post(
-  '/login',
-  auth.getAuthenticationMiddleware(),
-  (req: Request, res: Response, next: (data) => void) => {
+  '/login',  (req: Request, res: Response, next: (data) => void) => {
     const loginForm: { username: string; password: string } = req.body;
     next(controller.login(loginForm.username, loginForm.password));
   }
@@ -50,7 +48,7 @@ router.post(
 
 router.get(
   '/profile',
-  middlewares.authenticationMiddleware,
+  auth.authenticationMiddleware,
   (req: AppRequest, res: AppResponse, next: (data) => void) => {
     next(controller.getProfile(req.user));
   }
@@ -58,7 +56,7 @@ router.get(
 
 router.get(
   '/logout',
-  middlewares.authenticationMiddleware,
+  auth.authenticationMiddleware,
   (req: AppRequest, res: AppResponse, next: (data) => void) => {
     next(controller.logout());
   }

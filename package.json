@@ -48,6 +48,7 @@
         "config": "^1.30.0",
         "cors": "^2.8.4",
         "express": "^4.16.2",
+        "express-bearer-token": "^2.1.1",
         "express-session": "^1.15.6",
         "http-errors": "^1.6.3",
         "jsonwebtoken": "^8.3.0",
