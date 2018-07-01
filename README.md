@@ -7,6 +7,7 @@
   - [NodeJS](#nodejs)
     - [How the API works](#how-the-api-works)
       - [Working with API params](#working-with-api-params)
+    - [Authentication](#authentication)
     - [Environment configurations](#environment-configurations)
   - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
 - [Running on production](#running-on-production)
@@ -30,7 +31,7 @@ Technologies used in this template:
 
 # Starting with this template
 
-In order to work with this **locally (debug mode)** template, follow these commands:
+To work with this template **locally (debug mode)**, follow these commands:
 
     npm install # Install NodeJS dependencies and angular
     npm run debug # Run the NodeJS on debug mode
@@ -48,7 +49,7 @@ These list of commands will install, compile and run the output NodeJS.
 
 # Template architecture
 
-This template comes with a ready to go server and client integration, authentication and basic styling.
+The template comes with a ready to go server and client integration, authentication and basic styling.
 
 ## Angular 6
 
@@ -83,13 +84,12 @@ This template comes with multiple services which can be used accross the templat
 
 ## NodeJS
 
-Comes with built in typescript support and compilation. It comes with the support of running NodeJS
-and compiled and production ready Angular 6.
+Comes with built in typescript support and compilation.
 
 It comes with the following features:
 
 - Authentication (including middlewares and token generation)
-- Angular 6 routes support (redirect to index.html of compiled Angular code)
+- Angular 6 routes support (redirect to index.html of compiled Angular code), this means you can run you Angular app and API on the same container!
 - Configuration according to environment (using config npm package).
 
 The code of NodeJS is stored under the `src` directory.
@@ -107,7 +107,7 @@ specific function requires.
 On each call to the controller function we provide the params obtained from the request and then we
 call the `next(data?: any)` method in order to let the postResponseMiddleware handle the data and send it back to the client.
 
-For example, let's look at the test eaxmple.
+Let's look at the test example.
 
 routes.ts:
 
