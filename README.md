@@ -26,6 +26,7 @@ Technologies used in this template:
 - Angular 6
 - NodeJS typescript
 - Bootstrap v4
+- JWT and token authentication built-in
 
 # Starting with this template
 
@@ -77,6 +78,8 @@ This template comes with multiple services which can be used accross the templat
 
 - `HeaderComponent` - The header part of the template. It shows a simple header based on bootstrap which is suitable for mobile as well.
 - `FooterComponent` - A simple sticky footer that always appear at the bottom of the page.
+- `LoginComponent` - A simple login with username and password which authenticates against the server.
+- `UserPageComponent` - A simple page that shows information about the currently logged in user with option of logging out.
 
 ## NodeJS
 
@@ -219,6 +222,42 @@ And you will get this output:
   "data": "Hello"
 }
 ```
+
+### Authentication
+
+This template comes prepacked with JWT authentication and associated middlewares to authenticate users.
+in the `/src/auth.ts` file you will be able to see how the authentication is implemented.
+
+Basically, when a login occurs, the user is being authenticated against a hased password using bcrypt, if the passwords match,
+a token is being generated containing the user data within.
+
+When accessing guarded routes (using the authenticationMiddleware in the `auth.ts` file), the token will be decrypted and checked to see
+if it's valid. If so, the request will pass and a `req.user` property will be filled with currently logged on user.
+
+For example, let's take a look at a guarded route, such as the `/api/profile`.
+
+In the `routes.ts` you can see the following code:
+
+```typescript
+router.get(
+  '/profile',
+  auth.authenticationMiddleware,
+  (req: AppRequest, res: AppResponse, next: (data) => void) => {
+    next(controller.getProfile(req.user));
+  }
+);
+```
+
+The `auth.authenticationMiddleware` will simply check the token and if it's valid, will return the user associated with it in the `req.user` property of the request.
+Which we then deliever to the `controller.ts`:
+
+```typescript
+  getProfile(user: UserProfile): Promise<UserProfile> {
+    return Promise.resolve(user);
+  }
+```
+
+Simple isn't it? The token is being delievered in the Authorization header in the format of `Authorization: Bearer ${Token}`.
 
 ### Environment configurations
 
