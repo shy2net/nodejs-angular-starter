@@ -57,7 +57,8 @@ class ApiController {
   }
 
   logout(): Promise<ActionResponse<any>> {
-    return null;
+    // TODO: Implement your own logout mechanisem (JWT token blaclists, etc...)
+    return Promise.reject(`Logout has not been implemented!`);
   }
 
   register(registerForm: RegisterForm): Promise<ActionResponse<UserProfile>> {
