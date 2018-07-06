@@ -55,8 +55,6 @@ export class ApiService {
   getProfile(disableErrorToast?: boolean) {
     const url = this.getApiEndpoint(`profile/`);
     return this.httpService
-      .get<UserProfile>(url, {
-        headers: httpUtils.appendDisableToastHeaders()
-      });
+      .get<UserProfile>(url);
   }
 }
