@@ -9,7 +9,6 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import {
-  HttpClient,
   ApiService,
   AppService,
   ToastyHelperService

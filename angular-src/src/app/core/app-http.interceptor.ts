@@ -20,6 +20,11 @@ export enum RequestState {
   ended
 }
 
+/**
+ * This interceptor handles all of the ongoing requests.
+ * It adds an authentication token if available in the auth-service. On any error that
+ * occurs from a request, a toasty will show.
+ */
 @Injectable()
 export class AppHttpInterceptor implements HttpInterceptor {
   onRequestStateChanged: Subject<RequestState> = new Subject<RequestState>();
@@ -42,9 +47,13 @@ export class AppHttpInterceptor implements HttpInterceptor {
       request = request.clone(cloneOptions);
     }
 
+    return this.handleRequest(next.handle(request));
+  }
+
+  handleRequest(request: Observable<HttpEvent<any>>) {
     this.onRequestStarted();
 
-    return next.handle(request).do((event: HttpEvent<any>) => {
+    return request.do((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         this.onRequestEnded();
       }
