@@ -1,9 +1,11 @@
-import { Injectable, Inject } from '@angular/core'; import {
+import { Injectable, Inject } from '@angular/core';
+import {
   UserProfile,
   ActionResponse,
   LoginActionResponse
 } from '../../../../../shared/models';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import * as httpUtils from '../http-utils';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
