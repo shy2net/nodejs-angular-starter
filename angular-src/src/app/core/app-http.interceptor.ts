@@ -37,6 +37,8 @@ export class AppHttpInterceptor implements HttpInterceptor {
   constructor(public authService: AuthService,
     private toastyHelperService: ToastyHelperService) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.stripDisableErrorToastHeaders(request);
+
     if (this.authService.hasCredentails) {
       const cloneOptions = {
         setHeaders: {
@@ -48,6 +50,17 @@ export class AppHttpInterceptor implements HttpInterceptor {
     }
 
     return this.handleRequest(next.handle(request));
+  }
+
+  stripDisableErrorToastHeaders(request: HttpRequest<any>): boolean {
+    const disableErrorToast = request.headers['DisableErrorToast'];
+
+    if (disableErrorToast) {
+      delete request.headers['DisableErrorToast'];
+      return disableErrorToast === 'True';
+    }
+
+    return false;
   }
 
   handleRequest(request: Observable<HttpEvent<any>>) {

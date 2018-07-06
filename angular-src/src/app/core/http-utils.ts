@@ -1,7 +1,4 @@
-export function getDisableToastOptions(options: any = {}): any {
-  const headers = options.headers || {};
+export function appendDisableToastHeaders(headers: any = {}) {
   headers['DisableErrorToast'] = 'True';
-  options['headers'] = headers;
-
-  return options;
+  return headers;
 }
