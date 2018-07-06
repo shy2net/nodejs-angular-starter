@@ -5,7 +5,6 @@ import {
   LoginActionResponse
 } from '../../../../../shared/models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as httpUtils from '../http-utils';
 import { environment } from '../../../environments/environment';
 
 @Injectable()

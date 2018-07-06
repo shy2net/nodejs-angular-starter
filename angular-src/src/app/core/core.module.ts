@@ -11,7 +11,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   ApiService,
   AppService,
-  ToastyHelperService
+  ToastyHelperService,
+  RequestsService
 } from './services';
 import { SharedModule } from '../shared/shared.module';
 import { HeaderComponent } from './components/header/header.component';
@@ -40,7 +41,8 @@ import { AppHttpInterceptor } from './app-http.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,
       multi: true
-    }
+    },
+    RequestsService
   ],
   exports: [
     HeaderComponent,
