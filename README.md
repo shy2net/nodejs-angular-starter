@@ -2,7 +2,7 @@
 - [Starting with this template](#starting-with-this-template)
 - [Template architecture](#template-architecture)
   - [Angular 6](#angular-6)
-    - [Angular services](#angular-services)
+    - [Angular services & providers](#angular-services--providers)
     - [Angular components](#angular-components)
   - [NodeJS](#nodejs)
     - [How the API works](#how-the-api-works)
@@ -65,13 +65,14 @@ Angular 6 comes with the following features:
 
 The code of Angular 6 is stored under the `angular-src` directory.
 
-### Angular services
+### Angular services & providers
 
-This template comes with multiple services which can be used accross the template.
+This template comes with multiple services and proviers which can be used accross the template.
 
 - `ApiService` - This service wraps the access to the server api. It should contain a 'mirror' of the functions that the server has.
 - `AuthService` - This service exposes all of the authentication mechanisem and handles all of the login, including login to the api, obtaining the token and saving the token to a cookie for next refresh.
-- `HttpService` - This service provides a wrapper for the angular http service. It holds information about the number of requests currently running, holds information about if a request is currently on-going, and shows an error toast if the server returned an error.
+- `AppHttpInterceptor` - This provider acts as an interceptor for all of the http requests ongoing. It adds the authentication token if provided by the `AuthService` to each request. Then it passes the request to the `RequestsService` to handle.
+- `RequestsService` - This service handles all of the requests passing through using the `AppHttpInterceptor`. It shows an error toast if an error had occured in one of the requests.
 - `ToastyHelperService` - This service wraps the `ng2-toasty` and allows easier access to the toasty.
 - `AuthGuardService` - An auth guard which used the `AuthService` to guard routes.
 - `AppService` - Holds information about the current user and app related data.

@@ -65,7 +65,7 @@ export class AuthService {
     }
 
     this.loginChecked = false;
-    return this.apiService.getProfile(true).do(response => {
+    return this.apiService.getProfile().do(response => {
       this.user = response;
       this.loginChecked = true;
     }, error => {

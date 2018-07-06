@@ -20,6 +20,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
   constructor(public authService: AuthService,
     private requestsService: RequestsService) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // Add our authentication token if existing
     if (this.authService.hasCredentails) {
       const cloneOptions = {
         setHeaders: {
