@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import { Observable, Subject } from 'rxjs';
-import 'rxjs/operators/map';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 
 import { ApiService } from './api.service';
 import { UserProfile, ActionResponse } from '../../../../../shared/models';
@@ -29,11 +30,15 @@ export class AuthService {
   }
 
   get hasCredentails() {
+    return !!this.savedToken;
+  }
+
+  get savedToken() {
     return this.cookieService.get('auth_token');
   }
 
   get isLoggedIn() {
-    return this.hasCredentails && this.isLoggedIn;
+    return this.hasCredentails && !!this._user;
   }
 
   get isLoggedInAsync() {
@@ -60,33 +65,21 @@ export class AuthService {
     }
 
     this.loginChecked = false;
-    const loginObservable = this.apiService.getProfile(true);
-    loginObservable.subscribe(
-      response => {
-        this.user = response;
-        this.loginChecked = true;
-      },
-      error => {
-        this.loginChecked = true;
-      }
-    );
-
-    return loginObservable;
+    return this.apiService.getProfile(true).do(response => {
+      this.user = response;
+      this.loginChecked = true;
+    }, error => {
+      this.loginChecked = true;
+    });
   }
 
   login(email: string, password: string) {
-    const observable = this.apiService.login(email, password);
-    observable.subscribe(
-      result => {
-        this.cookieService.put(`auth_token`, result.data.token);
-        this.user = result.data.profile;
-      },
-      error => {
-        console.error(error);
-      }
-    );
-
-    return observable;
+    return this.apiService.login(email, password).do(result => {
+      this.cookieService.put(`auth_token`, result.data.token);
+      this.user = result.data.profile;
+    }, error => {
+      console.error(error);
+    });
   }
 
   logout() {

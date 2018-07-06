@@ -1,5 +1,4 @@
 import { AuthService } from './auth.service';
-import { HttpClient, RequestState } from './http.service';
 import { Injectable } from '@angular/core';
 
 import { UserProfile } from '../../../../../shared/models';
@@ -21,12 +20,8 @@ export class AppService {
   }
 
   constructor(
-    private httpService: HttpClient,
-    private authService: AuthService
+    public authService: AuthService
   ) {
-    // Detect when a request is currently ongoing
-    this.httpService.onRequestStateChanged.subscribe(
-      newState => (this.isRequestLoading = newState === RequestState.started)
-    );
+
   }
 }

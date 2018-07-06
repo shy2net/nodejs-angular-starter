@@ -2,10 +2,11 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ToastyModule } from 'ng2-toasty';
 import { CookieModule } from 'ngx-cookie';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import {
   HttpClient,
@@ -17,11 +18,12 @@ import { SharedModule } from '../shared/shared.module';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { RouterModule } from '@angular/router';
+import { AppHttpInterceptor } from './app-http.interceptor';
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpModule,
+    HttpClientModule,
     CookieModule.forRoot(),
     SlimLoadingBarModule.forRoot(),
     ToastyModule.forRoot(),
@@ -30,12 +32,16 @@ import { RouterModule } from '@angular/router';
   ],
   declarations: [HeaderComponent, FooterComponent],
   providers: [
-    HttpClient,
     ApiService,
     AuthService,
     AuthGuardService,
     AppService,
-    ToastyHelperService
+    ToastyHelperService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
+      multi: true
+    }
   ],
   exports: [
     HeaderComponent,
@@ -44,4 +50,4 @@ import { RouterModule } from '@angular/router';
     ToastyModule
   ]
 })
-export class CoreModule {}
+export class CoreModule { }

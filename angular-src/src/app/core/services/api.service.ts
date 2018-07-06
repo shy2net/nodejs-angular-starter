@@ -1,8 +1,9 @@
-import { Injectable, Inject } from '@angular/core';
-
-import 'rxjs/add/operator/map';
-import { UserProfile, ActionResponse, LoginActionResponse } from '../../../../../shared/models';
-import { HttpClient } from '../services/http.service';
+import { Injectable, Inject } from '@angular/core'; import {
+  UserProfile,
+  ActionResponse,
+  LoginActionResponse
+} from '../../../../../shared/models';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
@@ -37,24 +38,21 @@ export class ApiService {
     );
 
     return this.httpService
-      .post(url, {
+      .post<LoginActionResponse>(url, {
         username,
         password
-      })
-      .map(response => response.json() as LoginActionResponse);
+      });
   }
 
   logout() {
     const url = this.getApiEndpoint('logout/');
     return this.httpService
-      .get(url)
-      .map(response => response.json() as ActionResponse<null>);
+      .get<ActionResponse<null>>(url);
   }
 
   getProfile(disableErrorToast?: boolean) {
     const url = this.getApiEndpoint(`profile/`);
     return this.httpService
-      .get(url, null, disableErrorToast)
-      .map(response => response.json() as UserProfile);
+      .get<UserProfile>(url);
   }
 }
