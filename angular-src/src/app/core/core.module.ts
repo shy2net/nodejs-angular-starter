@@ -50,7 +50,8 @@ import { SocialLoginModule } from '../social-login/social-login.module';
     HeaderComponent,
     FooterComponent,
     SlimLoadingBarModule,
-    ToastyModule
+    ToastyModule,
+    SocialLoginModule
   ]
 })
 export class CoreModule { }

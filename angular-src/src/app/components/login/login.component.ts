@@ -23,15 +23,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() { }
 
-  onSocialLoginClick(provider: string) {
-    switch (provider) {
-      case 'google':
-        return this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-      case 'facebook':
-        return this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
-    }
-  }
-
   onLoginClick() {
     this.authService.login(this.username, this.password).subscribe(
       result => {
