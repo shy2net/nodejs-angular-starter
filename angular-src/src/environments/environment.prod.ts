@@ -1,3 +1,7 @@
 export const environment = {
-  production: true
+  production: true,
+  socialLogin: {
+    'facebook': 'YOUR-APP-ID',
+    'google': 'YOUR-APP-ID'
+  }
 };

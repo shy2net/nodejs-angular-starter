@@ -19,6 +19,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { AppHttpInterceptor } from './app-http.interceptor';
+import { SocialLoginModule } from '../social-login/social-login.module';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { AppHttpInterceptor } from './app-http.interceptor';
     SlimLoadingBarModule.forRoot(),
     ToastyModule.forRoot(),
     RouterModule,
-    SharedModule
+    SharedModule,
+    SocialLoginModule
   ],
   declarations: [HeaderComponent, FooterComponent],
   providers: [

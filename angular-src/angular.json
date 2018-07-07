@@ -27,6 +27,8 @@
                             "node_modules/ng2-slim-loading-bar/bundles/style.css",
                             "node_modules/ng2-toasty/bundles/style-bootstrap.css",
                             "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
+                            "node_modules/bootstrap-social/bootstrap-social.css",
+                            "node_modules/@fortawesome/fontawesome-free/css/all.css",
                             "src/styles.css"
                         ],
                         "scripts": [

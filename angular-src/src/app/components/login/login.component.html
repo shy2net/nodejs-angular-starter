@@ -1,16 +1,40 @@
 <div class="container">
-    <form name="loginForm" #loginForm="ngForm">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input name="username" type="username" class="form-control" [(ngModel)]="username" id="username" aria-describedby="usernameHelp" placeholder="Enter username" required>
+    <div class="card">
+        <div class="card-header">
+            Login
         </div>
+        <div class="card-body">
+            <form name="loginForm" #loginForm="ngForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input name="username" type="username" class="form-control" [(ngModel)]="username" id="username" aria-describedby="usernameHelp" placeholder="Enter username" required>
+                </div>
 
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input name="password" type="password" class="form-control" id="password" [(ngModel)]="password" placeholder="Password" required>
-            <small id="passwordHelp" class="form-text text-muted">We'll never share your username with anyone else.</small>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input name="password" type="password" class="form-control" id="password" [(ngModel)]="password" placeholder="Password" required>
+                    <small id="passwordHelp" class="form-text text-muted">We'll never share your username with anyone else.</small>
+                </div>
+
+
+                <hr>
+                <div class="card-block">
+                    <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid" (click)="onLoginClick()">Login</button>
+
+                    <div class="social-login">
+                        <span class="mute">Login social:</span>
+                        <button class="btn btn-social-icon btn-google" (click)="onSocialLoginClick('google')">
+              <span class="fab fa-google"></span>
+            </button>
+                        <button class="btn btn-social-icon btn-facebook" (click)="onSocialLoginClick('facebook')">
+              <span class="fab fa-facebook-f"></span>
+            </button>
+                    </div>
+
+                </div>
+
+            </form>
         </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid" (click)="onLoginClick()">Login</button>
-    </form>
 </div>

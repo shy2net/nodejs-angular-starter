@@ -4,7 +4,11 @@
 
 export const environment = {
   production: false,
-  apiServer: 'http://localhost:3000'
+  apiServer: 'http://localhost:3000',
+  socialLogin: {
+    'facebook': '223045385190067',
+    'google': '2ee06c445340212215945dab436fe864de0fca7c'
+  }
 };
 
 /*
