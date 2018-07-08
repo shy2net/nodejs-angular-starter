@@ -11,7 +11,7 @@ import { AuthService, ToastyHelperService } from './../../core/services';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  username: string;
+  email: string;
   password: string;
 
   constructor(
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() { }
 
   onLoginClick() {
-    this.authService.login(this.username, this.password).subscribe(
+    this.authService.login(this.email, this.password).subscribe(
       result => {
         this.toastyService.showSuccess(
           `Login successfully`,

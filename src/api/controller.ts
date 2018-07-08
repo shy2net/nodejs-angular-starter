@@ -1,12 +1,4 @@
-import * as express from 'express';
 import * as createError from 'http-errors';
-import {
-  Model,
-  PaginateModel,
-  PaginateOptions,
-  PaginateResult,
-  PromiseProvider
-} from 'mongoose';
 
 import {
   UserProfile,
@@ -18,7 +10,6 @@ import { RegisterForm } from './forms';
 import { UserProfileModel } from '../models';
 import * as responses from './responses';
 import auth from '../auth';
-import config from '../config';
 
 class ApiController {
   test() {
@@ -39,7 +30,7 @@ class ApiController {
         throw createError(400, `Username or password are invalid!`);
       }
 
-      const token = auth.generateToken(user);
+      const token = auth.generateToken(user.toJSON());
       const response = responses.getOkayResponse();
 
       return {
@@ -57,7 +48,7 @@ class ApiController {
   }
 
   logout(): Promise<ActionResponse<any>> {
-    // TODO: Implement your own logout mechanisem (JWT token blaclists, etc...)
+    // TODO: Implement your own logout mechanisem (JWT token blacklists, etc...)
     return Promise.reject(`Logout has not been implemented!`);
   }
 
@@ -68,7 +59,7 @@ class ApiController {
 
     return registerForm.getHashedPassword().then(hashedPassword => {
       return UserProfileModel.create({
-        username: registerForm.username,
+        ...registerForm,
         password: hashedPassword
       }).then(user => {
         return responses.getOkayResponse(user);

@@ -1,5 +1,11 @@
 {
     "DB_URI": "mongodb://Admin:Aa123456@testcluster-shard-00-00-ycncl.mongodb.net:27017,testcluster-shard-00-01-ycncl.mongodb.net:27017,testcluster-shard-00-02-ycncl.mongodb.net:27017/test?ssl=true&replicaSet=TestCluster-shard-0&authSource=admin",
     "CLIENT_URL": "http://localhost:4200",
-    "JWT_SECRET": "T{qVK:zv:4[y'GMPvRBkA3>!BP$C5hnakvZP[f=['.f]Lg9SUJ*Y{:b*G4`3^S/C"
+    "JWT_SECRET": "T{qVK:zv:4[y'GMPvRBkA3>!BP$C5hnakvZP[f=['.f]Lg9SUJ*Y{:b*G4`3^S/C",
+    "SOCIAL_CREDENTAILS": {
+        "facebook": {
+            "APP_ID": 223045385190067,
+            "APP_SECRET": "99f023bf540a03481d24d496ecbe250e"
+        }
+    }
 }

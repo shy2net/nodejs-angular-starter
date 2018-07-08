@@ -1,4 +1,4 @@
-import { Application, Request, Response } from 'express';
+import { Application } from 'express';
 import { AppRequest, AppResponse } from './models';
 
 import * as createError from 'http-errors';
@@ -9,7 +9,7 @@ import config from './config';
 
 import { IUserProfileModel } from './models/user-profile.model';
 import { UserProfileModel } from './models';
-import { EDESTADDRREQ } from 'constants';
+import { UserProfile } from '../shared/models';
 
 export class Authentication {
   init(express: Application) {
@@ -19,11 +19,11 @@ export class Authentication {
 
   /**
    * Checks if the provided username and password valid, if so, returns the user match. If not, returns null.
-   * @param username 
+   * @param email 
    * @param password 
    */
-  authenticate(username: string, password: string): Promise<IUserProfileModel> {
-    return UserProfileModel.findOne({ username }).then(user => {
+  authenticate(email: string, password: string): Promise<IUserProfileModel> {
+    return UserProfileModel.findOne({ email }).then(user => {
       if (!user) return null;
 
       return bcrypt.compare(password, user.password).then(match => {
@@ -54,16 +54,16 @@ export class Authentication {
    * Generates a JWT token with the specified user data.
    * @param user 
    */
-  generateToken(user: IUserProfileModel): string {
-    return jwt.sign(user.toJSON(), config.JWT_SECRET);
+  generateToken(user: UserProfile): string {
+    return jwt.sign(user, config.JWT_SECRET);
   }
 
   /**
    * Decodes a JWT token and returns the user found.
    * @param token
    */
-  decodeToken(token: string): IUserProfileModel {
-    return jwt.verify(token, config.JWT_SECRET) as IUserProfileModel;
+  decodeToken(token: string): UserProfile {
+    return jwt.verify(token, config.JWT_SECRET) as UserProfile;
   }
 }
 

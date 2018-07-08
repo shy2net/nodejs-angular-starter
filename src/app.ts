@@ -6,6 +6,7 @@ import * as path from 'path';
 
 import db from './db';
 import auth from './auth';
+import socialAuth from './social-auth';
 import config from './config';
 
 // App class will encapsulate our web server.
@@ -42,6 +43,7 @@ export class App {
     this.express.use(morgan('dev'));
 
     auth.init(this.express);
+    socialAuth.init(this.express);
   }
 
   private mountPostMiddlewares(): void {}

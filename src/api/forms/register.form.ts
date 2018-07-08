@@ -1,8 +1,10 @@
 import * as bcrypt from 'bcrypt';
+
+import { UserProfile } from '../../../shared/models';
 import { Form } from './form';
 
-export class RegisterForm extends Form {
-  username: string;
+export class RegisterForm extends Form implements UserProfile {
+  email: string;
   password: string;
 
   getHashedPassword(): Promise<string> {
@@ -16,7 +18,7 @@ export class RegisterForm extends Form {
   getFormIssues() {
     const issues = [];
 
-    if (!this.username) {
+    if (!this.email) {
       issues.push({ property: 'username', error: 'Username is empty!' });
     }
 
