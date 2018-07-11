@@ -49,12 +49,23 @@ export class SocialAuthentication {
 
         passport.use(new GoogleTokenStrategy({
             clientID: googleCredentails.APP_ID,
-            clientSecret: googleCredentails.APP_SECRET
         },
-            function (accessToken, refreshToken, profile, done) {
+            (accessToken, refreshToken, profile, done) => {
                 const googleProfile = profile._json;
+                const email = googleProfile.email;
 
-                debugger;
+                this.findOrCreateUser(email,
+                    googleProfile,
+                    {
+                        'email': 'email',
+                        'given_name': 'firstName',
+                        'family_name': 'lastName'
+                    }).then(user => {
+                        done(null, user.toJSON());
+                    })
+                    .catch(error => {
+                        done(error, null);
+                    });
             }
         ));
     }

@@ -39,7 +39,8 @@ const CORS_OPTIONS: cors.CorsOptions = {
     'Accept',
     'Authentication',
     'Authorization',
-    'x-auth'
+    'x-auth',
+    'access_token'
   ],
   methods: 'GET,HEAD,POST,OPTIONS,PUT,PATCH,DELETE',
   credentials: true,

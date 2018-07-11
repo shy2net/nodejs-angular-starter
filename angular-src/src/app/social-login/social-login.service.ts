@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AuthService as SocialAuthService, SocialUser } from 'angularx-social-login';
+import { AuthService as SocialAuthService } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 
-import { ApiService, AuthService } from '../core/services';
+import { AuthService } from '../core/services';
 import { UserProfile } from '../../../../shared/models';
 
 @Injectable()
 export class SocialLoginService {
-  socialAuthStateSubscription: Subscription;
   loginStateChanged: Subject<UserProfile> = new Subject<UserProfile>();
 
   constructor(private socialAuthService: SocialAuthService,
@@ -25,12 +24,10 @@ export class SocialLoginService {
         this.authService.socialLogin(provider, authToken).then(result => {
           this.socialAuthService.signOut().then(() => {
             this.loginStateChanged.next(result);
-            this.socialAuthStateSubscription.unsubscribe();
           });
         }).catch(
           error => {
             this.loginStateChanged.error(error);
-            this.socialAuthStateSubscription.unsubscribe();
           }
         );
       }

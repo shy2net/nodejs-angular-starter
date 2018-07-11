@@ -49,7 +49,8 @@ export class ApiService {
     const url = this.getApiEndpoint(`social-login/${provider}`);
     return this.httpService.get<LoginActionResponse>(url, {
       headers: {
-        'Authorization': `Bearer ${authToken}`
+        'Authorization': `Bearer ${authToken}`,
+        'access_token': `${authToken}`
       },
       withCredentials: true
     });
