@@ -10,6 +10,7 @@
       - [API middlewares](#api-middlewares)
     - [Database](#database)
     - [Authentication](#authentication)
+      - [Social Authentication](#social-authentication)
     - [Environment configurations](#environment-configurations)
   - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
 - [Running on production](#running-on-production)
@@ -31,6 +32,7 @@ Technologies used in this template:
 - Mongoose (with basic user model)
 - Bootstrap v4
 - JWT and token authentication built-in
+- Social Authentication (Google and Facebook)
 
 # Starting with this template
 
@@ -62,6 +64,7 @@ Angular 6 comes with the following features:
 - Built in toasty which automatically pops up on HTTP errors obtained from the server API.
 - Built in ng2-slim-loading bar (Youtube styled) when moving between routes.
 - Built in auth-guard and authentication, saved on session cookie.
+- Built in social authentication (Google and Facebook).
 
 The code of Angular 6 is stored under the `angular-src` directory.
 
@@ -71,11 +74,12 @@ This template comes with multiple services and proviers which can be used accros
 
 - `ApiService` - This service wraps the access to the server api. It should contain a 'mirror' of the functions that the server has.
 - `AuthService` - This service exposes all of the authentication mechanisem and handles all of the login, including login to the api, obtaining the token and saving the token to a cookie for next refresh.
+- `AuthGuardService` - An auth guard which used the `AuthService` to guard routes.
 - `AppHttpInterceptor` - This provider acts as an interceptor for all of the http requests ongoing. It adds the authentication token if provided by the `AuthService` to each request. Then it passes the request to the `RequestsService` to handle.
 - `RequestsService` - This service handles all of the requests passing through using the `AppHttpInterceptor`. It shows an error toast if an error had occured in one of the requests.
 - `ToastyHelperService` - This service wraps the `ng2-toasty` and allows easier access to the toasty.
-- `AuthGuardService` - An auth guard which used the `AuthService` to guard routes.
 - `AppService` - Holds information about the current user and app related data.
+- `SocialLoginService` - This service is responsible for the whole social authentication (Google and Facebook), it uses `angularx-social-login` module to do so. This service can be found under `social-login` module which initializes all of the providers (3rd side authenitations).
 
 ### Angular components
 
@@ -85,6 +89,7 @@ This template comes with multiple services and proviers which can be used accros
 - `FooterComponent` - A simple sticky footer that always appear at the bottom of the page.
 - `LoginComponent` - A simple login with username and password which authenticates against the server.
 - `UserPageComponent` - A simple page that shows information about the currently logged in user with option of logging out.
+- `SocialLoginButton` - A simple container of social login buttons which also performs the social authentication itself.
 
 ## NodeJS
 
@@ -95,6 +100,7 @@ It comes with the following features:
 - Authentication (including middlewares and token generation)
 - Angular 6 routes support (redirect to index.html of compiled Angular code), this means you can run you Angular app and API on the same container!
 - Configuration according to environment (using config npm package).
+- Social Authentication, which basically gets an access token from the client that logged into a service and then creates a user associated with it.
 
 The code of NodeJS is stored under the `src` directory.
 Output directory of the compiled typescript will be available in the `out` directory.
@@ -278,6 +284,17 @@ Which we then deliever to the `controller.ts`:
 ```
 
 Simple isn't it? The token is being delievered in the Authorization header in the format of `Authorization: Bearer ${Token}`.
+
+#### Social Authentication
+
+The procedure of social authentication takes place in the client side, after the client obtains an access token from the 3rd party (Google, Facebook), that access token
+will be delieverd to the `social-login/provider` (replace provider with the 3rd party name), which will create a user from the token provided by accessing that specific
+3rd party social network user profile information and map the user data into a data applicable for our website.
+
+The authentication is implement via the `passport` npm package with packages like `passport-facebook-token` and `passport-google-token`.
+If A user with the provided email exists, it is returned with a new access token which is only relevant for our app (just like normal authentication).
+
+Take a look at the `src/social-auth` implementation to see how the access token is being used.
 
 ### Environment configurations
 
