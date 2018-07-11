@@ -1,10 +1,10 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   UserProfile,
   ActionResponse,
   LoginActionResponse
 } from '../../../../../shared/models';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
@@ -43,6 +43,16 @@ export class ApiService {
         username,
         password
       });
+  }
+
+  socialLogin(provider: string, authToken: string) {
+    const url = this.getApiEndpoint(`social-login/${provider}`);
+    return this.httpService.get<LoginActionResponse>(url, {
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      },
+      withCredentials: true
+    });
   }
 
   logout() {

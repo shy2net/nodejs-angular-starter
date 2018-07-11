@@ -15,5 +15,4 @@ router.get('/facebook',
   passport.authenticate('facebook-token', { session: false }),
   socialLoginMethod);
 
-
 module.exports = router;

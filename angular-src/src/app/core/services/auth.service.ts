@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
 import { ApiService } from './api.service';
-import { UserProfile, ActionResponse } from '../../../../../shared/models';
+import { UserProfile } from '../../../../../shared/models';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +18,14 @@ export class AuthService {
   }
 
   set user(user: UserProfile) {
-    this._user = user;
+    if (user !== this._user) {
+      if (user !== null) {
+        this.loginChecked = true;
+      }
+
+      this._user = user;
+      this.userChanged.next(user);
+    }
   }
 
   get loginChecked() {
@@ -67,7 +74,6 @@ export class AuthService {
     this.loginChecked = false;
     return this.apiService.getProfile().do(response => {
       this.user = response;
-      this.loginChecked = true;
     }, error => {
       this.loginChecked = true;
     });
@@ -78,7 +84,24 @@ export class AuthService {
       this.cookieService.put(`auth_token`, result.data.token);
       this.user = result.data.profile;
     }, error => {
+      this.userChanged.error(error);
       console.error(error);
+    });
+  }
+
+  /**
+   * Signs into using the social authentication credentails provided.
+   * @param provider
+   * @param authToken
+   */
+  socialLogin(provider: string, authToken: string) {
+    return this.apiService.socialLogin(provider, authToken).toPromise().then(result => {
+      this.cookieService.put(`auth_token`, result.data.token);
+      this.user = result.data.profile;
+      return this.user;
+    }).catch(error => {
+      this.userChanged.error(error);
+      return error;
     });
   }
 
@@ -86,5 +109,8 @@ export class AuthService {
     this.user = null;
     this.cookieService.remove('auth_token');
     this.loginChecked = true;
+
+    // We return a promise so we can notify that everything went well (add your own logout logic if required)
+    return Promise.resolve(null);
   }
 }

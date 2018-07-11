@@ -22,13 +22,17 @@ export class AppHttpInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Add our authentication token if existing
     if (this.authService.hasCredentails) {
-      const cloneOptions = {
-        setHeaders: {
-          Authorization: `Bearer ${this.authService.savedToken}`
-        }
-      };
 
-      request = request.clone(cloneOptions);
+      // Check if this request does already contains a credentails to send, if so, don't append our token
+      if (!request.withCredentials) {
+        const cloneOptions = {
+          setHeaders: {
+            Authorization: `Bearer ${this.authService.savedToken}`
+          }
+        };
+
+        request = request.clone(cloneOptions);
+      }
     }
 
     return this.handleRequest(next.handle(request));

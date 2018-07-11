@@ -19,8 +19,9 @@ export class UserPageComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
-    this.router.navigateByUrl('/');
-    this.toastyHelperService.showSuccess(`You are logged out`, `You have succesfully logged out!`);
+    this.authService.logout().then(() => {
+      this.router.navigateByUrl('/');
+      this.toastyHelperService.showSuccess(`You are logged out`, `You have succesfully logged out!`);
+    });
   }
 }
