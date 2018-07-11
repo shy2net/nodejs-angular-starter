@@ -79,7 +79,7 @@ This template comes with multiple services and proviers which can be used accros
 - `RequestsService` - This service handles all of the requests passing through using the `AppHttpInterceptor`. It shows an error toast if an error had occured in one of the requests.
 - `ToastyHelperService` - This service wraps the `ng2-toasty` and allows easier access to the toasty.
 - `AppService` - Holds information about the current user and app related data.
-- `SocialLoginService` - This service is responsible for the whole social authentication (Google and Facebook), it uses `angularx-social-login` module to do so. This service can be found under `social-login` module which initializes all of the providers (3rd side authenitations).
+- `SocialLoginService` - This service is responsible for the whole social authentication (Google and Facebook), it uses `angularx-social-login` module to do so. This service can be found under `social-login` module which initializes all of the providers (which are the 3rd party social sites).
 
 ### Angular components
 
@@ -291,7 +291,7 @@ The procedure of social authentication takes place in the client side, after the
 will be delieverd to the `social-login/provider` (replace provider with the 3rd party name), which will create a user from the token provided by accessing that specific
 3rd party social network user profile information and map the user data into a data applicable for our website.
 
-The authentication is implement via the `passport` npm package with packages like `passport-facebook-token` and `passport-google-token`.
+The authentication is implemented via the `passport` npm package with packages like `passport-facebook-token` and `passport-google-token`.
 If A user with the provided email exists, it is returned with a new access token which is only relevant for our app (just like normal authentication).
 
 Take a look at the `src/social-auth` implementation to see how the access token is being used.
