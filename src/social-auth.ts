@@ -1,6 +1,7 @@
 import { Application } from 'express';
 import * as passport from 'passport';
 import * as FacebookTokenStrategy from 'passport-facebook-token';
+import { Strategy as GoogleTokenStrategy } from 'passport-google-token';
 import * as randomstring from 'randomstring';
 
 import config from './config';
@@ -12,6 +13,7 @@ export class SocialAuthentication {
     init(express: Application) {
         express.use(passport.initialize());
         this.initFacebook();
+        this.initGoogle();
     }
 
     initFacebook() {
@@ -36,10 +38,25 @@ export class SocialAuthentication {
                         done(null, user.toJSON());
                     })
                     .catch(error => {
-                      done(error, null);  
+                        done(error, null);
                     });
             })
         );
+    }
+
+    initGoogle() {
+        const googleCredentails = config.SOCIAL_CREDENTAILS['google'] as { APP_ID: string, APP_SECRET: string };
+
+        passport.use(new GoogleTokenStrategy({
+            clientID: googleCredentails.APP_ID,
+            clientSecret: googleCredentails.APP_SECRET
+        },
+            function (accessToken, refreshToken, profile, done) {
+                const googleProfile = profile._json;
+
+                debugger;
+            }
+        ));
     }
 
     async findOrCreateUser(email: string, socialProfile: any, map: {}): Promise<IUserProfileModel> {

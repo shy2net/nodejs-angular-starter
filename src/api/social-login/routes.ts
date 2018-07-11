@@ -15,4 +15,8 @@ router.get('/facebook',
   passport.authenticate('facebook-token', { session: false }),
   socialLoginMethod);
 
+router.get('/google',
+  passport.authenticate('google-token', { session: false }),
+  socialLoginMethod);
+
 module.exports = router;

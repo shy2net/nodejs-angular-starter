@@ -7,7 +7,7 @@ export const environment = {
   apiServer: 'http://localhost:3000',
   socialLogin: {
     'facebook': '223045385190067',
-    'google': '2ee06c445340212215945dab436fe864de0fca7c'
+    'google': '1086867360709-69ko7vlgcc3uuq8a42dmmvgjng1vg02l.apps.googleusercontent.com'
   }
 };
 
