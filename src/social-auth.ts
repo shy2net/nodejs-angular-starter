@@ -70,6 +70,14 @@ export class SocialAuthentication {
         ));
     }
 
+    /**
+     * Finds a user based on the provided email. If the email provided already exists, returns a token
+     * for that user. If the user's email does not exist in the database, create the user according
+     * to the profile fetched from the 3rd party and saves it.
+     * @param email
+     * @param socialProfile
+     * @param map
+     */
     async findOrCreateUser(email: string, socialProfile: any, map: {}): Promise<IUserProfileModel> {
         const user = await UserProfileModel.findOne({ email });
 

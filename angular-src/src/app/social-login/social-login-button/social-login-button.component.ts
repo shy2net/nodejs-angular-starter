@@ -14,6 +14,6 @@ export class SocialLoginButtonComponent implements OnInit {
   }
 
   onSocialLoginClick(provider: string) {
-    this.socialLoginService.signIn(provider);
+    return this.socialLoginService.signIn(provider);
   }
 }
