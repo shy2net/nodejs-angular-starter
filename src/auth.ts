@@ -65,7 +65,7 @@ export class Authentication {
   getHasRoleMiddlware(role: string) {
     return (req: AppRequest, res: AppResponse, next: () => void) => {
       if (req.user.roles.find(userRole => role === userRole)) {
-        next();
+        return next();
       }
 
       throw createError(400, `You don't have the role to access this route`);

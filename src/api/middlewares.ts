@@ -41,16 +41,16 @@ export function postResponseMiddleware(
   } else if (data instanceof Promise) {
     return apiHelper.handlePromiseResponse(data, req, res, next);
   } else {
-    throw 'Data is not recognized, please make sure the controller you use returns a promise or an error';
+    throw new Error('Data is not recognized, please make sure the controller you use returns a promise or an error');
   }
 }
 
 /**
  * This middleware will handle the errors obtained from the postResponseMiddleware.
- * @param error 
- * @param req 
- * @param res 
- * @param next 
+ * @param error
+ * @param req
+ * @param res
+ * @param next
  */
 export function postErrorMiddleware(
   error: any,
