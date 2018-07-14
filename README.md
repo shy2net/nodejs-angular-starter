@@ -9,7 +9,7 @@
       - [Working with API params](#working-with-api-params)
       - [API middlewares](#api-middlewares)
     - [Database](#database)
-    - [Authentication](#authentication)
+    - [Authentication and roles](#authentication-and-roles)
       - [Social Authentication](#social-authentication)
     - [Environment configurations](#environment-configurations)
   - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
@@ -31,7 +31,7 @@ Technologies used in this template:
 - NodeJS typescript
 - Mongoose (with basic user model)
 - Bootstrap v4
-- JWT and token authentication built-in
+- JWT and token authentication built-in (including user roles)
 - Social Authentication (Google and Facebook)
 
 # Starting with this template
@@ -74,7 +74,7 @@ This template comes with multiple services and proviers which can be used accros
 
 - `ApiService` - This service wraps the access to the server api. It should contain a 'mirror' of the functions that the server has.
 - `AuthService` - This service exposes all of the authentication mechanisem and handles all of the login, including login to the api, obtaining the token and saving the token to a cookie for next refresh.
-- `AuthGuardService` - An auth guard which used the `AuthService` to guard routes.
+- `AuthGuardService` - An auth guard which used the `AuthService` to guard routes. It also comes with role checking by specifing the `typescript { roles: ['roleName'] }` data for your route.
 - `AppHttpInterceptor` - This provider acts as an interceptor for all of the http requests ongoing. It adds the authentication token if provided by the `AuthService` to each request. Then it passes the request to the `RequestsService` to handle.
 - `RequestsService` - This service handles all of the requests passing through using the `AppHttpInterceptor`. It shows an error toast if an error had occured in one of the requests.
 - `ToastyHelperService` - This service wraps the `ng2-toasty` and allows easier access to the toasty.
@@ -241,7 +241,6 @@ The api comes with some prepacked middlewares which can be found in the `src/api
 - `postResponseMiddleware` -This middleware handles data obtained from responses that return either and error or a promise with data. If none of the above return, it will throw an exception.
 - `postErrorMiddleware` - This middleware will handle the errors obtained from the postResponseMiddleware.
 
-
 ### Database
 
 This template uses mongoose as the backend server to store users. It has only one model called UserProfileModel which you can find in the `src/models` directory.
@@ -249,16 +248,14 @@ You can view the database code at the `src/db.ts` file, which basically is respo
 
 In order to configure the database connection string, please review the `Environment configurations` part of this readme.
 
-### Authentication
+### Authentication and roles
 
 This template comes prepacked with JWT authentication and associated middlewares to authenticate users.
 in the `src/auth.ts` file you will be able to see how the authentication is implemented.
 
-Basically, when a login occurs, the user is being authenticated against a hased password using bcrypt, if the passwords match,
-a token is being generated containing the user data within.
+Basically, when a login occurs, the user is being authenticated against a hased password using bcrypt, if the passwords match, a token is being generated containing the user data within.
 
-When accessing guarded routes (using the authenticationMiddleware in the `auth.ts` file), the token will be decrypted and checked to see
-if it's valid. If so, the request will pass and a `req.user` property will be filled with currently logged on user.
+When accessing guarded routes (using the authenticationMiddleware in the `auth.ts` file), the token will be decrypted and checked to see if it's valid. If so, the request will pass and a `req.user` property will be filled with currently logged on user.
 
 For example, let's take a look at a guarded route, such as the `/api/profile`.
 
@@ -284,6 +281,24 @@ Which we then deliever to the `controller.ts`:
 ```
 
 Simple isn't it? The token is being delievered in the Authorization header in the format of `Authorization: Bearer ${Token}`.
+
+What about user roles? Each user profile has an array of `roles` which holds strings which contains the roles relevant for the user. For example, if you add the role `admin` to your user you should be able to access the `/api/admin_test` endpoint as it is guarded using the `getHasRolesMiddleware` method.
+
+Let's see how it is implemented.
+
+`src/api/routes`:
+
+```typescript
+// An example of a route which will only be accessible for users with the 'admin' role
+router.get(
+  '/admin_test',
+  auth.authenticationMiddleware,
+  auth.getHasRolesMiddlware('admin'),
+  (req: AppRequest, res: AppResponse, next: (data) => void) => {
+    next(controller.test());
+  }
+);
+```
 
 #### Social Authentication
 
