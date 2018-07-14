@@ -19,8 +19,8 @@ export class Authentication {
 
   /**
    * Checks if the provided username and password valid, if so, returns the user match. If not, returns null.
-   * @param email 
-   * @param password 
+   * @param email
+   * @param password
    */
   authenticate(email: string, password: string): Promise<IUserProfileModel> {
     return UserProfileModel.findOne({ email }).then(user => {
@@ -32,15 +32,23 @@ export class Authentication {
     });
   }
 
-  authenticationMiddleware(req: AppRequest, res: AppResponse, next: () => void) {
+  authenticationMiddleware(
+    req: AppRequest,
+    res: AppResponse,
+    next: () => void
+  ) {
     if (req.token) {
-      const decodedUser = jwt.verify(req.token, config.JWT_SECRET) as IUserProfileModel;
+      const decodedUser = jwt.verify(
+        req.token,
+        config.JWT_SECRET
+      ) as IUserProfileModel;
 
       if (decodedUser) {
-        return UserProfileModel.findById(decodedUser._id).then(user => {
-          req.user = user;
-          return next();
-        })
+        return UserProfileModel.findById(decodedUser._id)
+          .then(user => {
+            req.user = user;
+            return next();
+          })
           .catch(error => {
             throw createError(500, `Internal server error`);
           });
@@ -51,8 +59,22 @@ export class Authentication {
   }
 
   /**
+   * This middleware is responsible of of checking if a user has a specific role.
+   * Must be used after the authenticationMiddleware.
+   */
+  getHasRoleMiddlware(role: string) {
+    return (req: AppRequest, res: AppResponse, next: () => void) => {
+      if (req.user.roles.find(userRole => role === userRole)) {
+        next();
+      }
+
+      throw createError(400, `You don't have the role to access this route`);
+    };
+  }
+
+  /**
    * Generates a JWT token with the specified user data.
-   * @param user 
+   * @param user
    */
   generateToken(user: UserProfile): string {
     return jwt.sign(user, config.JWT_SECRET);

@@ -41,18 +41,26 @@ router.get(
   }
 );
 
-router.post(
-  '/login', (req: Request, res: Response, next: (data) => void) => {
-    const loginForm: { username: string; password: string } = req.body;
-    next(controller.login(loginForm.username, loginForm.password));
-  }
-);
+router.post('/login', (req: Request, res: Response, next: (data) => void) => {
+  const loginForm: { username: string; password: string } = req.body;
+  next(controller.login(loginForm.username, loginForm.password));
+});
 
 router.get(
   '/profile',
   auth.authenticationMiddleware,
   (req: AppRequest, res: AppResponse, next: (data) => void) => {
     next(controller.getProfile(req.user));
+  }
+);
+
+// An example of a route which will only be accessible for users with the 'admin' role
+router.get(
+  '/admin_test',
+  auth.authenticationMiddleware,
+  auth.getHasRoleMiddlware('admin'),
+  (req: AppRequest, res: AppResponse, next: (data) => void) => {
+    next(controller.test());
   }
 );
 

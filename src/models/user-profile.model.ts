@@ -27,7 +27,8 @@ export const UserProfileSchema = new Schema({
     type: String,
     required: true,
     minlength: 6
-  }
+  },
+  roles: [String]
 });
 
 UserProfileSchema.methods.toJSON = function () {

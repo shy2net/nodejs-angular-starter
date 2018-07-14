@@ -1,4 +1,4 @@
-import { Injectable, } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
@@ -60,10 +60,43 @@ export class AuthService {
     return this.isLoggedIn;
   }
 
+  /**
+   * Checks if a user has a specific role.
+   * @param roleName
+   * @param user If not specified, will use the local authenticated user.
+   */
+  hasRole(roleName: string, user?: UserProfile) {
+    if (!user) user = this._user;
+    return user.roles.find(role => roleName === role);
+  }
+
+  /**
+   * Checks if a user has specific roles.
+   * @param roles The roles to check if exists
+   * @param user If not specified, will use the local authenticated user.
+   */
+  hasRoles(roles: string[], user?: UserProfile) {
+    for (const role of roles) {
+      if (!this.hasRole(role, user)) return false;
+    }
+
+    return true;
+  }
+
+  hasRolesAsync(roles: string[]) {
+    if (this.isLoggedIn) return this.hasRoles(roles);
+
+    if (!this.loginChecked) {
+      return this.checkLogin().map(user => this.hasRoles(roles, user));
+    }
+
+    return false;
+  }
+
   constructor(
     private apiService: ApiService,
     private cookieService: CookieService
-  ) { }
+  ) {}
 
   checkLogin(): Observable<UserProfile> {
     if (!this.hasCredentails) {
@@ -72,21 +105,27 @@ export class AuthService {
     }
 
     this.loginChecked = false;
-    return this.apiService.getProfile().do(response => {
-      this.user = response;
-    }, error => {
-      this.loginChecked = true;
-    });
+    return this.apiService.getProfile().do(
+      response => {
+        this.user = response;
+      },
+      error => {
+        this.loginChecked = true;
+      }
+    );
   }
 
   login(email: string, password: string) {
-    return this.apiService.login(email, password).do(result => {
-      this.cookieService.put(`auth_token`, result.data.token);
-      this.user = result.data.profile;
-    }, error => {
-      this.userChanged.error(error);
-      console.error(error);
-    });
+    return this.apiService.login(email, password).do(
+      result => {
+        this.cookieService.put(`auth_token`, result.data.token);
+        this.user = result.data.profile;
+      },
+      error => {
+        this.userChanged.error(error);
+        console.error(error);
+      }
+    );
   }
 
   /**
@@ -95,14 +134,18 @@ export class AuthService {
    * @param authToken
    */
   socialLogin(provider: string, authToken: string) {
-    return this.apiService.socialLogin(provider, authToken).toPromise().then(result => {
-      this.cookieService.put(`auth_token`, result.data.token);
-      this.user = result.data.profile;
-      return this.user;
-    }).catch(error => {
-      this.userChanged.error(error);
-      return error;
-    });
+    return this.apiService
+      .socialLogin(provider, authToken)
+      .toPromise()
+      .then(result => {
+        this.cookieService.put(`auth_token`, result.data.token);
+        this.user = result.data.profile;
+        return this.user;
+      })
+      .catch(error => {
+        this.userChanged.error(error);
+        return error;
+      });
   }
 
   logout() {

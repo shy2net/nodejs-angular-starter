@@ -6,6 +6,8 @@ import { Form } from './form';
 export class RegisterForm extends Form implements UserProfile {
   email: string;
   password: string;
+  firstName: string;
+  lastName: string;
 
   getHashedPassword(): Promise<string> {
     return bcrypt.genSalt().then(salt => {

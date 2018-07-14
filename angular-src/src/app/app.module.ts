@@ -31,8 +31,13 @@ const routes: Route[] = [
   {
     path: 'user',
     component: UserPageComponent,
-    canLoad: [AuthGuardService],
     canActivate: [AuthGuardService]
+  },
+  {
+    path: 'admin',
+    component: UserPageComponent,
+    canActivate: [AuthGuardService],
+    data: { roles: ['admin'] }
   }
 ];
 
@@ -48,10 +53,10 @@ const routes: Route[] = [
     BrowserModule,
     SharedModule,
     CoreModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { enableTracing: false }),
     FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
