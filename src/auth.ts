@@ -62,7 +62,7 @@ export class Authentication {
    * This middleware is responsible of of checking if a user has a specific role.
    * Must be used after the authenticationMiddleware.
    */
-  getHasRoleMiddlware(role: string) {
+  getHasRolesMiddlware(role: string) {
     return (req: AppRequest, res: AppResponse, next: () => void) => {
       if (req.user.roles.find(userRole => role === userRole)) {
         return next();

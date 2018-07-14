@@ -58,7 +58,7 @@ router.get(
 router.get(
   '/admin_test',
   auth.authenticationMiddleware,
-  auth.getHasRoleMiddlware('admin'),
+  auth.getHasRolesMiddlware('admin'),
   (req: AppRequest, res: AppResponse, next: (data) => void) => {
     next(controller.test());
   }
