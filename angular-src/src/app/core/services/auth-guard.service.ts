@@ -14,11 +14,11 @@ export class AuthGuardService implements CanActivate, CanLoad {
   constructor(public router: Router, private authService: AuthService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.checkAuthentication(route.data['roles']);
+    return this.checkAuthentication(route.data && route.data['roles']);
   }
 
   canLoad(route: Route) {
-    return this.checkAuthentication(route.data['roles']);
+    return this.checkAuthentication(route.data && route.data['roles']);
   }
 
   checkAuthentication(roles?: string[]) {
