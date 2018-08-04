@@ -1,15 +1,15 @@
-import { Application } from 'express';
-import { AppRequest, AppResponse } from './models';
+import { Application } from "express";
+import { AppRequest, AppResponse } from "./models";
 
-import * as createError from 'http-errors';
-import * as jwt from 'jsonwebtoken';
-import * as bcrypt from 'bcrypt';
-import * as bearerToken from 'express-bearer-token';
-import config from './config';
+import * as createError from "http-errors";
+import * as jwt from "jsonwebtoken";
+import * as bcrypt from "bcrypt";
+import * as bearerToken from "express-bearer-token";
+import config from "./config";
 
-import { IUserProfileModel } from './models/user-profile.model';
-import { UserProfileModel } from './models';
-import { UserProfile } from '../shared/models';
+import { IUserProfileModel } from "./models/user-profile.model";
+import { UserProfileModel } from "./models";
+import { UserProfile } from "../shared/models";
 
 export class Authentication {
   init(express: Application) {
@@ -37,6 +37,8 @@ export class Authentication {
     res: AppResponse,
     next: () => void
   ) {
+    if (req.method === "OPTIONS") return next();
+
     if (req.token) {
       const decodedUser = jwt.verify(
         req.token,
