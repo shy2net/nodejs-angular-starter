@@ -12,6 +12,7 @@
     - [Authentication and roles](#authentication-and-roles)
       - [Social Authentication](#social-authentication)
     - [Environment configurations](#environment-configurations)
+    - [Unit Testing](#unit-testing)
   - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
 - [Running on production](#running-on-production)
   - [Running Angular and NodeJS on the same server](#running-angular-and-nodejs-on-the-same-server)
@@ -101,6 +102,7 @@ It comes with the following features:
 - Angular 6 routes support (redirect to index.html of compiled Angular code), this means you can run you Angular app and API on the same container!
 - Configuration according to environment (using config npm package).
 - Social Authentication, which basically gets an access token from the client that logged into a service and then creates a user associated with it.
+- Unit testing using Mocha and Chai.
 
 The code of NodeJS is stored under the `src` directory.
 Output directory of the compiled typescript will be available in the `out` directory.
@@ -322,6 +324,13 @@ In order to change the environment you must specify the `NODE_ENV` environment v
 
 For example, if you run on production specify:
 `NODE_ENV = production`.
+
+
+### Unit Testing
+
+This template comes with Mocha and Chai integrated. It comes with some simple unit testing which can be found under `src/api/controller.spec.ts`. This file holds 3 simple tests which checks that the API works correctly.
+
+In order to run the tests simply run the command: `npm test`.
 
 ## Sharing code (models, interfaces, etc)
 
