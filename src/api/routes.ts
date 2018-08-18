@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import * as express from 'express';
 import * as cors from 'cors';
 
@@ -24,7 +24,7 @@ router.get('/test', (req: Request, res: Response, next: (data) => void) => {
 
 router.get(
   '/error-test',
-  (req: Request, res: Response, next: (data) => void) => {
+  (req: Request, res: Response, next: NextFunction) => {
     // Move the error returned from the promise to be handled by the postResponseMiddleware
     next(controller.errorTest());
   }
@@ -32,7 +32,7 @@ router.get(
 
 router.get(
   '/say-something',
-  (req: Request, res: Response, next: (data) => void) => {
+  (req: Request, res: Response, next: NextFunction) => {
     // Ready the url param say
     const whatToSay = req.query['what'] as string;
 
@@ -41,7 +41,7 @@ router.get(
   }
 );
 
-router.post('/login', (req: Request, res: Response, next: (data) => void) => {
+router.post('/login', (req: Request, res: Response, next: NextFunction) => {
   const loginForm: { username: string; password: string } = req.body;
   next(controller.login(loginForm.username, loginForm.password));
 });
@@ -49,7 +49,7 @@ router.post('/login', (req: Request, res: Response, next: (data) => void) => {
 router.get(
   '/profile',
   auth.authenticationMiddleware,
-  (req: AppRequest, res: AppResponse, next: (data) => void) => {
+  (req: AppRequest, res: AppResponse, next: NextFunction) => {
     next(controller.getProfile(req.user));
   }
 );
@@ -59,7 +59,7 @@ router.get(
   '/admin_test',
   auth.authenticationMiddleware,
   auth.getHasRolesMiddlware('admin'),
-  (req: AppRequest, res: AppResponse, next: (data) => void) => {
+  (req: AppRequest, res: AppResponse, next: NextFunction) => {
     next(controller.test());
   }
 );
@@ -67,14 +67,14 @@ router.get(
 router.get(
   '/logout',
   auth.authenticationMiddleware,
-  (req: AppRequest, res: AppResponse, next: (data) => void) => {
+  (req: AppRequest, res: AppResponse, next: NextFunction) => {
     next(controller.logout());
   }
 );
 
 router.post(
   '/register',
-  (req: Request, res: Response, next: (data) => void) => {
+  (req: Request, res: Response, next: NextFunction) => {
     const registerForm = new RegisterForm(req.body as RegisterForm);
     next(controller.register(registerForm));
   }

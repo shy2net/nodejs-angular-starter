@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { HttpError } from 'http-errors';
 import { AppRequest, AppResponse } from '../models';
 import * as apiHelper from './api-helper';
@@ -13,7 +13,7 @@ import * as responses from './responses';
 export function unhandledErrorMiddleware(
   req: Request,
   res: Response,
-  next: (error?: any) => void
+  next: NextFunction
 ) {
   try {
     next();
@@ -34,7 +34,7 @@ export function postResponseMiddleware(
   data: any,
   req: AppRequest,
   res: AppResponse,
-  next: (error) => any
+  next: NextFunction
 ) {
   if (data instanceof Error) {
     return next(data);
@@ -56,7 +56,7 @@ export function postErrorMiddleware(
   error: any,
   req: AppRequest,
   res: AppResponse,
-  next: () => void
+  next: NextFunction
 ) {
   if (error) {
     if (error instanceof HttpError) {
