@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
-import { Observable, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
@@ -10,7 +10,7 @@ import { UserProfile } from '../../../../../shared/models';
 @Injectable()
 export class AuthService {
   _user: UserProfile;
-  userChanged: Subject<UserProfile> = new Subject<UserProfile>();
+  userChanged: BehaviorSubject<UserProfile> = new BehaviorSubject<UserProfile>(null);
   private _loginChecked: boolean;
 
   get user(): UserProfile {

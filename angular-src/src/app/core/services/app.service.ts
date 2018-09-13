@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 
@@ -7,8 +8,12 @@ import { UserProfile } from '../../../../../shared/models';
 export class AppService {
   isRequestLoading = false;
 
-  get user() {
+  get user(): UserProfile {
     return this.authService.user;
+  }
+
+  get userChanged(): BehaviorSubject<UserProfile> {
+    return this.authService.userChanged;
   }
 
   get isLoggedIn(): boolean {
@@ -19,9 +24,5 @@ export class AppService {
     return this.authService.loginChecked;
   }
 
-  constructor(
-    public authService: AuthService
-  ) {
-
-  }
+  constructor(public authService: AuthService) {}
 }
