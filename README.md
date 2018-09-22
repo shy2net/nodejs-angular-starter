@@ -96,9 +96,9 @@ This template comes with multiple services and proviers which can be used accros
 ### Angular Universal (Server-Side-Rendering)
 
 By default this template comes ready with Angular Universal which allows search engines to crawl your website better.
-It does this on NodeJS site after running the `npm run build` command which bundles the angular code and create an angular universal express ready file called `out/src/dist/server.js` which our NodeJS simply imports and initializes in the `src/app.ts` file.
+It does this on the NodeJS side after running the `npm run build` command which bundles the angular code and create an angular universal express ready file called `out/src/dist/server.js` which our NodeJS simply imports and initializes in the `src/app.ts` file.
 
-in the `src/app.ts` you have to methods:
+in the `src/app.ts` you have these two methods:
 
 ```typescript
   /**
