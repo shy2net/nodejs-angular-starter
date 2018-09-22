@@ -36,11 +36,11 @@ export class App {
   }
 
   private mountPreMiddlewares(): void {
-    // parse application/x-www-form-urlencoded
-    this.express.use(bodyParser.urlencoded({ extended: false }));
-
     // Allow parsing JSON data obtained from post
     this.express.use(bodyParser.json());
+
+    // parse application/x-www-form-urlencoded
+    this.express.use(bodyParser.urlencoded({ extended: true }));
 
     // TODO: Fix according to the environment
     this.express.use(morgan('dev'));
@@ -51,27 +51,30 @@ export class App {
 
   private mountPostMiddlewares(): void {}
 
+  /**
+   * Mounts angular using Server-Side-Rendering (Recommended for SEO)
+   */
   private mountAngularSSR(): void {
     const DIST_FOLDER = join(__dirname, 'dist');
     const ngApp = require(join(DIST_FOLDER, 'server'));
     ngApp.init(this.express, DIST_FOLDER);
   }
 
-  private mountRoutes(): void {
-    this.express.use('/api', require('./api/routes'));
-
-    // We don't serve angular code on debug mode
-    if (config.DEBUG_MODE) {
-      return;
-    }
-
+  /**
+   * Mounts angular as is with no SSR.
+   */
+  private mountAngular(): void {
     // Point static path to Angular 2 distribution
-    this.express.use(express.static(path.join(__dirname, 'dist')));
+    this.express.use(express.static(path.join(__dirname, 'dist/browser')));
 
     // Deliever the Angular 2 distribution
     this.express.get('*', function(req, res) {
-      res.sendFile(path.join(__dirname, 'dist/index.html'));
+      res.sendFile(path.join(__dirname, 'dist/browser/index.html'));
     });
+  }
+
+  private mountRoutes(): void {
+    this.express.use('/api', require('./api/routes'));
   }
 }
 

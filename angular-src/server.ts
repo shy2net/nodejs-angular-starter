@@ -35,7 +35,7 @@ export function init(app, dist_folder) {
   );
 
   app.set('view engine', 'html');
-  app.set('views', './dist/browser');
+  app.set('views', join(dist_folder, 'browser'));
 
   app.get('/redirect/**', (req, res) => {
     const location = req.url.substring(10);
@@ -44,7 +44,7 @@ export function init(app, dist_folder) {
 
   app.get(
     '*.*',
-    express.static('./dist/browser', {
+    express.static(join(dist_folder, 'browser'), {
       maxAge: '1y'
     })
   );
