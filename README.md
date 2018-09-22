@@ -125,8 +125,8 @@ in the `src/app.ts` you have these two methods:
   }
 ```
 
-By default the mountAngularSSR is called in the init method of `src/app.ts`, simply change it into `mountAngular` in order to disable
-SSR and use angular as is.
+By default the mountAngular is called in the init method of `src/app.ts`, simply change it into `mountAngularSSR` in order to enable
+SSR, but be careful as SSR requires special treatments in your code on certain situations.
 
 ## NodeJS
 

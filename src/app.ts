@@ -26,7 +26,7 @@ export class App {
       this.mountPreMiddlewares();
       this.mountRoutes();
 
-      if (!config.DEBUG_MODE) this.mountAngularSSR();
+      if (!config.DEBUG_MODE) this.mountAngular();
       this.mountPostMiddlewares();
 
       this.express.listen(port);
