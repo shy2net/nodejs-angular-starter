@@ -12,9 +12,9 @@
             "outFiles": [
               "${workspaceRoot}/out/**/*.js"
             ],
-            "args": [
-                "-debug"
-            ]
+            // "args": [
+            //     "-debug"
+            // ]
         }
     ]
 }

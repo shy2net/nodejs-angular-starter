@@ -17,6 +17,9 @@ cd angular-src && npm install --only=dev
 echo "Building Angular app for distribution..."
 ./node_modules/.bin/ng build --aot --prod
 
+echo "Building Angular app for SSR..."
+./node_modules/.bin/ng run angular-src:server && ./node_modules/.bin/webpack --config webpack.server.config.js --progress --colors
+
 echo "Copying angular dist into out directory..."
 mkdir ../out/src/dist
 cp -Rf dist ../out/src

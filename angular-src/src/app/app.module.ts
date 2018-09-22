@@ -51,16 +51,14 @@ const routes: Route[] = [
     LoginComponent,
     UserPageComponent
   ],
-  imports:[
- CommonModule,
-NgtUniversalModule,
- 
-    
+  imports: [
+    CommonModule,
+    NgtUniversalModule,
     SharedModule,
     CoreModule,
     RouterModule.forRoot(routes, { enableTracing: false }),
     FormsModule
   ],
-  providers: [],
+  providers: []
 })
 export class AppModule {}

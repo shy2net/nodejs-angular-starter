@@ -8,6 +8,7 @@ import db from './db';
 import auth from './auth';
 import socialAuth from './social-auth';
 import config from './config';
+import { join } from 'path';
 
 // App class will encapsulate our web server.
 export class App {
@@ -24,6 +25,8 @@ export class App {
     db.init(() => {
       this.mountPreMiddlewares();
       this.mountRoutes();
+
+      if (!config.DEBUG_MODE) this.mountAngularSSR();
       this.mountPostMiddlewares();
 
       this.express.listen(port);
@@ -47,6 +50,12 @@ export class App {
   }
 
   private mountPostMiddlewares(): void {}
+
+  private mountAngularSSR(): void {
+    const DIST_FOLDER = join(__dirname, 'dist');
+    const ngApp = require(join(DIST_FOLDER, 'server'));
+    ngApp.init(this.express, DIST_FOLDER);
+  }
 
   private mountRoutes(): void {
     this.express.use('/api', require('./api/routes'));
