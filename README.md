@@ -4,6 +4,7 @@
   - [Angular 6](#angular-6)
     - [Angular services & providers](#angular-services--providers)
     - [Angular components](#angular-components)
+    - [Angular Universal (Server-Side-Rendering)](#angular-universal-server-side-rendering)
   - [NodeJS](#nodejs)
     - [How the API works](#how-the-api-works)
       - [Working with API params](#working-with-api-params)
