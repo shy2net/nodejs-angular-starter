@@ -28,7 +28,7 @@ default routes to Angular and all of the known routes to the api.
 
 Technologies used in this template:
 
-- Angular 6
+- Angular 6 (with SSR)
 - NodeJS typescript
 - Mongoose (with basic user model)
 - Bootstrap v4
@@ -62,6 +62,7 @@ The template comes with a ready to go server and client integration, authenticat
 Angular 6 comes with the following features:
 
 - Bootstrap v4 with header and sticky footer.
+- Built in SSR bundled with the api server.
 - Built in toasty which automatically pops up on HTTP errors obtained from the server API.
 - Built in ng2-slim-loading bar (Youtube styled) when moving between routes.
 - Built in auth-guard and authentication, saved on session cookie.
@@ -91,6 +92,40 @@ This template comes with multiple services and proviers which can be used accros
 - `LoginComponent` - A simple login with username and password which authenticates against the server.
 - `UserPageComponent` - A simple page that shows information about the currently logged in user with option of logging out.
 - `SocialLoginButton` - A simple container of social login buttons which also performs the social authentication itself.
+
+### Angular Universal (Server-Side-Rendering)
+
+By default this template comes ready with Angular Universal which allows search engines to crawl your website better.
+It does this on NodeJS site after running the `npm run build` command which bundles the angular code and create an angular universal express ready file called `out/src/dist/server.js` which our NodeJS simply imports and initializes in the `src/app.ts` file.
+
+in the `src/app.ts` you have to methods:
+
+```typescript
+  /**
+   * Mounts angular using Server-Side-Rendering (Recommended for SEO)
+   */
+  private mountAngularSSR(): void {
+    const DIST_FOLDER = join(__dirname, 'dist');
+    const ngApp = require(join(DIST_FOLDER, 'server'));
+    ngApp.init(this.express, DIST_FOLDER);
+  }
+
+  /**
+   * Mounts angular as is with no SSR.
+   */
+  private mountAngular(): void {
+    // Point static path to Angular 2 distribution
+    this.express.use(express.static(path.join(__dirname, 'dist/browser')));
+
+    // Deliever the Angular 2 distribution
+    this.express.get('*', function(req, res) {
+      res.sendFile(path.join(__dirname, 'dist/browser/index.html'));
+    });
+  }
+```
+
+By default the mountAngularSSR is called in the init method of `src/app.ts`, simply change it into `mountAngular` in order to disable
+SSR and use angular as is.
 
 ## NodeJS
 
