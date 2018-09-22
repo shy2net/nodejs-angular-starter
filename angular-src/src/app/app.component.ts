@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, PLATFORM_ID, APP_ID, Inject } from '@angular/core';
 import {
   Router,
   Event as RouterEvent,
@@ -8,6 +8,8 @@ import {
   NavigationError
 } from '@angular/router';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { isPlatformBrowser } from '@angular/common';
+
 import { AppService } from './core/services';
 
 declare var jQuery: any;
@@ -21,9 +23,12 @@ export class AppComponent {
   constructor(
     private router: Router,
     private slimLoadingBarService: SlimLoadingBarService,
-    public appService: AppService
+    public appService: AppService,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(APP_ID) private appId: string
   ) {
-    this.router.events.subscribe(this.navigationInterceptor.bind(this));
+    if (isPlatformBrowser(platformId))
+      this.router.events.subscribe(this.navigationInterceptor.bind(this));
   }
 
   private isAppLoading = false;
@@ -32,7 +37,11 @@ export class AppComponent {
     return this.isAppLoading;
   }
   set isLoading(newValue) {
-    if (newValue) { this.slimLoadingBarService.start(); } else { this.slimLoadingBarService.complete(); }
+    if (newValue) {
+      this.slimLoadingBarService.start();
+    } else {
+      this.slimLoadingBarService.complete();
+    }
 
     this.isAppLoading = newValue;
   }
@@ -43,7 +52,9 @@ export class AppComponent {
 
       // Toogle navbar collapse when clicking on link
       const navbarCollapse = jQuery('.navbar-collapse');
-      if (navbarCollapse != null) { navbarCollapse.collapse('hide'); }
+      if (navbarCollapse != null) {
+        navbarCollapse.collapse('hide');
+      }
     }
     if (event instanceof NavigationEnd) {
       this.isLoading = false;
