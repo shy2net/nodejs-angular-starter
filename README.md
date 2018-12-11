@@ -1,7 +1,7 @@
 - [Introduction](#introduction)
 - [Starting with this template](#starting-with-this-template)
 - [Template architecture](#template-architecture)
-  - [Angular 6](#angular-6)
+  - [Angular 7](#angular-7)
     - [Angular services & providers](#angular-services--providers)
     - [Angular components](#angular-components)
     - [Angular Universal (Server-Side-Rendering)](#angular-universal-server-side-rendering)
@@ -58,18 +58,18 @@ These list of commands will install, compile and run the output NodeJS.
 
 The template comes with a ready to go server and client integration, authentication and basic styling.
 
-## Angular 6
+## Angular 7
 
-Angular 6 comes with the following features:
+Angular 7 comes with the following features:
 
 - Bootstrap v4 with header and sticky footer.
 - Built in SSR bundled with the api server.
-- Built in toasty which automatically pops up on HTTP errors obtained from the server API.
-- Built in ng2-slim-loading bar (Youtube styled) when moving between routes.
+- Built in toasty (ngx-toastr) which automatically pops up on HTTP errors obtained from the server API.
+- Built in ngx-loading-bar (Youtube styled) when moving between routes.
 - Built in auth-guard and authentication, saved on session cookie.
 - Built in social authentication (Google and Facebook).
 
-The code of Angular 6 is stored under the `angular-src` directory.
+The code of Angular 7 is stored under the `angular-src` directory.
 
 ### Angular services & providers
 
