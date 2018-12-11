@@ -80,7 +80,6 @@ This template comes with multiple services and proviers which can be used accros
 - `AuthGuardService` - An auth guard which used the `AuthService` to guard routes. It also comes with role checking by specifing the `typescript { roles: ['roleName'] }` data for your route.
 - `AppHttpInterceptor` - This provider acts as an interceptor for all of the http requests ongoing. It adds the authentication token if provided by the `AuthService` to each request. Then it passes the request to the `RequestsService` to handle.
 - `RequestsService` - This service handles all of the requests passing through using the `AppHttpInterceptor`. It shows an error toast if an error had occured in one of the requests.
-- `ToastyHelperService` - This service wraps the `ng2-toasty` and allows easier access to the toasty.
 - `AppService` - Holds information about the current user and app related data.
 - `SocialLoginService` - This service is responsible for the whole social authentication (Google and Facebook), it uses `angularx-social-login` module to do so. This service can be found under `social-login` module which initializes all of the providers (which are the 3rd party social sites).
 

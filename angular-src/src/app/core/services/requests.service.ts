@@ -7,7 +7,7 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 
-import { ToastyHelperService } from './toasty-helper.service';
+import { ToastrService } from 'ngx-toastr';
 import { ActionResponse } from '../../../../../shared/models';
 
 export enum RequestState {
@@ -31,7 +31,7 @@ export class RequestsService {
     return this.requestsCount > 0;
   }
 
-  constructor(private toastyHelperService: ToastyHelperService) {}
+  constructor(private toastService: ToastrService) {}
 
   onRequestStarted(request: Observable<HttpEvent<any>>) {
     // If we have detected that no previous request is running, emit and event that a request is ongoing now
@@ -53,7 +53,7 @@ export class RequestsService {
         if (errorResponse instanceof HttpErrorResponse) {
           if (!this.disableErrorToast) {
             const errorBody = errorResponse.error as ActionResponse<any>;
-            this.toastyHelperService.showError(
+            this.toastService.error(
               `An error had occured`,
               errorBody.error
             );

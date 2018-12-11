@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
-import { AppService, AuthService, ToastyHelperService } from '../../core/services';
+import { AppService, AuthService } from '../../core/services';
 
 @Component({
   selector: 'app-user-page',
@@ -12,7 +13,7 @@ export class UserPageComponent implements OnInit {
 
   constructor(private router: Router,
     public appService: AppService,
-    private toastyHelperService: ToastyHelperService,
+    private toastService: ToastrService,
     private authService: AuthService) { }
 
   ngOnInit() {
@@ -21,7 +22,7 @@ export class UserPageComponent implements OnInit {
   logout() {
     this.authService.logout().then(() => {
       this.router.navigateByUrl('/');
-      this.toastyHelperService.showSuccess(`You are logged out`, `You have succesfully logged out!`);
+      this.toastService.success(`You are logged out`, `You have succesfully logged out!`);
     });
   }
 }

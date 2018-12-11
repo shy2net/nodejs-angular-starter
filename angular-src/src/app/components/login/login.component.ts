@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService, ToastyHelperService } from '../../core/services';
+import { AuthService } from '../../core/services';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -16,13 +17,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private toastyService: ToastyHelperService
+    private toastService: ToastrService
   ) { }
 
   ngOnInit() {
     this.authSubscription = this.authService.userChanged.subscribe(user => {
       if (user) {
-        this.toastyService.showSuccess(
+        this.toastService.success(
           `Login successfully`,
           `You are now logged in`
         );

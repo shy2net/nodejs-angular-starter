@@ -3,15 +3,15 @@ import { AuthService } from './services/auth.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ToastyModule } from 'ng2-toasty';
+import { ToastrModule } from 'ngx-toastr';
 import { CookieModule } from 'ngx-cookie';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 import {
   ApiService,
   AppService,
-  ToastyHelperService,
   RequestsService
 } from './services';
 import { SharedModule } from '../shared/shared.module';
@@ -25,9 +25,13 @@ import { SocialLoginModule } from '../social-login/social-login.module';
   imports: [
     CommonModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     CookieModule.forRoot(),
-    ToastyModule.forRoot(),
     LoadingBarModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-bottom-right'
+    }) ,
     RouterModule,
     SharedModule,
     SocialLoginModule
@@ -38,7 +42,6 @@ import { SocialLoginModule } from '../social-login/social-login.module';
     AuthService,
     AuthGuardService,
     AppService,
-    ToastyHelperService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,
@@ -49,9 +52,9 @@ import { SocialLoginModule } from '../social-login/social-login.module';
   exports: [
     HeaderComponent,
     FooterComponent,
-    ToastyModule,
-    SocialLoginModule,
-    LoadingBarModule
+    LoadingBarModule,
+    ToastrModule,
+    SocialLoginModule
   ]
 })
 export class CoreModule { }
