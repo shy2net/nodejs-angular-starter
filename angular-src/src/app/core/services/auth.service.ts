@@ -1,8 +1,10 @@
+
+import {tap, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import { Observable, BehaviorSubject } from 'rxjs';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
+
+
 
 import { ApiService } from './api.service';
 import { UserProfile } from '../../../../../shared/models';
@@ -54,7 +56,7 @@ export class AuthService {
     }
 
     if (!this.loginChecked) {
-      return this.checkLogin().map(user => !!user);
+      return this.checkLogin().pipe(map(user => !!user));
     }
 
     return this.isLoggedIn;
@@ -87,7 +89,7 @@ export class AuthService {
     if (this.isLoggedIn) return this.hasRoles(roles);
 
     if (!this.loginChecked) {
-      return this.checkLogin().map(user => this.hasRoles(roles, user));
+      return this.checkLogin().pipe(map(user => this.hasRoles(roles, user)));
     }
 
     return false;
@@ -105,18 +107,18 @@ export class AuthService {
     }
 
     this.loginChecked = false;
-    return this.apiService.getProfile().do(
+    return this.apiService.getProfile().pipe(tap(
       response => {
         this.user = response;
       },
       error => {
         this.loginChecked = true;
       }
-    );
+    ));
   }
 
   login(email: string, password: string) {
-    return this.apiService.login(email, password).do(
+    return this.apiService.login(email, password).pipe(tap(
       result => {
         this.cookieService.put(`auth_token`, result.data.token);
         this.user = result.data.profile;
@@ -125,7 +127,7 @@ export class AuthService {
         this.userChanged.error(error);
         console.error(error);
       }
-    );
+    ));
   }
 
   /**

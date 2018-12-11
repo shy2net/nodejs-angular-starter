@@ -1,6 +1,7 @@
+
+import {tap} from 'rxjs/operators';
 import { Injectable, Input } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 import {
   HttpEvent,
   HttpResponse,
@@ -43,7 +44,7 @@ export class RequestsService {
     ++this.requestsCount;
 
     // Handle the request data obtained and show an error toast if nessecary
-    return request.do(
+    return request.pipe(tap(
       (event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
           this.onRequestEnded();
@@ -62,7 +63,7 @@ export class RequestsService {
           this.onRequestEnded();
         }
       }
-    );
+    ));
   }
 
   private onRequestEnded() {
