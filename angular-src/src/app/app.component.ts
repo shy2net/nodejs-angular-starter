@@ -7,7 +7,8 @@ import {
   NavigationCancel,
   NavigationError
 } from '@angular/router';
-import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+
 import { isPlatformBrowser } from '@angular/common';
 
 import { AppService } from './core/services';
@@ -22,7 +23,7 @@ declare var jQuery: any;
 export class AppComponent {
   constructor(
     private router: Router,
-    private slimLoadingBarService: SlimLoadingBarService,
+    private loadingBarService: LoadingBarService,
     public appService: AppService,
     @Inject(PLATFORM_ID) private platformId: Object,
     @Inject(APP_ID) private appId: string
@@ -38,9 +39,9 @@ export class AppComponent {
   }
   set isLoading(newValue) {
     if (newValue) {
-      this.slimLoadingBarService.start();
+      this.loadingBarService.start();
     } else {
-      this.slimLoadingBarService.complete();
+      this.loadingBarService.complete();
     }
 
     this.isAppLoading = newValue;

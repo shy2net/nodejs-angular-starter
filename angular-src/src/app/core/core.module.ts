@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastyModule } from 'ng2-toasty';
 import { CookieModule } from 'ngx-cookie';
-import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 import {
   ApiService,
@@ -26,8 +26,8 @@ import { SocialLoginModule } from '../social-login/social-login.module';
     CommonModule,
     HttpClientModule,
     CookieModule.forRoot(),
-    SlimLoadingBarModule.forRoot(),
     ToastyModule.forRoot(),
+    LoadingBarModule.forRoot(),
     RouterModule,
     SharedModule,
     SocialLoginModule
@@ -49,9 +49,9 @@ import { SocialLoginModule } from '../social-login/social-login.module';
   exports: [
     HeaderComponent,
     FooterComponent,
-    SlimLoadingBarModule,
     ToastyModule,
-    SocialLoginModule
+    SocialLoginModule,
+    LoadingBarModule
   ]
 })
 export class CoreModule { }
