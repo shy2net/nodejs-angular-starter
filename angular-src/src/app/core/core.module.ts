@@ -27,7 +27,7 @@ import { SocialLoginModule } from '../social-login/social-login.module';
     HttpClientModule,
     BrowserAnimationsModule,
     CookieModule.forRoot(),
-    LoadingBarModule.forRoot(),
+    LoadingBarModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right'
