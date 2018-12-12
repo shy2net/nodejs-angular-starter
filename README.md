@@ -23,13 +23,13 @@
 
 # Introduction
 
-This starter template comes with NodeJS (typescript) and Angular 6. It shares models between Angular
-and NodeJS. Both of the NodeJS and and Angular 6 can run on the same webserver as the NodeJS exposes all of the
+This starter template comes with NodeJS (typescript) and Angular 7. It shares models between Angular
+and NodeJS. Both of the NodeJS and and Angular 7 can run on the same webserver as the NodeJS exposes all of the
 default routes to Angular and all of the known routes to the api.
 
 Technologies used in this template:
 
-- Angular 6 (with SSR)
+- Angular 7 (with SSR)
 - NodeJS typescript
 - Mongoose (with basic user model)
 - Bootstrap v4
@@ -42,7 +42,7 @@ To work with this template **locally (debug mode)**, follow these commands:
 
     npm install # Install NodeJS dependencies and angular
     npm run debug # Run the NodeJS on debug mode
-    npm run angular # Run Angular 6
+    npm run angular # Run Angular
 
 We don't run the `npm start` command as it is reserved only for the compiled code to run on a production server.
 
