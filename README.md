@@ -134,7 +134,7 @@ Comes with built in typescript support and compilation.
 It comes with the following features:
 
 - Authentication (including middlewares and token generation)
-- Angular 6 routes support (redirect to index.html of compiled Angular code), this means you can run you Angular app and API on the same container!
+- Angular routes support (redirect to index.html of compiled Angular code), this means you can run you Angular app and API on the same container!
 - Configuration according to environment (using config npm package).
 - Social Authentication, which basically gets an access token from the client that logged into a service and then creates a user associated with it.
 - Unit testing using Mocha and Chai.
