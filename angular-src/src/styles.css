@@ -22,3 +22,7 @@ body {
     height: 84px;
     display: block;
 }
+
+.toast {
+    font-size: 0.85rem;
+}
