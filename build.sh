@@ -16,6 +16,7 @@ echo "Installing Angular app dependencies..."
 cd angular-src && npm install --only=dev
 
 echo "Building Angular app for $ENV..."
+# TODO: Fix build for environment development
 ./node_modules/.bin/ng build --aot --prod --configuration $ENV
 
 echo "Building Angular app for SSR..."
