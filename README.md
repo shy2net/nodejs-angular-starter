@@ -406,11 +406,37 @@ this.express.get('*', function(req, res) {
 When building your image for production it should contain the following commands:
 
     npm install
-    npm run build
+    npm run build # Call the build.sh script to start the build
 
 And to run this code simple:
 
     npm start
+
+### The build script (build.sh)
+
+The build script called `build.sh` is a shell script provided with the template which by default will compile the typescript
+NodeJS server side and Angular into one. This means when you run the server after the build you will have both on the same
+node container.
+
+Make sure to include the `NODE_ENV` environment variable (or else the build will be set to `development` environment) before calling this
+script. The build will compile and copy all of the required configurations for the specified environment, and will generate the Angular
+code according to that environment.
+
+By default, when building to production, Server Side Rendering (SSR) is set to build as well:
+
+```bash
+# TODO: Remove this 'if' statment until the 'fi' if you don't want SSR at all
+if [ $ENV == "production" ]
+then
+    echo "Building Angular app for SSR..."
+    ./node_modules/.bin/ng run angular-src:server:production && ./node_modules/.bin/webpack --config webpack.server.config.js --progress --colors
+else
+    echo "Skipping build for SSR as environment is NOT production"
+fi
+```
+
+You can remove this set of code if you don't want it to take place at all.
+
 
 ## Seperating client and server
 
