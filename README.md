@@ -33,7 +33,7 @@ Technologies used in this template:
 - Angular 7 (with SSR)
 - NodeJS typescript
 - Mongoose (with basic user model)
-- Bootstrap v4
+- Bootstrap v4 and SCSS by default
 - JWT and token authentication built-in (including user roles)
 - Social Authentication (Google and Facebook)
 
