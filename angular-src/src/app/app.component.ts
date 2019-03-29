@@ -11,7 +11,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 
 import { isPlatformBrowser } from '@angular/common';
 
-import { AppService } from './core/services';
+import { AppService } from '@services';
 
 declare var jQuery: any;
 

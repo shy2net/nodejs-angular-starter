@@ -1,5 +1,5 @@
-import { AuthGuardService } from './services/auth-guard.service';
-import { AuthService } from './services/auth.service';
+import { AuthGuardService } from '@services';
+import { AuthService } from '@services';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,7 +13,7 @@ import {
   ApiService,
   AppService,
   RequestsService
-} from './services';
+} from '@services';
 import { SharedModule } from '../shared/shared.module';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';

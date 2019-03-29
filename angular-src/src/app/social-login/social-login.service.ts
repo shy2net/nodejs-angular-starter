@@ -3,7 +3,7 @@ import { AuthService as SocialAuthService } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 import { Subject } from 'rxjs';
 
-import { AuthService } from '../core/services';
+import { AuthService } from '@services';
 import { UserProfile } from '../../../../shared/models';
 
 @Injectable()

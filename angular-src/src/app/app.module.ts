@@ -12,7 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ExamplePageComponent } from './components/example-page/example-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserPageComponent } from './components/user-page/user-page.component';
-import { AuthGuardService } from './core/services';
+import { AuthGuardService } from '@services';
 
 const routes: Route[] = [
   {

@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 
 
-import { AuthService, RequestsService } from './services';
+import { AuthService, RequestsService } from '@services';
 
 /**
  * This interceptor handles all of the ongoing requests.
