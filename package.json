@@ -10,8 +10,8 @@
         "build:node": "rm -rf out && tsc -p .",
         "build:angular": "cd angular-src && ng build --aot --prod",
         "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts",
-        "copy-config": "cp -Rf src/config/* out/src/config",
-        "debug": "nodemon --ignore angular-src --exec ./node_modules/.bin/ts-node -- ./src/index.ts -debug",
+        "copy-config": "rm -rf ./out/src/config && mkdir ./out/src/config && cp -Rf ./src/config/* ./out/src/config",
+        "debug": "nodemon --ignore angular-src --exec ./node_emodules/.bin/ts-node -- ./src/index.ts -debug",
         "test": "./node_modules/.bin/mocha -r ts-node/register src/**/*.spec.ts"
     },
     "engines": {
