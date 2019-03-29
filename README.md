@@ -17,6 +17,7 @@
   - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
 - [Running on production](#running-on-production)
   - [Running Angular and NodeJS on the same server](#running-angular-and-nodejs-on-the-same-server)
+    - [The build script (build.sh)](#the-build-script-buildsh)
   - [Seperating client and server](#seperating-client-and-server)
     - [Server as standalone](#server-as-standalone)
     - [Angular as standalone](#angular-as-standalone)
