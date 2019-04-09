@@ -1,6 +1,6 @@
-import * as responses from '../responses';
-import auth from '../../auth';
-import { UserProfile, LoginActionResponse } from '../../../shared/models';
+import { LoginActionResponse, UserProfile } from "../../../shared/models";
+import auth from "../../auth";
+import * as responses from "../responses";
 
 class SocialLoginController {
   async socialLogin(user: UserProfile): Promise<LoginActionResponse> {

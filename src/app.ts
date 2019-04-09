@@ -1,14 +1,12 @@
-import * as express from 'express';
-import * as session from 'express-session';
-import * as bodyParser from 'body-parser';
-import * as morgan from 'morgan';
-import * as path from 'path';
+import * as bodyParser from "body-parser";
+import * as express from "express";
+import * as morgan from "morgan";
+import * as path from "path";
 
-import db from './db';
-import auth from './auth';
-import socialAuth from './social-auth';
-import config from './config';
-import { join } from 'path';
+import auth from "./auth";
+import config from "./config";
+import db from "./db";
+import socialAuth from "./social-auth";
 
 // App class will encapsulate our web server.
 export class App {
@@ -43,7 +41,7 @@ export class App {
     this.express.use(bodyParser.urlencoded({ extended: true }));
 
     // TODO: Fix according to the environment
-    this.express.use(morgan('dev'));
+    this.express.use(morgan("dev"));
 
     auth.init(this.express);
     socialAuth.init(this.express);
@@ -55,8 +53,8 @@ export class App {
    * Mounts angular using Server-Side-Rendering (Recommended for SEO)
    */
   private mountAngularSSR(): void {
-    const DIST_FOLDER = join(__dirname, 'dist');
-    const ngApp = require(join(DIST_FOLDER, 'server'));
+    const DIST_FOLDER = path.join(__dirname, "dist");
+    const ngApp = require(path.join(DIST_FOLDER, "server"));
     ngApp.init(this.express, DIST_FOLDER);
   }
 
@@ -65,16 +63,16 @@ export class App {
    */
   private mountAngular(): void {
     // Point static path to Angular 2 distribution
-    this.express.use(express.static(path.join(__dirname, 'dist/browser')));
+    this.express.use(express.static(path.join(__dirname, "dist/browser")));
 
     // Deliever the Angular 2 distribution
-    this.express.get('*', function(req, res) {
-      res.sendFile(path.join(__dirname, 'dist/browser/index.html'));
+    this.express.get("*", function(req, res) {
+      res.sendFile(path.join(__dirname, "dist/browser/index.html"));
     });
   }
 
   private mountRoutes(): void {
-    this.express.use('/api', require('./api/routes'));
+    this.express.use("/api", require("./api/routes"));
   }
 }
 

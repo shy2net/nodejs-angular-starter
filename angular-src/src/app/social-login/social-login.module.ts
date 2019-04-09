@@ -1,11 +1,14 @@
-import { NgModule } from '@angular/core';
+import {
+    AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider,
+    SocialLoginModule as NgxSocialLogin
+} from 'angularx-social-login';
+
 import { CommonModule } from '@angular/common';
-import { SocialLoginModule as NgxSocialLogin, AuthServiceConfig } from 'angularx-social-login';
-import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { NgModule } from '@angular/core';
 
 import { environment } from '../../environments/environment';
-import { SocialLoginService } from './social-login.service';
 import { SocialLoginButtonComponent } from './social-login-button/social-login-button.component';
+import { SocialLoginService } from './social-login.service';
 
 const config = new AuthServiceConfig([
   {

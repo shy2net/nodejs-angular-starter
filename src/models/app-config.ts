@@ -1,5 +1,5 @@
-import { Model } from 'mongoose';
 import * as cors from 'cors';
+import { Model } from 'mongoose';
 
 export interface AppConfig {
     DB_URI: string;

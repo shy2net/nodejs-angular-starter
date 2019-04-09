@@ -1,13 +1,13 @@
+import * as bcrypt from 'bcrypt';
 import { Application } from 'express';
 import * as passport from 'passport';
 import * as FacebookTokenStrategy from 'passport-facebook-token';
 import { Strategy as GoogleTokenStrategy } from 'passport-google-token';
 import * as randomstring from 'randomstring';
-import * as bcrypt from 'bcrypt';
 
+import { UserProfile } from '../shared/models';
 import config from './config';
 import { UserProfileModel } from './models';
-import { UserProfile } from '../shared/models';
 import { IUserProfileModel } from './models/user-profile.model';
 
 export class SocialAuthentication {

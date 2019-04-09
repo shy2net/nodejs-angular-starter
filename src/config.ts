@@ -3,12 +3,13 @@
  *  environment specified in the NODE_ENV environment variable.
  */
 
-import { Document, Model, PaginateModel } from 'mongoose';
-import { AppConfig } from './models';
-import * as cors from 'cors';
+import * as config from "config";
+import * as cors from "cors";
+import * as path from "path";
 
-process.env["NODE_CONFIG_DIR"] = __dirname + "/config";
-import * as config from 'config';
+import { AppConfig } from "./models";
+
+process.env["NODE_CONFIG_DIR"] = path.join(__dirname, "/config");
 let exportedConfig = config as AppConfig;
 
 /*
@@ -18,8 +19,8 @@ var isDebugging = false;
 
 // Read the supplied arguments
 process.argv.forEach(function(val, index, array) {
-  if (val != null && typeof val == 'string') {
-    if (val == '-debug') isDebugging = true;
+  if (val != null && typeof val == "string") {
+    if (val == "-debug") isDebugging = true;
   }
 });
 
@@ -33,16 +34,16 @@ const CORS_OPTIONS: cors.CorsOptions = {
   origin: exportedConfig.CLIENT_URL,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   allowedHeaders: [
-    'Origin',
-    'X-Requested-With',
-    'Content-Type',
-    'Accept',
-    'Authentication',
-    'Authorization',
-    'x-auth',
-    'access_token'
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "Authentication",
+    "Authorization",
+    "x-auth",
+    "access_token"
   ],
-  methods: 'GET,HEAD,POST,OPTIONS,PUT,PATCH,DELETE',
+  methods: "GET,HEAD,POST,OPTIONS,PUT,PATCH,DELETE",
   credentials: true,
   preflightContinue: true
 };
@@ -52,6 +53,5 @@ exportedConfig = {
   CORS_OPTIONS,
   DEBUG_MODE
 };
-
 
 export default exportedConfig;

@@ -1,25 +1,19 @@
-import { AuthGuardService } from '@services';
-import { AuthService } from '@services';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { ToastrModule } from 'ngx-toastr';
 import { CookieModule } from 'ngx-cookie';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { ToastrModule } from 'ngx-toastr';
 
-import {
-  ApiService,
-  AppService,
-  RequestsService
-} from '@services';
-import { SharedModule } from '../shared/shared.module';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { AppHttpInterceptor } from './app-http.interceptor';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { ApiService, AppService, AuthGuardService, AuthService, RequestsService } from '@services';
+
+import { SharedModule } from '../shared/shared.module';
 import { SocialLoginModule } from '../social-login/social-login.module';
+import { AppHttpInterceptor } from './app-http.interceptor';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   imports: [

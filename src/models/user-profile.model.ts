@@ -1,5 +1,5 @@
-import { Document, model, Model, Schema } from 'mongoose';
 import * as EmailValidator from 'email-validator';
+import { Document, model, Model, Schema } from 'mongoose';
 
 import { UserProfile } from '../../shared/models';
 
