@@ -72,7 +72,7 @@ export class App {
   }
 
   private mountRoutes(): void {
-    this.express.use("/api", require("./api/routes"));
+    this.express.use("/api", require("./api/api.routes"));
   }
 }
 

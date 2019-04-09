@@ -3,13 +3,13 @@
  *  environment specified in the NODE_ENV environment variable.
  */
 
-import * as config from "config";
 import * as cors from "cors";
 import * as path from "path";
 
 import { AppConfig } from "./models";
 
 process.env["NODE_CONFIG_DIR"] = path.join(__dirname, "/config");
+const config = require("config");
 let exportedConfig = config as AppConfig;
 
 /*

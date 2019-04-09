@@ -14,7 +14,7 @@ const router = express.Router();
 router.use(cors(config.CORS_OPTIONS));
 router.use(middlewares.unhandledErrorMiddleware);
 
-router.use("/social-login", require("./social-login/routes"));
+router.use("/social-login", require("./social-login/social-login.routes"));
 
 router.get("/test", (req: Request, res: Response, next: (data) => void) => {
   // Move the promise response to be handled by the postResponseMiddleware

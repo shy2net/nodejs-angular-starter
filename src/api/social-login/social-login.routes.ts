@@ -3,7 +3,7 @@ import * as passport from "passport";
 import { NextFunction } from "express";
 
 import { AppRequest, AppResponse } from "../../models";
-import controller from "./social.controller";
+import controller from "./social-login.controller";
 
 const router = express.Router();
 
