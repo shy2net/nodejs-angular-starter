@@ -1,13 +1,12 @@
-
-import {tap, map} from 'rxjs/operators';
-import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
+import { Injectable } from '@angular/core';
 
-
-import { ApiService } from './api.service';
 import { UserProfile } from '../../../../../shared/models';
+import { ApiService } from './api.service';
+
 
 @Injectable()
 export class AuthService {

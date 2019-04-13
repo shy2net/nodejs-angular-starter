@@ -1,5 +1,6 @@
-import controller from './controller';
-import { expect, assert } from 'chai';
+import { assert, expect } from 'chai';
+
+import controller from './api.controller';
 
 describe('API Controller', async () => {
   it('should return ok action response', async () => {

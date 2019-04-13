@@ -1,16 +1,9 @@
-import { Component, PLATFORM_ID, APP_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { APP_ID, Component, Inject, PLATFORM_ID } from '@angular/core';
 import {
-  Router,
-  Event as RouterEvent,
-  NavigationStart,
-  NavigationEnd,
-  NavigationCancel,
-  NavigationError
+    Event as RouterEvent, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router
 } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-
-import { isPlatformBrowser } from '@angular/common';
-
 import { AppService } from '@services';
 
 declare var jQuery: any;

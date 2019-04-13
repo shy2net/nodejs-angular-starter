@@ -1,10 +1,7 @@
-import { Injectable } from '@angular/core';
-import {
-  UserProfile,
-  ActionResponse,
-  LoginActionResponse
-} from '../../../../../shared/models';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+import { ActionResponse, LoginActionResponse, UserProfile } from '../../../../../shared/models';
 import { environment } from '../../../environments/environment';
 
 @Injectable()

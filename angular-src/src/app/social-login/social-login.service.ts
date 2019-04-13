@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
-import { AuthService as SocialAuthService } from 'angularx-social-login';
-import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import {
+    AuthService as SocialAuthService, FacebookLoginProvider, GoogleLoginProvider
+} from 'angularx-social-login';
 import { Subject } from 'rxjs';
 
+import { Injectable } from '@angular/core';
 import { AuthService } from '@services';
+
 import { UserProfile } from '../../../../shared/models';
 
 @Injectable()

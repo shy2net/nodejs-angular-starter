@@ -1,15 +1,10 @@
 import * as createError from 'http-errors';
 
-import {
-  UserProfile,
-  ActionResponse,
-  LoginActionResponse
-} from './../../shared/models';
-
-import { RegisterForm } from './forms';
-import { UserProfileModel } from '../models';
-import * as responses from './responses';
+import { ActionResponse, LoginActionResponse, UserProfile } from '../../shared/models';
 import auth from '../auth';
+import { UserProfileModel } from '../models';
+import { RegisterForm } from './forms';
+import * as responses from './responses';
 
 class ApiController {
   test() {
@@ -17,7 +12,7 @@ class ApiController {
   }
 
   errorTest() {
-    return Promise.reject(createError(401, 'This is an error!'));
+    return Promise.reject(createError(401, "This is an error!"));
   }
 
   saySomething(whatToSay: string): Promise<ActionResponse<string>> {

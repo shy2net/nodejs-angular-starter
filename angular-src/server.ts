@@ -1,15 +1,15 @@
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
+
+import * as bodyParser from 'body-parser';
+import * as compression from 'compression';
+import * as cors from 'cors';
+import * as express from 'express';
+import { join } from 'path';
+
 import { enableProdMode } from '@angular/core';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
-
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
-import * as cors from 'cors';
-import * as compression from 'compression';
-
-import { join } from 'path';
 
 export function init(app, dist_folder) {
   enableProdMode();

@@ -1,8 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
-import { HttpError } from 'http-errors';
-import { AppRequest, AppResponse } from '../models';
-import * as apiHelper from './api-helper';
-import * as responses from './responses';
+import { NextFunction, Request, Response } from "express";
+import { HttpError } from "http-errors";
+
+import { AppRequest, AppResponse } from "../models";
+import * as apiHelper from "./api-helper";
+import * as responses from "./responses";
 
 /**
  * Manages runtime errors the occured within a controller (async error occur in a promise are handled in the postErrorMiddleware).
@@ -41,7 +42,9 @@ export function postResponseMiddleware(
   } else if (data instanceof Promise) {
     return apiHelper.handlePromiseResponse(data, req, res, next);
   } else {
-    throw new Error('Data is not recognized, please make sure the controller you use returns a promise or an error');
+    throw new Error(
+      "Data is not recognized, please make sure the controller you use returns a promise or an error"
+    );
   }
 }
 

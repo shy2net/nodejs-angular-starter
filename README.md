@@ -146,7 +146,7 @@ Output directory of the compiled typescript will be available in the `out` direc
 ### How the API works
 
 NodeJS comes with three working examples of a working api called `test`, `errorTest` and `saySomething`,
-which can be viewed under `src/api/controller`.
+which can be viewed under `src/api/api.controller`.
 
 The way this template is built makes the whole code alot more readable, and easier for testing.
 Each route has a function asscoiated in the controller which contains only the parameters that
@@ -157,7 +157,7 @@ call the `next(data?: any)` method in order to let the postResponseMiddleware ha
 
 Let's look at the test example.
 
-routes.ts:
+api.routes.ts:
 
 ```typescript
 router.get(
@@ -169,7 +169,7 @@ router.get(
 );
 ```
 
-controller.ts:
+api.controller.ts:
 
 ```typescript
   test() {
@@ -235,7 +235,7 @@ export function handlePromiseResponse(
 
 Let's review the working example of saySomething:
 
-controller.ts:
+api.controller.ts:
 
 ```typescript
   saySomething(whatToSay: string) {
@@ -243,7 +243,7 @@ controller.ts:
   }
 ```
 
-routes.ts:
+api.routes.ts:
 
 ```typescript
 router.get(
@@ -297,7 +297,7 @@ When accessing guarded routes (using the authenticationMiddleware in the `auth.t
 
 For example, let's take a look at a guarded route, such as the `/api/profile`.
 
-In the `routes.ts` you can see the following code:
+In the `api.routes.ts` you can see the following code:
 
 ```typescript
 router.get(
@@ -310,7 +310,7 @@ router.get(
 ```
 
 The `auth.authenticationMiddleware` will simply check the token and if it's valid, will return the user associated with it in the `req.user` property of the request.
-Which we then deliever to the `controller.ts`:
+Which we then deliever to the `api.controller.ts`:
 
 ```typescript
   getProfile(user: UserProfile): Promise<UserProfile> {
@@ -364,7 +364,7 @@ For example, if you run on production specify:
 
 ### Unit Testing
 
-This template comes with Mocha and Chai integrated. It comes with some simple unit testing which can be found under `src/api/controller.spec.ts`. This file holds 3 simple tests which checks that the API works correctly.
+This template comes with Mocha and Chai integrated. It comes with some simple unit testing which can be found under `src/api/api.controller.spec.ts`. This file holds 3 simple tests which checks that the API works correctly.
 
 In order to run the tests simply run the command: `npm test`.
 

@@ -1,5 +1,6 @@
-import { UserProfile } from './../../shared/models';
 import { Request, Response } from 'express';
+
+import { UserProfile } from '../../shared/models';
 
 export interface AppRequest extends Request {
   user: UserProfile

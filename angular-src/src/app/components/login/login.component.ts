@@ -1,8 +1,9 @@
-import { Router } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from '@services';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '@services';
 
 @Component({
   selector: 'app-login',

@@ -1,8 +1,9 @@
 import { BehaviorSubject } from 'rxjs';
-import { AuthService } from './auth.service';
+
 import { Injectable } from '@angular/core';
 
 import { UserProfile } from '../../../../../shared/models';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AppService {
