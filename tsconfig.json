@@ -11,7 +11,8 @@
   "exclude": [
     "angular-src",
     "src/tests",
-    "node_modules"
+    "node_modules",
+    "out"
   ],
   "experimentalDecorators": true,
   "emitDecoratorMetadata": true

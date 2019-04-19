@@ -6,14 +6,15 @@
     "configurations": [{
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch NodeJS",
             "program": "${workspaceRoot}/src/index.ts",
             "outFiles": [
                 "${workspaceRoot}/out/**/*.js"
             ],
             "args": [
                 "-debug"
-            ]
+            ],
+            "preLaunchTask": "npm: predebug"
         },
         {
             "name": "Launch Angular",
