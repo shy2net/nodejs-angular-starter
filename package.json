@@ -11,9 +11,9 @@
         "build:angular": "cd angular-src && ng build --aot --prod",
         "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts",
         "copy-config": "sh ./copy-config.sh",
-        "debug": "nodemon --ignore angular-src --exec ./node_modules/.bin/ts-node -- ./src/index.ts -debug",
+        "node": "npm run copy-config && nodemon --ignore angular-src --exec ./node_modules/.bin/ts-node -- ./src/index.ts -debug",
         "test": "./node_modules/.bin/mocha -r ts-node/register src/**/*.spec.ts",
-		"predebug": "npm run copy-config && echo Building typescript... && tsc -p . && echo Ready for debugging!"
+        "predebug": "npm run copy-config && echo Building typescript... && tsc -p . && echo Ready for debugging!"
     },
     "engines": {
         "node": "8.11.3",

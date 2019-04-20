@@ -42,7 +42,7 @@ Technologies used in this template:
 To work with this template **locally (debug mode)**, follow these commands:
 
     npm install # Install NodeJS dependencies and angular
-    npm run debug # Run the NodeJS on debug mode
+    npm run node # Run the NodeJS on debug mode
     npm run angular # Run Angular
 
 We don't run the `npm start` command as it is reserved only for the compiled code to run on a production server.
