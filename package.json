@@ -13,7 +13,7 @@
         "copy-config": "sh ./copy-config.sh",
         "node": "npm run copy-config && nodemon --ignore angular-src --exec ./node_modules/.bin/ts-node -- ./src/index.ts -debug",
         "test": "./node_modules/.bin/mocha -r ts-node/register src/**/*.spec.ts",
-        "predebug": "npm run copy-config && echo Building typescript... && tsc -p . && echo Ready for debugging!"
+        "predebug": "tsc -p . && npm run copy-config && echo Building typescript... && echo Ready for debugging!"
     },
     "engines": {
         "node": "8.11.3",
