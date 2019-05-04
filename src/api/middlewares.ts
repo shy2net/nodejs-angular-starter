@@ -1,9 +1,10 @@
-import { NextFunction, Request, Response } from "express";
-import { HttpError } from "http-errors";
+import { NextFunction, Request, Response } from 'express';
+import { HttpError } from 'http-errors';
 
-import { AppRequest, AppResponse } from "../models";
-import * as apiHelper from "./api-helper";
-import * as responses from "./responses";
+import logger from '../logger';
+import { AppRequest, AppResponse } from '../models';
+import * as apiHelper from './api-helper';
+import * as responses from './responses';
 
 /**
  * Manages runtime errors the occured within a controller (async error occur in a promise are handled in the postErrorMiddleware).
@@ -11,11 +12,7 @@ import * as responses from "./responses";
  * @param res
  * @param next
  */
-export function unhandledErrorMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export function unhandledErrorMiddleware(req: Request, res: Response, next: NextFunction) {
   try {
     next();
   } catch (error) {
@@ -31,19 +28,14 @@ export function unhandledErrorMiddleware(
  * @param res
  * @param next
  */
-export function postResponseMiddleware(
-  data: any,
-  req: AppRequest,
-  res: AppResponse,
-  next: NextFunction
-) {
+export function postResponseMiddleware(data: any, req: AppRequest, res: AppResponse, next: NextFunction) {
   if (data instanceof Error) {
     return next(data);
   } else if (data instanceof Promise) {
     return apiHelper.handlePromiseResponse(data, req, res, next);
   } else {
     throw new Error(
-      "Data is not recognized, please make sure the controller you use returns a promise or an error"
+      'Data is not recognized, please make sure the controller you use returns a promise or an error'
     );
   }
 }
@@ -55,21 +47,14 @@ export function postResponseMiddleware(
  * @param res
  * @param next
  */
-export function postErrorMiddleware(
-  error: any,
-  req: AppRequest,
-  res: AppResponse,
-  next: NextFunction
-) {
+export function postErrorMiddleware(error: any, req: AppRequest, res: AppResponse, next: NextFunction) {
   if (error) {
     if (error instanceof HttpError) {
-      return res
-        .status(error.statusCode)
-        .json(responses.getErrorResponse(error.message));
+      return res.status(error.statusCode).json(responses.getErrorResponse(error.message));
     }
 
     // An unknown error has occured
-    console.error(error);
+    logger.error(error);
     return res.status(500).json(responses.getErrorResponse(error));
   }
 }

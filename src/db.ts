@@ -1,18 +1,19 @@
-import * as mongoose from "mongoose";
+import * as mongoose from 'mongoose';
 
-import config from "./config";
+import config from './config';
+import logger from './logger';
 
 export class Database {
   init(callback: () => void): void {
     mongoose.connect(config.DB_URI);
-    var db = mongoose.connection;
+    const db = mongoose.connection;
 
-    db.on(
-      "error",
-      console.error.bind(console, "Unable to connect to MongoDB server")
-    );
-    db.once("open", function() {
-      console.log("Connected to MongoDB server");
+    db.on('error', error => {
+      logger.error('Unable to connect to MongoDB server: ${error}');
+    });
+
+    db.once('open', function() {
+      logger.info('Connected to MongoDB server');
       this.mongoose = mongoose;
       callback();
     });
