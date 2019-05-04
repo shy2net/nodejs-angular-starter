@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { HttpError } from 'http-errors';
 
+import config from '../config';
 import logger from '../logger';
 import { AppRequest, AppResponse } from '../models';
 import * as apiHelper from './api-helper';
@@ -53,7 +54,9 @@ export function postErrorMiddleware(error: any, req: AppRequest, res: AppRespons
       return res.status(error.statusCode).json(responses.getErrorResponse(error.message));
     }
 
-    // An unknown error has occured
+    // An unknown error has occurred
+    if (config.ENVIRONMENT === 'development' || config.DEBUG_MODE) throw error; // If we are on development environment, simply throw the error for easier debugging
+
     logger.error(error);
     return res.status(500).json(responses.getErrorResponse(error));
   }

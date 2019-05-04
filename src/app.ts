@@ -5,7 +5,7 @@ import * as path from 'path';
 import auth from './auth';
 import config from './config';
 import db from './db';
-import logger from './logger';
+import logger, { getExpressLoggingMiddleware } from './logger';
 import socialAuth from './social-auth';
 
 // App class will encapsulate our web server.
@@ -24,7 +24,9 @@ export class App {
       this.mountPreMiddlewares();
       this.mountRoutes();
 
+      // If we are not on debug mode, run angular
       if (!config.DEBUG_MODE) this.mountAngular();
+
       this.mountPostMiddlewares();
 
       this.express.listen(port);
@@ -69,7 +71,8 @@ export class App {
   }
 
   private mountRoutes(): void {
-    this.express.use('/api', require('./api/api.routes'));
+    // Import the API and log every request being made to it
+    this.express.use('/api', getExpressLoggingMiddleware(), require('./api/api.routes'));
   }
 }
 
