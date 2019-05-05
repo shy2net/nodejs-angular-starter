@@ -35,6 +35,7 @@ Technologies used in this template:
 - Mongoose (with basic user model)
 - Bootstrap v4 and SCSS by default
 - JWT and token authentication built-in (including user roles)
+- Winston logging
 - Social Authentication (Google and Facebook)
 
 # Starting with this template
