@@ -5,7 +5,6 @@
 
 import * as cors from 'cors';
 import * as path from 'path';
-import logger from './logger';
 
 import { AppConfig } from './models';
 
