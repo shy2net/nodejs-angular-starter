@@ -1,5 +1,5 @@
 {
-    "name": "Nemex",
+    "name": "nemex",
     "version": "0.0.0",
     "description": "",
     "scripts": {
@@ -23,7 +23,7 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@types/bcrypt": "^2.0.0",
+        "@types/bcryptjs": "^2.4.2",
         "@types/chai": "^4.1.1",
         "@types/cors": "^2.8.4",
         "@types/email-validator": "^1.0.6",
@@ -50,7 +50,7 @@
         "typescript": "^2.7.2"
     },
     "dependencies": {
-        "bcrypt": "^2.0.1",
+        "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.2",
         "config": "^1.30.0",
         "cors": "^2.8.4",

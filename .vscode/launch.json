@@ -17,6 +17,19 @@
             "preLaunchTask": "npm: predebug"
         },
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch NodeJS With Watch",
+            "program": "${workspaceRoot}/src/index.ts",
+            "outFiles": [
+                "${workspaceRoot}/out/**/*.js"
+            ],
+            "args": [
+                "-debug"
+            ],
+            "preLaunchTask": "npm: copy-config"
+        },
+        {
             "name": "Launch Angular",
             "type": "chrome",
             "request": "launch",

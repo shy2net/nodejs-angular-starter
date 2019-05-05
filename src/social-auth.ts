@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { Application } from 'express';
 import * as passport from 'passport';
 import * as FacebookTokenStrategy from 'passport-facebook-token';
@@ -88,21 +88,14 @@ export class SocialAuthentication {
    * @param socialProfile
    * @param map
    */
-  async findOrCreateUser(
-    email: string,
-    socialProfile: any,
-    map: {}
-  ): Promise<IUserProfileModel> {
+  async findOrCreateUser(email: string, socialProfile: any, map: {}): Promise<IUserProfileModel> {
     const user = await UserProfileModel.findOne({ email });
 
     if (user) {
       return user;
     }
 
-    const generatedProfile = await this.generateUserFromSocialProfile(
-      socialProfile,
-      map
-    );
+    const generatedProfile = await this.generateUserFromSocialProfile(socialProfile, map);
 
     return UserProfileModel.create(generatedProfile);
   }

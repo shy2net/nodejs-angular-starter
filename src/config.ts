@@ -20,8 +20,8 @@ let isDebugging = false;
 
 // Read the supplied arguments
 process.argv.forEach(function(val, index, array) {
-  if (val != null && typeof val == 'string') {
-    if (val == '-debug') isDebugging = true;
+  if (val != null && typeof val === 'string') {
+    if (val === '-debug') isDebugging = true;
   }
 });
 

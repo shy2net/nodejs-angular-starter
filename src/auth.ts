@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { Application } from 'express';
 import * as bearerToken from 'express-bearer-token';
 import * as createError from 'http-errors';
@@ -30,18 +30,11 @@ export class Authentication {
     });
   }
 
-  authenticationMiddleware(
-    req: AppRequest,
-    res: AppResponse,
-    next: () => void
-  ) {
-    if (req.method === "OPTIONS") return next();
+  authenticationMiddleware(req: AppRequest, res: AppResponse, next: () => void) {
+    if (req.method === 'OPTIONS') return next();
 
     if (req.token) {
-      const decodedUser = jwt.verify(
-        req.token,
-        config.JWT_SECRET
-      ) as IUserProfileModel;
+      const decodedUser = jwt.verify(req.token, config.JWT_SECRET) as IUserProfileModel;
 
       if (decodedUser) {
         return UserProfileModel.findById(decodedUser._id)
