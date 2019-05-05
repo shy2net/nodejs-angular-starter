@@ -51,6 +51,7 @@ export function postResponseMiddleware(data: any, req: AppRequest, res: AppRespo
 export function postErrorMiddleware(error: any, req: AppRequest, res: AppResponse, next: NextFunction) {
   if (error) {
     if (error instanceof HttpError) {
+      logger.error(error);
       return res.status(error.statusCode).json(responses.getErrorResponse(error.message));
     }
 

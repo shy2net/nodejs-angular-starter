@@ -72,7 +72,10 @@ export class App {
 
   private mountRoutes(): void {
     // Import the API and log every request being made to it
-    this.express.use('/api', getExpressLoggingMiddleware(), require('./api/api.routes'));
+    this.express.use('/api', require('./api/api.routes'));
+
+    // TODO: Replace with this line to use express logging middleware to log every request
+    // this.express.use('/api', getExpressLoggingMiddleware(), require('./api/api.routes'));
   }
 }
 
