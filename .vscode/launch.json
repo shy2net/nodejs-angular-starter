@@ -14,12 +14,13 @@
             "args": [
                 "-debug"
             ],
-            "preLaunchTask": "npm: predebug"
+            "preLaunchTask": "npm: predebug",
+            "outputCapture": "std"
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch NodeJS With Watch",
+            "name": "Fast Launch NodeJS (run tsc --watch before in the background)",
             "program": "${workspaceRoot}/src/index.ts",
             "outFiles": [
                 "${workspaceRoot}/out/**/*.js"
@@ -27,7 +28,8 @@
             "args": [
                 "-debug"
             ],
-            "preLaunchTask": "npm: copy-config"
+            "preLaunchTask": "npm: copy-config",
+            "outputCapture": "std"
         },
         {
             "name": "Launch Angular",

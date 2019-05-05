@@ -25,10 +25,6 @@ process.argv.forEach(function(val, index, array) {
   }
 });
 
-if (isDebugging) {
-  logger.info(`Debug mode is ON`);
-}
-
 const DEBUG_MODE = isDebugging;
 
 const CORS_OPTIONS: cors.CorsOptions = {
@@ -50,7 +46,6 @@ const CORS_OPTIONS: cors.CorsOptions = {
 };
 
 const ENVIRONMENT = process.env['NODE_ENV'] || 'development';
-logger.info(`Loaded configurations for environment: ${ENVIRONMENT}`);
 
 exportedConfig = {
   ...exportedConfig,

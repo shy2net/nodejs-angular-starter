@@ -18,6 +18,9 @@ export class App {
   init(port: string | number, ready?: () => void) {
     this.express = express();
 
+    if (config.DEBUG_MODE) logger.info(`Debug mode is ON`);
+    logger.info(`Loaded configurations for environment: ${config.ENVIRONMENT}`);
+
     logger.info(`Connecting to database...`);
 
     db.init(() => {
