@@ -10,8 +10,8 @@
       - [Working with API params](#working-with-api-params)
       - [API middlewares](#api-middlewares)
     - [Database](#database)
+    - [Logging with Winston](#logging-with-winston)
     - [Authentication and roles](#authentication-and-roles)
-      - [Logging with Winston](#logging-with-winston)
       - [Social Authentication](#social-authentication)
     - [Environment configurations](#environment-configurations)
     - [Unit Testing](#unit-testing)
@@ -289,6 +289,35 @@ You can view the database code at the `src/db.ts` file, which basically is respo
 
 In order to configure the database connection string, please review the `Environment configurations` part of this readme.
 
+### Logging with Winston
+
+This template comes ready with [winston logger](https://www.npmjs.com/package/winston). By default it will save all of the error logs into the `logs` directory.
+In order to edit the logging configurations you must open the `src/logger.ts` file and edit the default export:
+
+```typescript
+export default winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.Console({
+      level: 'debug',
+      format: winston.format.combine(winston.format.colorize(), winston.format.simple())
+    }),
+    new winston.transports.File({ filename: `${config.LOGS_PATH}/error.log`, level: 'error' })
+  ]
+});
+```
+
+**You can use getExpressLoggingMiddleware in your `app.ts` file to generate log for each request being made.**
+In order for this middleware to work, simply go to the `src/app.ts`  and edit the `mountRoutes` method with the already commented example:
+
+```typescript
+private mountRoutes(): void {
+  // This will import the api routes and log each request being made
+  this.express.use('/api', getExpressLoggingMiddleware(), require('./api/api.routes'));
+}
+```
+
 ### Authentication and roles
 
 This template comes prepacked with JWT authentication and associated middlewares to authenticate users.
@@ -339,35 +368,6 @@ router.get(
     next(controller.test());
   }
 );
-```
-
-#### Logging with Winston
-
-This template comes ready with [winston logger](https://www.npmjs.com/package/winston). By default it will save all of the error logs into the `logs` directory.
-In order to edit the logging configurations you must open the `src/logger.ts` file and edit the default export:
-
-```typescript
-export default winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.Console({
-      level: 'debug',
-      format: winston.format.combine(winston.format.colorize(), winston.format.simple())
-    }),
-    new winston.transports.File({ filename: `${config.LOGS_PATH}/error.log`, level: 'error' })
-  ]
-});
-```
-
-**You can use getExpressLoggingMiddleware in your `app.ts` file to generate log for each request being made.**
-In order for this middleware to work, simply go to the `src/app.ts`  and edit the `mountRoutes` method with the already commented example:
-
-```typescript
-private mountRoutes(): void {
-  // This will import the api routes and log each request being made
-  this.express.use('/api', getExpressLoggingMiddleware(), require('./api/api.routes'));
-}
 ```
 
 #### Social Authentication
