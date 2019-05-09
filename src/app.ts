@@ -5,7 +5,7 @@ import * as path from 'path';
 import auth from './auth';
 import config from './config';
 import db from './db';
-import logger, { getExpressLoggingMiddleware } from './logger';
+import logger from './logger';
 import socialAuth from './social-auth';
 
 // App class will encapsulate our web server.
@@ -19,7 +19,7 @@ export class App {
     this.express = express();
 
     if (config.DEBUG_MODE) logger.info(`Debug mode is ON`);
-    logger.info(`Loaded configurations for environment: ${config.ENVIRONMENT}`);
+    logger.info(`** Loaded configurations for environment: ${config.ENVIRONMENT} **`);
 
     logger.info(`Connecting to database...`);
 

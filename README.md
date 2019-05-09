@@ -11,6 +11,7 @@
       - [API middlewares](#api-middlewares)
     - [Database](#database)
     - [Authentication and roles](#authentication-and-roles)
+      - [Logging with Winston](#logging-with-winston)
       - [Social Authentication](#social-authentication)
     - [Environment configurations](#environment-configurations)
     - [Unit Testing](#unit-testing)
@@ -138,6 +139,7 @@ It comes with the following features:
 - Authentication (including middlewares and token generation)
 - Angular routes support (redirect to index.html of compiled Angular code), this means you can run you Angular app and API on the same container!
 - Configuration according to environment (using config npm package).
+- Logging using Winston.
 - Social Authentication, which basically gets an access token from the client that logged into a service and then creates a user associated with it.
 - Unit testing using Mocha and Chai.
 
@@ -337,6 +339,35 @@ router.get(
     next(controller.test());
   }
 );
+```
+
+#### Logging with Winston
+
+This template comes ready with [winston logger](https://www.npmjs.com/package/winston). By default it will save all of the error logs into the `logs` directory.
+In order to edit the logging configurations you must open the `src/logger.ts` file and edit the default export:
+
+```typescript
+export default winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.Console({
+      level: 'debug',
+      format: winston.format.combine(winston.format.colorize(), winston.format.simple())
+    }),
+    new winston.transports.File({ filename: `${config.LOGS_PATH}/error.log`, level: 'error' })
+  ]
+});
+```
+
+**You can use getExpressLoggingMiddleware in your `app.ts` file to generate log for each request being made.**
+In order for this middleware to work, simply go to the `src/app.ts`  and edit the `mountRoutes` method with the already commented example:
+
+```typescript
+private mountRoutes(): void {
+  // This will import the api routes and log each request being made
+  this.express.use('/api', getExpressLoggingMiddleware(), require('./api/api.routes'));
+}
 ```
 
 #### Social Authentication

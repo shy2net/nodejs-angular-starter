@@ -8,5 +8,6 @@ export interface AppConfig {
     JWT_SECRET: string;
     SOCIAL_CREDENTAILS: {};
     CORS_OPTIONS: cors.CorsOptions;
+    LOGS_PATH: string;
     DEBUG_MODE: boolean;
 }

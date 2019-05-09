@@ -1,5 +1,6 @@
 import * as expressWinston from 'express-winston';
 import * as winston from 'winston';
+import config from './config';
 
 export function getExpressLoggingMiddleware(): any {
   return expressWinston.logger({
@@ -23,6 +24,6 @@ export default winston.createLogger({
       level: 'debug',
       format: winston.format.combine(winston.format.colorize(), winston.format.simple())
     }),
-    new winston.transports.File({ filename: 'logs/error.log', level: 'error' })
+    new winston.transports.File({ filename: `${config.LOGS_PATH}/error.log`, level: 'error' })
   ]
 });

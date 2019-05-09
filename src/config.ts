@@ -53,4 +53,4 @@ exportedConfig = {
   DEBUG_MODE
 };
 
-export default exportedConfig;
+export default exportedConfig as AppConfig;
