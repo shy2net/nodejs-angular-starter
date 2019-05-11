@@ -8,7 +8,7 @@
         "angular": "cd angular-src && ng serve",
         "start": "node out/src/index.js",
         "build:node": "rm -rf out && tsc -p .",
-        "build:nodelive": "./node_modules/.bin/nodemon --ignore angular-src --exec ./node_modules/.bin/ts-node -- ./src/index.ts --debug",
+        "build:nodelive": "./node_modules/.bin/nodemon --ignore angular-src --exec ./node_modules/.bin/ts-node -- ./src/index.ts -debug",
         "build:angular": "cd angular-src && ng build --aot --prod",
         "copy-config": "sh ./copy-config.sh",
         "node": "npm run copy-config && npm run build:nodelive",
