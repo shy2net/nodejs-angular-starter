@@ -7,8 +7,7 @@ import * as randomstring from 'randomstring';
 
 import { UserProfile } from '../shared/models';
 import config from './config';
-import { UserProfileModel } from './models';
-import { IUserProfileModel } from './models/user-profile.model';
+import { IUserProfileDbModel, UserProfileDbModel } from './models/user-profile.db.model';
 
 export class SocialAuthentication {
   init(express: Application) {
@@ -88,8 +87,8 @@ export class SocialAuthentication {
    * @param socialProfile
    * @param map
    */
-  async findOrCreateUser(email: string, socialProfile: any, map: {}): Promise<IUserProfileModel> {
-    const user = await UserProfileModel.findOne({ email });
+  async findOrCreateUser(email: string, socialProfile: any, map: {}): Promise<IUserProfileDbModel> {
+    const user = await UserProfileDbModel.findOne({ email });
 
     if (user) {
       return user;
@@ -97,7 +96,7 @@ export class SocialAuthentication {
 
     const generatedProfile = await this.generateUserFromSocialProfile(socialProfile, map);
 
-    return UserProfileModel.create(generatedProfile);
+    return UserProfileDbModel.create(generatedProfile);
   }
 
   /**

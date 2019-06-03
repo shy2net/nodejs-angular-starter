@@ -69,8 +69,7 @@ router.get(
 );
 
 router.post("/register", (req: Request, res: Response, next: NextFunction) => {
-  const registerForm = new RegisterForm(req.body as RegisterForm);
-  next(controller.register(registerForm));
+  next(controller.register(req.body));
 });
 
 router.use(middlewares.postResponseMiddleware);

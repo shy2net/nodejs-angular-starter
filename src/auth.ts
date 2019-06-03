@@ -6,8 +6,8 @@ import * as jwt from 'jsonwebtoken';
 
 import { UserProfile } from '../shared/models';
 import config from './config';
-import { AppRequest, AppResponse, UserProfileModel } from './models';
-import { IUserProfileModel } from './models/user-profile.model';
+import { AppRequest, AppResponse, UserProfileDbModel } from './models';
+import { IUserProfileDbModel } from './models/user-profile.db.model';
 
 export class Authentication {
   init(express: Application) {
@@ -20,8 +20,8 @@ export class Authentication {
    * @param email
    * @param password
    */
-  authenticate(email: string, password: string): Promise<IUserProfileModel> {
-    return UserProfileModel.findOne({ email }).then(user => {
+  authenticate(email: string, password: string): Promise<IUserProfileDbModel> {
+    return UserProfileDbModel.findOne({ email }).then(user => {
       if (!user) return null;
 
       return bcrypt.compare(password, user.password).then(match => {
@@ -34,10 +34,10 @@ export class Authentication {
     if (req.method === 'OPTIONS') return next();
 
     if (req.token) {
-      const decodedUser = jwt.verify(req.token, config.JWT_SECRET) as IUserProfileModel;
+      const decodedUser = jwt.verify(req.token, config.JWT_SECRET) as IUserProfileDbModel;
 
       if (decodedUser) {
-        return UserProfileModel.findById(decodedUser._id)
+        return UserProfileDbModel.findById(decodedUser._id)
           .then(user => {
             req.user = user;
             return next();

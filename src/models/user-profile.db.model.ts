@@ -3,7 +3,7 @@ import { Document, model, Model, Schema } from 'mongoose';
 
 import { UserProfile } from '../../shared/models';
 
-export interface IUserProfileModel extends UserProfile, Document { }
+export interface IUserProfileDbModel extends UserProfile, Document {}
 
 export const UserProfileSchema = new Schema({
   email: {
@@ -31,12 +31,13 @@ export const UserProfileSchema = new Schema({
   roles: [String]
 });
 
-UserProfileSchema.methods.toJSON = function () {
-  const instance = (this as IUserProfileModel).toObject();
+UserProfileSchema.methods.toJSON = function() {
+  const instance = (this as IUserProfileDbModel).toObject();
   delete instance.password; // Remove the password field
   return instance;
 };
 
-export const UserProfileModel: Model<IUserProfileModel> = model<
-  IUserProfileModel
-  >('user', UserProfileSchema);
+export const UserProfileDbModel: Model<IUserProfileDbModel> = model<IUserProfileDbModel>(
+  'user',
+  UserProfileSchema
+);

@@ -1,8 +1,9 @@
+import { transformAndValidate } from 'class-transformer-validator';
 import * as createError from 'http-errors';
 
 import { ActionResponse, LoginActionResponse, UserProfile } from '../../shared/models';
 import auth from '../auth';
-import { UserProfileModel } from '../models';
+import { UserProfileDbModel } from '../models';
 import { RegisterForm } from './forms';
 import * as responses from './responses';
 
@@ -12,7 +13,7 @@ class ApiController {
   }
 
   errorTest() {
-    return Promise.reject(createError(401, "This is an error!"));
+    return Promise.reject(createError(401, 'This is an error!'));
   }
 
   saySomething(whatToSay: string): Promise<ActionResponse<string>> {
@@ -47,17 +48,15 @@ class ApiController {
     return Promise.reject(`Logout has not been implemented!`);
   }
 
-  register(registerForm: RegisterForm): Promise<ActionResponse<UserProfile>> {
-    if (!registerForm.isValid()) {
-      return Promise.reject(registerForm.getFormError());
-    }
-
-    return registerForm.getHashedPassword().then(hashedPassword => {
-      return UserProfileModel.create({
-        ...registerForm,
-        password: hashedPassword
-      }).then(user => {
-        return responses.getOkayResponse(user);
+  register(userProfile: UserProfile): Promise<ActionResponse<UserProfile>> {
+    return transformAndValidate(RegisterForm, userProfile).then((registerForm: RegisterForm) => {
+      return registerForm.getHashedPassword().then(hashedPassword => {
+        return UserProfileDbModel.create({
+          ...registerForm,
+          password: hashedPassword
+        }).then(user => {
+          return responses.getOkayResponse(user);
+        });
       });
     });
   }
