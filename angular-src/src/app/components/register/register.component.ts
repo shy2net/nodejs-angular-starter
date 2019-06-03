@@ -1,5 +1,6 @@
 import { UserProfileModel } from './../../../../../shared/models/user-profile.model';
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../core/services/api.service';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 export class RegisterComponent implements OnInit {
   userProfile: UserProfileModel = new UserProfileModel();
 
-  constructor() {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit() {}
+
+  onRegisterClick() {
+    this.apiService.register(this.userProfile).subscribe(result => {}, error => {});
+  }
 }

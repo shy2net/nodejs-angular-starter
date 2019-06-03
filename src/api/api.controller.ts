@@ -48,14 +48,12 @@ class ApiController {
     return Promise.reject(`Logout has not been implemented!`);
   }
 
-  register(userProfile: UserProfile): Promise<ActionResponse<UserProfile>> {
+  register(userProfile: UserProfile): Promise<UserProfile> {
     return transformAndValidate(RegisterForm, userProfile).then((registerForm: RegisterForm) => {
       return registerForm.getHashedPassword().then(hashedPassword => {
         return UserProfileDbModel.create({
           ...registerForm,
           password: hashedPassword
-        }).then(user => {
-          return responses.getOkayResponse(user);
         });
       });
     });
