@@ -13,6 +13,10 @@ import {
 
 import { Form } from '../../../../../shared/models/forms/form';
 
+/**
+ * This directive simply updates all of the fields in the form according to the model validations using class-validator (https://github.com/typestack/class-validator).
+ * It follows the bootstrap standard to mark fields ans invalid or valid (https://getbootstrap.com/docs/4.0/components/forms/#validation).
+ */
 @Directive({
   selector: '[appFormValidator]'
 })
@@ -24,6 +28,12 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges {
     return this._isFormValid;
   }
 
+  /**
+   * Called each time the form is completely valid or invalid.
+   *
+   * @type {EventEmitter<boolean>}
+   * @memberof FormValidatorDirective
+   */
   @Output() appFormValidatorIsFormValidChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   private inputValueChangeEventFunc: (event) => void;
@@ -38,7 +48,9 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges {
   }
 
   ngAfterViewInit(): void {
+    // Get all of the form group inputs
     this.getFormGroupInputs().forEach((input: HTMLInputElement) => {
+      // Detect when a value was changed in one of the fields
       input.addEventListener('input', this.inputValueChangeEventFunc);
 
       // Add Description text field if not exists
@@ -57,6 +69,11 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges {
     if ('appFormValidator' in changes) this.updateForm();
   }
 
+  /**
+   * Updates a specific element state according to it's validation error.
+   * @param el
+   * @param error
+   */
   updateFormField(el: HTMLInputElement, error?: ValidationError) {
     const name = el.name;
     el.classList.remove('is-valid', 'is-invalid');
@@ -82,6 +99,9 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges {
     }
   }
 
+  /**
+   * Goes through all of the form and checks for any issues, updates all of the fields accordingly.
+   */
   updateForm(): Promise<boolean> {
     const prevIsFormValid = this._isFormValid;
     this._isFormValid = true;
@@ -102,6 +122,9 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges {
     });
   }
 
+  /**
+   * Returns all of the form groups found according to bootstrap standard.
+   */
   getFormGroupInputs() {
     const formElement = this.elementRef.nativeElement;
     return formElement.querySelectorAll('.form-group>input');

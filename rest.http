@@ -1,0 +1,15 @@
+@api = http://localhost:3000/api
+
+### Test API
+GET {{api}}/test
+
+### Register an example user
+POST {{api}}/register HTTP/1.1
+content-type: application/json
+
+{
+    "email":"johnny@bravo.com",
+    "password": "mypass",
+    "firstName": "Johnny",
+    "lastName": "Bravo"
+}

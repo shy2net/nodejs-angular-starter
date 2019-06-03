@@ -20,14 +20,6 @@ export class ApiService {
     return `${this.apiUrl}/${endpoint}`;
   }
 
-  getFromEndpoint(endpoint: string) {
-    return this.httpService.get(this.getApiEndpoint(endpoint));
-  }
-
-  postFromEndpoint(endpoint: string, data) {
-    return this.httpService.post(this.getApiEndpoint(endpoint), data);
-  }
-
   login(username, password) {
     const url = this.getApiEndpoint(`login`);
 

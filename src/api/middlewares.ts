@@ -55,13 +55,8 @@ export function postErrorMiddleware(error: any, req: AppRequest, res: AppRespons
     if (error instanceof HttpError) {
       logger.error(error);
       return res.status(error.statusCode).json(responses.getErrorResponse(error.message));
-    } else if (error instanceof Array && error[0] instanceof ValidationError) {
-      // If it's a validation error
-      let output = '';
-
-      for (const err of error) output += getTextualValidationError(err);
-      return res.status(400).json(responses.getErrorResponse(output));
     }
+    // TODO: Add custom errors for objects not passing validation or transformations
 
     // An unknown error has occurred
     if (config.ENVIRONMENT === 'development' || config.DEBUG_MODE) throw error; // If we are on development environment, simply throw the error for easier debugging
