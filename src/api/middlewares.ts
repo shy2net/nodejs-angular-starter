@@ -1,6 +1,8 @@
+import { ValidationError } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 import { HttpError } from 'http-errors';
 
+import { getTextualValidationError } from '../../shared/shared-utils';
 import config from '../config';
 import logger from '../logger';
 import { AppRequest, AppResponse } from '../models';
@@ -53,6 +55,12 @@ export function postErrorMiddleware(error: any, req: AppRequest, res: AppRespons
     if (error instanceof HttpError) {
       logger.error(error);
       return res.status(error.statusCode).json(responses.getErrorResponse(error.message));
+    } else if (error instanceof Array && error[0] instanceof ValidationError) {
+      // If it's a validation error
+      let output = '';
+
+      for (const err of error) output += getTextualValidationError(err);
+      return res.status(400).json(responses.getErrorResponse(output));
     }
 
     // An unknown error has occurred
