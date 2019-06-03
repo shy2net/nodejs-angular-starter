@@ -12,6 +12,7 @@ import { LoginComponent } from './components/login/login.component';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { RegisterComponent } from './components/register/register.component';
 
 const routes: Route[] = [
   {
@@ -27,6 +28,10 @@ const routes: Route[] = [
     path: 'example',
     pathMatch: 'full',
     component: ExamplePageComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
   {
     path: 'user',
@@ -47,7 +52,8 @@ const routes: Route[] = [
     HomeComponent,
     ExamplePageComponent,
     LoginComponent,
-    UserPageComponent
+    UserPageComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,
