@@ -2,10 +2,13 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "declaration": true, 
-    "outDir": "out",           
+    "lib": ["es2015"],
+    "declaration": true,
+    "types": ["reflect-metdata"],
+    "outDir": "out",
     "sourceMap": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "strict": false
   },
   "exclude": [

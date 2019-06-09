@@ -50,6 +50,8 @@
         "typescript": "^2.7.2"
     },
     "dependencies": {
+        "@tsed/common": "^5.18.1",
+        "@tsed/core": "^5.18.1",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.2",
         "class-transformer": "^0.2.3",
