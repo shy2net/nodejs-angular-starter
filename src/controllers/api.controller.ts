@@ -1,9 +1,14 @@
-import { Controller, Get } from '@tsed/common';
+import { Controller, Get, PathParams, QueryParams } from '@tsed/common';
 
-@Controller('/calendars')
+@Controller('/api')
 export class ApiController {
-  @Get()
+  @Get('/test')
   test(): string {
     return 'This is a test';
+  }
+
+  @Get('/say-something')
+  saySomething(@QueryParams('whatToSay') whatToSay: string) {
+    return whatToSay;
   }
 }

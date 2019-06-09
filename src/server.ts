@@ -2,11 +2,14 @@ import { GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings } from '@tsed
 
 const bodyParser = require('body-parser');
 const compress = require('compression');
+
 const rootDir = __dirname;
+const port = process.env.PORT || 3000;
 
 @ServerSettings({
   rootDir,
-  acceptMimes: ['application/json']
+  acceptMimes: ['application/json'],
+  port
 })
 export class Server extends ServerLoader {
   /**
