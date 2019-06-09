@@ -71,6 +71,7 @@ Angular 7 comes with the following features:
 - Built in ngx-loading-bar (Youtube styled) when moving between routes.
 - Built in auth-guard and authentication, saved on session cookie.
 - Built in social authentication (Google and Facebook).
+- Build in form validations using class-validator (https://github.com/typestack/class-validator) implemented using the `FormValidatorDirective`.
 
 The code of Angular 7 is stored under the `angular-src` directory.
 

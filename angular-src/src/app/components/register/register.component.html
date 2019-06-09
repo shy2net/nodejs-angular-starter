@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">Register a new user</div>
     <div class="card-body">
-      <form #form="ngForm" class="col-12 form" [appFormValidator]="userProfile">
+      <form #form="ngForm" class="col-12 form" [appFormValidator]="userProfile" [appFormValidatorForce]="true">
         <div class="container">
           <div class="row">
             <div class="col-md-6">

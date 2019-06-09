@@ -22,7 +22,12 @@ import { Form } from '../../../../../shared/models/forms/form';
 })
 export class FormValidatorDirective implements AfterViewInit, OnChanges {
   @Input() appFormValidator: Form;
+  /**
+   * Forces all fields to show valid or invalid even if the user hasn't changed the value.
+   */
+  @Input() appFormValidatorForce: boolean;
   private _isFormValid: boolean;
+  private fieldsWritten: { [name: string]: boolean } = {}; // A dictionary containing data about fields already written
 
   get appFormValidatorIsFormValid() {
     return this._isFormValid;
@@ -43,7 +48,10 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges {
       const el = event.target as HTMLInputElement;
       const name = el.name;
 
-      if (name) this.updateForm();
+      if (name) {
+        this.fieldsWritten[name] = true;
+        this.updateForm();
+      }
     };
   }
 
@@ -76,6 +84,7 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges {
    */
   updateFormField(el: HTMLInputElement, error?: ValidationError) {
     const name = el.name;
+    if (!this.appFormValidatorForce && !this.fieldsWritten[name]) return; // Check if this fields has been written, if not don't update it's validation state until it is
     el.classList.remove('is-valid', 'is-invalid');
     el.classList.add(error ? 'is-invalid' : 'is-valid');
 
