@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 
-import { UserProfileModel } from '../../../shared/models/user-profile.model';
+import { UserProfileModel } from '../../shared/models/user-profile.model';
 
 export class RegisterForm extends UserProfileModel {
   getHashedPassword(): Promise<string> {

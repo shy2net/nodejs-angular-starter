@@ -4,7 +4,7 @@ import * as createError from 'http-errors';
 import { ActionResponse, LoginActionResponse, UserProfile } from '../../shared/models';
 import auth from '../auth';
 import { UserProfileDbModel } from '../models';
-import { RegisterForm } from './forms';
+import { RegisterForm } from '../forms';
 import * as responses from './responses';
 
 class ApiController {

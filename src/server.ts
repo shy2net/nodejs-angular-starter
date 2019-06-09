@@ -9,7 +9,10 @@ const port = process.env.PORT || 3000;
 @ServerSettings({
   rootDir,
   acceptMimes: ['application/json'],
-  port
+  port,
+  mount: {
+    '/api': `${rootDir}/controllers/**/*.ts`
+  }
 })
 export class Server extends ServerLoader {
   /**

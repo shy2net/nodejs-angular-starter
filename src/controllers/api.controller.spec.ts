@@ -1,6 +1,8 @@
 import { assert, expect } from 'chai';
+import 'mocha';
 
-import controller from './api.controller';
+import { ApiController } from './api.controller';
+const controller = new ApiController();
 
 describe('API Controller', async () => {
   it('should return ok action response', async () => {
