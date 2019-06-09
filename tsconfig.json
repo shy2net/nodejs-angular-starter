@@ -4,7 +4,7 @@
     "module": "commonjs",
     "lib": ["es2015"],
     "declaration": true,
-    "types": ["reflect-metdata"],
+    "types": ["reflect-metadata"],
     "outDir": "out",
     "sourceMap": true,
     "experimentalDecorators": true,
@@ -16,7 +16,5 @@
     "src/tests",
     "node_modules",
     "out"
-  ],
-  "experimentalDecorators": true,
-  "emitDecoratorMetadata": true
+  ]
 }
