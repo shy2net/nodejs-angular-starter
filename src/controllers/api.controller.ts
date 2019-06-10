@@ -5,7 +5,7 @@ import { BadRequest } from 'ts-httpexceptions';
 import { BodyParams, Controller, Get, Post, QueryParams } from '@tsed/common';
 
 import { ActionResponse, LoginActionResponse, UserProfile } from '../../shared/models';
-import * as responses from '../api/responses';
+import * as responses from '../responses';
 import auth from '../auth';
 import { RegisterForm } from '../forms';
 import { UserProfileDbModel } from '../models';

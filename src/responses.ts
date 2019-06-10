@@ -1,4 +1,4 @@
-import { ActionResponse } from '../../shared/models';
+import { ActionResponse } from '../shared/models';
 
 export function getOkayResponse(data?: any) {
   return {
@@ -13,3 +13,5 @@ export function getErrorResponse(error: any) {
     error: error
   } as ActionResponse<any>;
 }
+
+// FIXME: Remove this file as it is not required!
