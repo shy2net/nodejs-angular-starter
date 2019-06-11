@@ -64,7 +64,6 @@
         "express": "^4.16.2",
         "express-bearer-token": "^2.1.1",
         "express-session": "^1.15.6",
-        "express-winston": "^3.1.0",
         "jsonwebtoken": "^8.3.0",
         "mongoose": "^5.0.12",
         "passport": "^0.4.0",

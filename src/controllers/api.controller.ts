@@ -14,17 +14,17 @@ import * as responses from '../responses';
 export class ApiController {
   @Get('/test')
   test() {
-    return Promise.resolve(responses.getOkayResponse());
+    return responses.getOkayResponse();
   }
 
   @Get('/error-test')
-  async errorTest() {
+  errorTest() {
     throw new BadRequest('This is an error!');
   }
 
   @Get('/say-something')
-  saySomething(@QueryParams('whatToSay') whatToSay: string): Promise<ActionResponse<string>> {
-    return Promise.resolve(responses.getOkayResponse(whatToSay));
+  saySomething(@QueryParams('whatToSay') whatToSay: string) {
+    return responses.getOkayResponse(whatToSay);
   }
 
   @Post('/login')
