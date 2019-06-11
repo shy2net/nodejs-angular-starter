@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 import config from './config';
-import logger from './logger';
+import { $log } from 'ts-log-debug';
 
 export class Database {
   init(): Promise<any> {
@@ -10,12 +10,12 @@ export class Database {
       const db = mongoose.connection;
 
       db.on('error', error => {
-        logger.error('Unable to connect to MongoDB server: ${error}');
+        $log.error('Unable to connect to MongoDB server: ${error}');
         reject(error);
       });
 
       db.once('open', function() {
-        logger.info('Connected to MongoDB server');
+        $log.info('Connected to MongoDB server');
         this.mongoose = mongoose;
         resolve();
       });

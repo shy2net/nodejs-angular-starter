@@ -1,10 +1,14 @@
+import { $log } from 'ts-log-debug';
+
 import { Server } from './server';
 
-new Server()
+const server = new Server();
+
+server
   .start()
   .then(result => {
-    console.log('Server started...');
+    $log.info(`Server is now listening!`);
   })
   .catch(err => {
-    console.error(err);
+    $log.error(err);
   });

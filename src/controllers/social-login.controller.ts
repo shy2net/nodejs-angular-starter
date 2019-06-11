@@ -1,7 +1,8 @@
+import { BodyParams, Controller, Get, PathParams } from '@tsed/common';
+
 import { LoginActionResponse, UserProfile } from '../../shared/models';
 import auth from '../auth';
 import * as responses from '../responses';
-import { Controller, BodyParams, Get, PathParams } from '@tsed/common';
 
 @Controller('/social-login')
 export class SocialLoginController {

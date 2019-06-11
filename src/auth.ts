@@ -1,12 +1,11 @@
 import * as bcrypt from 'bcryptjs';
 import { Application } from 'express';
 import * as bearerToken from 'express-bearer-token';
-import * as createError from 'http-errors';
 import * as jwt from 'jsonwebtoken';
 
 import { UserProfile } from '../shared/models';
 import config from './config';
-import { AppRequest, AppResponse, UserProfileDbModel } from './models';
+import { UserProfileDbModel } from './models';
 import { IUserProfileDbModel } from './models/user-profile.db.model';
 
 export class Authentication {
@@ -28,41 +27,6 @@ export class Authentication {
         return match && user;
       });
     });
-  }
-
-  authenticationMiddleware(req: AppRequest, res: AppResponse, next: () => void) {
-    if (req.method === 'OPTIONS') return next();
-
-    if (req.token) {
-      const decodedUser = jwt.verify(req.token, config.JWT_SECRET) as IUserProfileDbModel;
-
-      if (decodedUser) {
-        return UserProfileDbModel.findById(decodedUser._id)
-          .then(user => {
-            req.user = user;
-            return next();
-          })
-          .catch(error => {
-            throw createError(500, `Internal server error`);
-          });
-      }
-    }
-
-    throw createError(400, `Provided token is invalid!`);
-  }
-
-  /**
-   * This middleware is responsible of of checking if a user has a specific role.
-   * Must be used after the authenticationMiddleware.
-   */
-  getHasRolesMiddlware(role: string) {
-    return (req: AppRequest, res: AppResponse, next: () => void) => {
-      if (req.user.roles.find(userRole => role === userRole)) {
-        return next();
-      }
-
-      throw createError(400, `You don't have the role to access this route`);
-    };
   }
 
   /**

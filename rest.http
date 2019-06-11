@@ -1,7 +1,21 @@
 @api = http://localhost:3000/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiJdLCJfaWQiOiI1YjQ5ZDczYmEzZjQxYzFiY2U5MGNhZTciLCJlbWFpbCI6InNoeW5ldEBnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJTaGF5IiwibGFzdE5hbWUiOiJZYWlzaCIsIl9fdiI6MCwiaWF0IjoxNTYwMjg0NTE5fQ.kDKZNR0TeVLlOXcQk9HdtAMAP4I0o9EKr84n3iM2drs
 
 ### Test API
 GET {{api}}/test
+
+### Test login
+POST {{api}}/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "shynet@gmail.com",
+    "password": "Aa123456"
+}
+
+### Get user profile
+GET {{api}}/profile HTTP/1.1
+Authorization: Bearer {{token}}
 
 ### Register an example user
 POST {{api}}/register HTTP/1.1

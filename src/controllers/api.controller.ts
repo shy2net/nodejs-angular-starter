@@ -1,14 +1,14 @@
 import { transformAndValidate } from 'class-transformer-validator';
-import * as createError from 'http-errors';
 import { BadRequest } from 'ts-httpexceptions';
 
-import { BodyParams, Controller, Get, Post, QueryParams } from '@tsed/common';
+import { BodyParams, Controller, Get, Post, QueryParams, UseBefore } from '@tsed/common';
 
 import { ActionResponse, LoginActionResponse, UserProfile } from '../../shared/models';
-import * as responses from '../responses';
 import auth from '../auth';
 import { RegisterForm } from '../forms';
+import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { UserProfileDbModel } from '../models';
+import * as responses from '../responses';
 
 @Controller('/')
 export class ApiController {
@@ -28,11 +28,12 @@ export class ApiController {
   }
 
   @Post('/login')
-  login(username: string, password: string): Promise<LoginActionResponse> {
+  login(
+    @BodyParams('username') username: string,
+    @BodyParams('password') password: string
+  ): Promise<LoginActionResponse> {
     return auth.authenticate(username, password).then(user => {
-      if (!user) {
-        throw createError(400, `Username or password are invalid!`);
-      }
+      if (!user) throw new BadRequest(`Username or password are invalid!`);
 
       const token = auth.generateToken(user.toJSON());
       const response = responses.getOkayResponse();
@@ -48,11 +49,13 @@ export class ApiController {
   }
 
   @Get('/profile')
+  @UseBefore(AuthMiddleware)
   getProfile(user: UserProfile): Promise<UserProfile> {
     return Promise.resolve(user);
   }
 
   @Get('/logout')
+  @UseBefore(AuthMiddleware)
   logout(): Promise<ActionResponse<any>> {
     // TODO: Implement your own logout mechanisem (JWT token blacklists, etc...)
     return Promise.reject(`Logout has not been implemented!`);
