@@ -9,6 +9,7 @@ import { RegisterForm } from '../forms';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { UserProfileDbModel } from '../models';
 import * as responses from '../responses';
+import { RequestUser } from '../decorators/request-user';
 
 @Controller('/')
 export class ApiController {
@@ -50,7 +51,7 @@ export class ApiController {
 
   @Get('/profile')
   @UseBefore(AuthMiddleware)
-  getProfile(user: UserProfile): Promise<UserProfile> {
+  getProfile(@RequestUser() user: UserProfile): Promise<UserProfile> {
     return Promise.resolve(user);
   }
 
