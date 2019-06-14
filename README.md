@@ -444,7 +444,7 @@ be up and running together on the same NodeJS server. This takes place using the
 that knows how to compile them together and bundle them.
 
 How does it work? Well it simply compiles each one seperatly and then copies the angular-src output dist directory
-into the NodeJS src directory and delievers them in the `src/app.ts` like this:
+into the NodeJS src directory and delievers them in the `src/server.ts` like this:
 
 ```typescript
 // Point static path to Angular 2 distribution

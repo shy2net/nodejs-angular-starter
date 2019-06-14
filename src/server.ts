@@ -105,7 +105,7 @@ export class Server extends ServerLoader {
     $log.info(`Connecting to database...`);
 
     return db.init().then(result => {
-      // If we are not on debug mode, run angular
+      // If we are not on debug mode, mount angular
       if (!config.DEBUG_MODE) this.mountAngular();
 
       return super.start();
