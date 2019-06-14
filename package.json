@@ -35,7 +35,7 @@
         "@types/mongoose": "^5.0.9",
         "@types/mongoose-paginate": "^5.0.6",
         "@types/node": "^8.10.49",
-        "@types/passport": "^0.4.5",
+        "@types/passport": "^1.0.0",
         "@types/passport-facebook-token": "^0.4.33",
         "@types/passport-local": "^1.0.33",
         "@types/randomstring": "^1.1.6",
