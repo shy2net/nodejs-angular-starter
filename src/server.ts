@@ -1,3 +1,4 @@
+import * as cors from 'cors';
 import * as express from 'express';
 import * as path from 'path';
 import { $log } from 'ts-log-debug';
@@ -29,6 +30,7 @@ export class Server extends ServerLoader {
    */
   $onMountingMiddlewares(): void | Promise<any> {
     this.use(GlobalAcceptMimesMiddleware)
+      .use(cors(config.CORS_OPTIONS))
       .use(compress({}))
       .use(bodyParser.json())
       .use(

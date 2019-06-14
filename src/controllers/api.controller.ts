@@ -13,7 +13,6 @@ import { UserProfileDbModel } from '../models';
 import * as responses from '../responses';
 
 @Controller('/')
-@UseBefore(CorsMiddleware)
 export class ApiController {
   @Get('/test')
   test() {
