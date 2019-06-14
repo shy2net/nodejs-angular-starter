@@ -56,7 +56,7 @@ export class ApiController {
   }
 
   @Get('/admin')
-  @UseBefore(AuthMiddleware, { role: 'admin' })
+  @UseBefore(AuthMiddleware)
   adminTest() {
     return this.test();
   }

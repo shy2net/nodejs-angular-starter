@@ -233,21 +233,39 @@ In order to configure the database connection string, please review the `Environ
 ### Logging using Ts.LogDebug
 
 This template comes ready with [Ts.LogDebug](https://typedproject.github.io/ts-log-debug/#/). By default it will save all of the error logs into the `logs` directory.
-In order to edit the logging configurations you must open the `src/logger.ts` file and edit the default export:
+You can edit the logging configurations in the `server.ts` file:
 
-> TODO: Add correct info 
 ```typescript
-export default winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.Console({
-      level: 'debug',
-      format: winston.format.combine(winston.format.colorize(), winston.format.simple())
-    }),
-    new winston.transports.File({ filename: `${config.LOGS_PATH}/error.log`, level: 'error' })
-  ]
-});
+  /**
+   * Configures all of the logging in the server.
+   */
+  private configureLogging() {
+    this.setSettings({
+      ...this.settings,
+      logger: {
+        ...this.settings.logger,
+        debug: config.DEBUG_MODE,
+        level: config.DEBUG_MODE ? 'debug' : 'info',
+        requestFields: ['reqId', 'method', 'url', 'headers', 'body', 'query', 'params', 'duration'],
+        logRequest: true
+      }
+    });
+
+    // All logs are saved to the logs directory by default
+    const logsDir = path.join(__dirname, 'logs');
+
+    // Add file appenders (app.log for all logs, error.log only for errors)
+    $log.appenders
+      .set('file-log', {
+        type: 'file',
+        filename: path.join(logsDir, `app.log`)
+      })
+      .set('file-error-log', {
+        type: 'file',
+        filename: path.join(logsDir, `error.log`),
+        levels: ['error']
+      });
+  }
 ```
 
 ### Authentication and roles

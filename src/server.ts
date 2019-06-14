@@ -66,7 +66,40 @@ export class Server extends ServerLoader {
     });
   }
 
+  /**
+   * Configures all of the logging in the server.
+   */
+  private configureLogging() {
+    this.setSettings({
+      ...this.settings,
+      logger: {
+        ...this.settings.logger,
+        debug: config.DEBUG_MODE,
+        level: config.DEBUG_MODE ? 'debug' : 'info',
+        requestFields: ['reqId', 'method', 'url', 'headers', 'body', 'query', 'params', 'duration'],
+        logRequest: true
+      }
+    });
+
+    // All logs are saved to the logs directory by default
+    const logsDir = path.join(__dirname, 'logs');
+
+    // Add file appenders (app.log for all logs, error.log only for errors)
+    $log.appenders
+      .set('file-log', {
+        type: 'file',
+        filename: path.join(logsDir, `app.log`)
+      })
+      .set('file-error-log', {
+        type: 'file',
+        filename: path.join(logsDir, `error.log`),
+        levels: ['error']
+      });
+  }
+
   start() {
+    this.configureLogging();
+
     if (config.DEBUG_MODE) $log.info(`Debug mode is ON`);
     $log.info(`** Loaded configurations for environment: ${config.ENVIRONMENT} **`);
     $log.info(`Connecting to database...`);
