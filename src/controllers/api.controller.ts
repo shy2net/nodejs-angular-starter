@@ -5,11 +5,11 @@ import { BodyParams, Controller, Get, Post, QueryParams, UseBefore } from '@tsed
 
 import { ActionResponse, LoginActionResponse, UserProfile } from '../../shared/models';
 import auth from '../auth';
+import { RequestUser } from '../decorators/request-user';
 import { RegisterForm } from '../forms';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { UserProfileDbModel } from '../models';
 import * as responses from '../responses';
-import { RequestUser } from '../decorators/request-user';
 
 @Controller('/')
 export class ApiController {
@@ -51,8 +51,14 @@ export class ApiController {
 
   @Get('/profile')
   @UseBefore(AuthMiddleware)
-  getProfile(user: UserProfile): Promise<UserProfile> {
-    return Promise.resolve(user);
+  getProfile(@RequestUser() user: UserProfile): UserProfile {
+    return user;
+  }
+
+  @Get('/admin')
+  @UseBefore(AuthMiddleware, { role: 'admin' })
+  adminTest() {
+    return this.test();
   }
 
   @Get('/logout')
@@ -64,7 +70,9 @@ export class ApiController {
 
   @Post('/register')
   register(@BodyParams() userProfile: UserProfile): Promise<UserProfile> {
+    // Use the class-transformer-validator to build the model from the JSON object and validate it (https://github.com/19majkel94/class-transformer-validator).
     return transformAndValidate(RegisterForm, userProfile).then((registerForm: RegisterForm) => {
+      // Hash the user password and create it afterwards
       return registerForm.getHashedPassword().then(hashedPassword => {
         return UserProfileDbModel.create({
           ...registerForm,

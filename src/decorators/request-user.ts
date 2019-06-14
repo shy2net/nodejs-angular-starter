@@ -1,7 +1,17 @@
-/**
- * Returns the request.user found.
- */
-export function RequestUser(target: any, key: string, index: number) {
-  console.log('nice');
+import { IFilter, Filter, ParseService, ParamRegistry } from '@tsed/common';
 
+@Filter()
+export class RequestUserFilter implements IFilter {
+  constructor(private parseService: ParseService) {}
+
+  transform(expression: string, request, response) {
+    return this.parseService.eval(expression, request['user']);
+  }
+}
+
+/**
+ * Returns the authenticated user.
+ */
+export function RequestUser(): Function {
+  return ParamRegistry.decorate(RequestUserFilter);
 }

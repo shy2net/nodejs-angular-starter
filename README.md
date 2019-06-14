@@ -10,12 +10,13 @@
       - [Working with API params](#working-with-api-params)
       - [API middlewares](#api-middlewares)
     - [Database](#database)
-    - [Logging with Winston](#logging-with-winston)
+    - [Logging using Ts.LogDebug](#logging-using-tslogdebug)
     - [Authentication and roles](#authentication-and-roles)
       - [Social Authentication](#social-authentication)
     - [Environment configurations](#environment-configurations)
     - [Unit Testing](#unit-testing)
   - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
+  - [Form validations](#form-validations)
 - [Running on production](#running-on-production)
   - [Running Angular and NodeJS on the same server](#running-angular-and-nodejs-on-the-same-server)
     - [The build script (build.sh)](#the-build-script-buildsh)
@@ -35,9 +36,11 @@ Technologies used in this template:
 - NodeJS typescript
 - Mongoose (with basic user model)
 - Bootstrap v4 and SCSS by default
-- JWT and token authentication built-in (including user roles)
-- Winston logging
+- [JWT](https://jwt.io/) and token authentication built-in (including user roles)
+- Logging (using [Ts.LogDebug](https://typedproject.github.io/ts-log-debug/#/))
 - Social Authentication (Google and Facebook)
+- [Ts.ED](https://tsed.io/) - Easier express with typescript using decorators
+- Form validations using ([class-validator](https://www.npmjs.com/package/class-validator))
 
 # Starting with this template
 
@@ -137,10 +140,11 @@ Comes with built in typescript support and compilation.
 
 It comes with the following features:
 
+- [Ts.ED](https://tsed.io/) - Easier express with typescript using decorators
 - Authentication (including middlewares and token generation)
 - Angular routes support (redirect to index.html of compiled Angular code), this means you can run you Angular app and API on the same container!
-- Configuration according to environment (using config npm package).
-- Logging using Winston.
+- Configuration according to environment (using [config npm package](https://www.npmjs.com/package/config)).
+- Logging (using [Ts.LogDebug](https://typedproject.github.io/ts-log-debug/#/)).
 - Social Authentication, which basically gets an access token from the client that logged into a service and then creates a user associated with it.
 - Unit testing using Mocha and Chai.
 
@@ -149,35 +153,20 @@ Output directory of the compiled typescript will be available in the `out` direc
 
 ### How the API works
 
-NodeJS comes with three working examples of a working api called `test`, `errorTest` and `saySomething`,
+I would first recommend you to read the [Getting Started tutorial of Ts.ED](http://tsed.io/getting-started.html). As it will explain really good how
+the decorators help make your express app easier to write, maintain and faster for development.
+
+Within this templatae, NodeJS comes with three working examples of a working api called `test`, `errorTest` and `saySomething`,
 which can be viewed under `src/api/api.controller`.
 
 The way this template is built makes the whole code alot more readable, and easier for testing.
-Each route has a function asscoiated in the controller which contains only the parameters that
-specific function requires.
-
-On each call to the controller function we provide the params obtained from the request and then we
-call the `next(data?: any)` method in order to let the postResponseMiddleware handle the data and send it back to the client.
-
-Let's look at the test example.
-
-api.routes.ts:
-
-```typescript
-router.get(
-  '/test',
-  (req: express.Request, res: express.Response, next: (data) => void) => {
-    // Move the promise response to be handled by the postResponseMiddleware
-    next(controller.test());
-  }
-);
-```
 
 api.controller.ts:
 
 ```typescript
+  @Get('/test') // This tells express to route on /api/test
   test() {
-    return Promise.resolve(responses.getOkayResponse());
+    return responses.getOkayResponse();
   }
 ```
 
@@ -196,44 +185,11 @@ ActionResponse objects are objects that specify a response to an action done on 
 data which comes with the response. If the status of the ActionResponse is error, it will appear as toast
 by default in the client.
 
-You probably ask yourself, how does the data sent back to the client? well it is done using the call for `next(data?: any)`.
-This call will send the back to the postResponseMiddleware:
+You can test this api easily by running the express server:
+> npm run node
 
-```typescript
-export function postResponseMiddleware(
-  data: any,
-  req: AppRequest,
-  res: AppResponse,
-  next: (error) => any
-) {
-  if (data instanceof Error) {
-    return next(data);
-  } else if (data instanceof Promise) {
-    return apiHelper.handlePromiseResponse(data, req, res, next);
-  } else {
-    throw 'Data is not recognized, please make sure the controller you use returns a promise or an error';
-  }
-}
-```
-
-And the `apiHelper.handlePromiseResponse` method will just do the following:
-
-```typescript
-export function handlePromiseResponse(
-  promise: Promise<any>,
-  req: Request,
-  res: Response,
-  next?: (error: any) => void
-) {
-  promise
-    .then(data => {
-      res.json(data);
-    })
-    .catch((error: any) => {
-      next && next(error instanceof Error ? error : new Error(error));
-    });
-}
-```
+Now simply access your server in this url:
+> [http://localhost:3000/api/test](http://localhost:3000/api/test)
 
 #### Working with API params
 
@@ -242,24 +198,10 @@ Let's review the working example of saySomething:
 api.controller.ts:
 
 ```typescript
-  saySomething(whatToSay: string) {
-    return Promise.resolve(responses.getOkayResponse(whatToSay));
+  @Get('/say-something') // Route on /api/say-something
+  saySomething(@QueryParams('whatToSay') whatToSay: string) { // Setting the @QueryParams decorator tells express to extract the request.query['whatToSay'] into the whatToSay param.
+    return responses.getOkayResponse(whatToSay);
   }
-```
-
-api.routes.ts:
-
-```typescript
-router.get(
-  '/say-something',
-  (req: express.Request, res: express.Response, next: (data) => void) => {
-    // Ready the url param say
-    const whatToSay = req.param('what') as string;
-
-    // Move the promise response to be handled by the postResponseMiddleware
-    next(controller.saySomething(whatToSay));
-  }
-);
 ```
 
 Now simple open up your browser to the api url with a 'what' param:
@@ -277,11 +219,9 @@ And you will get this output:
 
 #### API middlewares
 
-The api comes with some prepacked middlewares which can be found in the `src/api/middlewares.ts` file:
+The api comes with some prepacked middlewares which can be found in the `src/middlewares` directory:
 
-- `unhandledErrorMiddleware` - Manages runtime errors the occured within a controller (async error occur in a promise are handled in the postErrorMiddleware).
-- `postResponseMiddleware` -This middleware handles data obtained from responses that return either and error or a promise with data. If none of the above return, it will throw an exception.
-- `postErrorMiddleware` - This middleware will handle the errors obtained from the postResponseMiddleware.
+- `auth.middelware` - Authenticates the user against the stored credentials on the database (currently based on Mongoose).
 
 ### Database
 
@@ -290,11 +230,12 @@ You can view the database code at the `src/db.ts` file, which basically is respo
 
 In order to configure the database connection string, please review the `Environment configurations` part of this readme.
 
-### Logging with Winston
+### Logging using Ts.LogDebug
 
-This template comes ready with [winston logger](https://www.npmjs.com/package/winston). By default it will save all of the error logs into the `logs` directory.
+This template comes ready with [Ts.LogDebug](https://typedproject.github.io/ts-log-debug/#/). By default it will save all of the error logs into the `logs` directory.
 In order to edit the logging configurations you must open the `src/logger.ts` file and edit the default export:
 
+> TODO: Add correct info 
 ```typescript
 export default winston.createLogger({
   level: 'info',
@@ -309,16 +250,6 @@ export default winston.createLogger({
 });
 ```
 
-**You can use getExpressLoggingMiddleware in your `app.ts` file to generate log for each request being made.**
-In order for this middleware to work, simply go to the `src/app.ts`  and edit the `mountRoutes` method with the already commented example:
-
-```typescript
-private mountRoutes(): void {
-  // This will import the api routes and log each request being made
-  this.express.use('/api', getExpressLoggingMiddleware(), require('./api/api.routes'));
-}
-```
-
 ### Authentication and roles
 
 This template comes prepacked with JWT authentication and associated middlewares to authenticate users.
@@ -330,45 +261,33 @@ When accessing guarded routes (using the authenticationMiddleware in the `auth.t
 
 For example, let's take a look at a guarded route, such as the `/api/profile`.
 
-In the `api.routes.ts` you can see the following code:
+> TODO: Add correct information
+In the `api.controller.ts` you can see the following code:
 
 ```typescript
-router.get(
-  '/profile',
-  auth.authenticationMiddleware,
-  (req: AppRequest, res: AppResponse, next: (data) => void) => {
-    next(controller.getProfile(req.user));
-  }
-);
-```
-
-The `auth.authenticationMiddleware` will simply check the token and if it's valid, will return the user associated with it in the `req.user` property of the request.
-Which we then deliever to the `api.controller.ts`:
-
-```typescript
-  getProfile(user: UserProfile): Promise<UserProfile> {
-    return Promise.resolve(user);
+  @Get('/profile')
+  @UseBefore(AuthMiddleware)
+  getProfile(@RequestUser() user: UserProfile): UserProfile {
+    return user;
   }
 ```
 
-Simple isn't it? The token is being delievered in the Authorization header in the format of `Authorization: Bearer ${Token}`.
+The `UseBefore` decorator will call the `AuthMiddleware` to check if the user is authorized to login.
 
-What about user roles? Each user profile has an array of `roles` which holds strings which contains the roles relevant for the user. For example, if you add the role `admin` to your user you should be able to access the `/api/admin_test` endpoint as it is guarded using the `getHasRolesMiddleware` method.
+Simple isn't it? The token is being delivered in the Authorization header in the format of `Authorization: Bearer ${Token}`.
+
+What about user roles? Each user profile has an array of `roles` which holds strings which contains the roles relevant for the user. For example, if you add the role `admin` to your user you should be able to access the `/api/admin_test` endpoint as it is guarded using the `AuthMiddleware`.
 
 Let's see how it is implemented.
 
-`src/api/routes`:
+`api.controller.ts`:
 
 ```typescript
-// An example of a route which will only be accessible for users with the 'admin' role
-router.get(
-  '/admin_test',
-  auth.authenticationMiddleware,
-  auth.getHasRolesMiddlware('admin'),
-  (req: AppRequest, res: AppResponse, next: (data) => void) => {
-    next(controller.test());
+  @Get('/admin')
+  @UseBefore(AuthMiddleware, { role: 'admin' })
+  adminTest() {
+    return this.test();
   }
-);
 ```
 
 #### Social Authentication
@@ -410,6 +329,90 @@ The already existing models are:
 
 - ActionResponse - a simple response to a user action performed on the api. The server will send this response, and the client will read it.
 - UserProfile - a simple user profile model to used for authentication.
+
+## Form validations
+
+This template comes with [class-validator](https://www.npmjs.com/package/class-validator) built in. Which makes it a-lot more easier to write form validations.
+As this template shares code between Angular and NodeJS, validations will happen across both platforms.
+
+Let's look at the `UserProfile` model for example:
+```typescript
+import { Form } from './forms';
+import { UserProfile } from './user-profile';
+import { IsEmail, MinLength } from 'class-validator';
+
+export class UserProfileModel extends Form implements UserProfile {
+  @IsEmail()
+  email: string;
+
+  @MinLength(1)
+  firstName: string;
+  @MinLength(1)
+  lastName: string;
+  @MinLength(6)
+  password: string;
+
+  roles?: string[];
+}
+```
+
+The decorators you see like `@IsEmail`, `@MinLength` are class-validator decorators and allows us to easily force fields to pass certain validations.
+
+For example, when registering a user validations takes place in this way:
+- Angular - checks that all fields are valid using the `FormValidatorDirective`, each field on your form will automatically show if it is valid or invalid
+  according to the validation set on it.
+
+  The `FormValidatorDirective` is a directive set on a form which simply checks each input and according to it's name assigns the validations relative to it.
+  Take a look at this example:
+
+
+  `angular-src/src/app/components/register/register.component.html`:
+
+  ```html
+    ...
+    <form #form="ngForm" class="col-12 form" [appFormValidator]="userProfile" [appFormValidatorForce]="true">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" name="email" [(ngModel)]="userProfile.email" id="email"
+                  aria-describedby="helpId" placeholder="mail@gmail.com">
+              </div>
+
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="text" class="form-control" name="password" [(ngModel)]="userProfile.password" id="password"
+                  aria-describedby="helpId" placeholder="Password">
+              </div>
+
+            </div>
+      ...
+  ```
+
+  See the `appFormValidator` directive? it associated with the `userProfile` object, which is an instance of `UserProfileModel`. This allows you to easily
+  Forces validations on forms and errors to the user.
+
+
+- NodeJS - on the server side validations are taken place in this way:
+  `/src/controllers/api.controller.ts`:
+
+  ```typescript
+  @Post('/register')
+  register(@BodyParams() userProfile: UserProfile): Promise<UserProfile> {
+    // Use the class-transformer-validator to build the model from the JSON object and validate it (https://github.com/19majkel94/class-transformer-validator).
+    return transformAndValidate(RegisterForm, userProfile).then((registerForm: RegisterForm) => {
+      return registerForm.getHashedPassword().then(hashedPassword => {
+        return UserProfileDbModel.create({
+          ...registerForm,
+          password: hashedPassword
+        });
+      });
+    });
+  }
+  ```
+
+  This will simply validate all fields easily using the provided model (and will transofrom it from the provided JSON object into a class model instance).
 
 # Running on production
 
