@@ -51,7 +51,7 @@ export class ApiController {
 
   @Get('/profile')
   @UseBefore(AuthMiddleware)
-  getProfile(@RequestUser() user: UserProfile): Promise<UserProfile> {
+  getProfile(user: UserProfile): Promise<UserProfile> {
     return Promise.resolve(user);
   }
 
