@@ -8,10 +8,12 @@ import auth from '../auth';
 import { RequestUser } from '../decorators/request-user';
 import { RegisterForm } from '../forms';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
+import { CorsMiddleware } from '../middlewares/cors.middleware';
 import { UserProfileDbModel } from '../models';
 import * as responses from '../responses';
 
 @Controller('/')
+@UseBefore(CorsMiddleware)
 export class ApiController {
   @Get('/test')
   test() {

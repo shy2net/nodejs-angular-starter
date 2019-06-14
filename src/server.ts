@@ -28,7 +28,6 @@ export class Server extends ServerLoader {
    * @returns {Server}
    */
   $onMountingMiddlewares(): void | Promise<any> {
-    // TODO: Add cors middleware
     this.use(GlobalAcceptMimesMiddleware)
       .use(compress({}))
       .use(bodyParser.json())
