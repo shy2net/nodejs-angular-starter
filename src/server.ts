@@ -21,7 +21,8 @@ const port = process.env.PORT || 3000;
   port,
   mount: {
     '/api': `${rootDir}/controllers/**/*.ts`
-  }
+  },
+  httpsPort: false
 })
 export class Server extends ServerLoader {
   /**
@@ -30,9 +31,9 @@ export class Server extends ServerLoader {
    */
   $onMountingMiddlewares(): void | Promise<any> {
     this.use(GlobalAcceptMimesMiddleware)
-      .use(cors(config.CORS_OPTIONS))
-      .use(compress({}))
-      .use(bodyParser.json())
+      .use(cors(config.CORS_OPTIONS)) // Enable CORS (for angular)
+      .use(compress({})) // Compress all data sent to the client
+      .use(bodyParser.json()) // Use body parser for easier JSON parsing
       .use(
         bodyParser.urlencoded({
           extended: true
@@ -77,8 +78,10 @@ export class Server extends ServerLoader {
         ...this.settings.logger,
         debug: config.DEBUG_MODE,
         level: config.DEBUG_MODE ? 'debug' : 'info',
+        /* --> Uncomment to add request logging
         requestFields: ['reqId', 'method', 'url', 'headers', 'body', 'query', 'params', 'duration'],
         logRequest: true
+        */
       }
     });
 
@@ -86,20 +89,41 @@ export class Server extends ServerLoader {
     const logsDir = path.join(__dirname, 'logs');
 
     // Add file appenders (app.log for all logs, error.log only for errors)
-    $log.appenders
-      .set('file-log', {
-        type: 'file',
-        filename: path.join(logsDir, `app.log`)
-      })
-      .set('file-error-log', {
-        type: 'file',
-        filename: path.join(logsDir, `error.log`),
-        levels: ['error']
-      });
+    $log.appenders.set('file-error-log', {
+      type: 'file',
+      filename: path.join(logsDir, `error.log`),
+      levels: ['error']
+    });
+
+    // --> Uncomment this line if you want to log all data
+    // .set('file-log', {
+    //   type: 'file',
+    //   filename: path.join(logsDir, `app.log`)
+    // });
+  }
+
+  /**
+   * Configures SSL (https) if any configured for this environment.
+   */
+  configureSSL() {
+    const sslConfig = config.SSL_CERTIFICATE;
+
+    if (!sslConfig) return;
+
+    this.setSettings({
+      ...this.settings,
+      httpsPort: 443,
+      httpsOptions: {
+        key: sslConfig.KEY,
+        cert: sslConfig.CERT,
+        ca: sslConfig.CA
+      }
+    });
   }
 
   start() {
     this.configureLogging();
+    this.configureSSL();
 
     if (config.DEBUG_MODE) $log.info(`Debug mode is ON`);
     $log.info(`** Loaded configurations for environment: ${config.ENVIRONMENT} **`);

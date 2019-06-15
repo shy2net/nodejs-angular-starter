@@ -11,6 +11,7 @@
       - [API middlewares](#api-middlewares)
     - [Database](#database)
     - [Logging using Ts.LogDebug](#logging-using-tslogdebug)
+    - [SSL (https support)](#ssl-https-support)
     - [Authentication and roles](#authentication-and-roles)
       - [Social Authentication](#social-authentication)
     - [Environment configurations](#environment-configurations)
@@ -33,14 +34,13 @@ default routes to Angular and all of the known routes to the api.
 Technologies used in this template:
 
 - Angular 7 (with SSR)
-- NodeJS typescript
+- NodeJS express typescript (with SSL support) based on [Ts.ED](https://tsed.io/) - for easier express setup using decorators
 - Mongoose (with basic user model)
+- Logging (using [Ts.LogDebug](https://typedproject.github.io/ts-log-debug/#/))
 - Bootstrap v4 and SCSS by default
 - [JWT](https://jwt.io/) and token authentication built-in (including user roles)
-- Logging (using [Ts.LogDebug](https://typedproject.github.io/ts-log-debug/#/))
 - Social Authentication (Google and Facebook)
-- [Ts.ED](https://tsed.io/) - Easier express with typescript using decorators
-- Form validations using ([class-validator](https://www.npmjs.com/package/class-validator))
+- Form validations using ([class-validator](https://www.npmjs.com/package/class-validator)), shared between server and client
 
 # Starting with this template
 
@@ -156,10 +156,10 @@ Output directory of the compiled typescript will be available in the `out` direc
 I would first recommend you to read the [Getting Started tutorial of Ts.ED](http://tsed.io/getting-started.html). As it will explain really good how
 the decorators help make your express app easier to write, maintain and faster for development.
 
-Within this templatae, NodeJS comes with three working examples of a working api called `test`, `errorTest` and `saySomething`,
+Within this template, NodeJS comes with three working examples of a working api called `test`, `errorTest` and `saySomething`,
 which can be viewed under `src/api/api.controller`.
 
-The way this template is built makes the whole code alot more readable, and easier for testing.
+The way this template is built makes the whole code a-lot more readable, and easier for testing.
 
 api.controller.ts:
 
@@ -222,6 +222,7 @@ And you will get this output:
 The api comes with some prepacked middlewares which can be found in the `src/middlewares` directory:
 
 - `auth.middelware` - Authenticates the user against the stored credentials on the database (currently based on Mongoose).
+- `cors.middleware`- Allows passing CORS using the config.CORS_OPTIONS.
 
 ### Database
 
@@ -265,6 +266,57 @@ You can edit the logging configurations in the `server.ts` file:
         filename: path.join(logsDir, `error.log`),
         levels: ['error']
       });
+  }
+```
+
+### SSL (https support)
+
+This template comes with SSL support right out of the box. The only things you need to configure in your configuration
+file is the SSL_CERTIFICATE:
+
+```typescript
+  SSL_CERTIFICATE: {
+    KEY: string;
+    CERT: string;
+    CA: string;
+  };
+```
+
+Let's say we want to configure the production to enable HTTPS, simply open up the `src/config/production.json` file and configure it as followed:
+```json
+{
+  ...
+  "DB_URI": "production-mongo-uri",
+  "CLIENT_URL": "http://yourwebsite.com",
+  // You must create a certificate in order to enable SSL (you can use https://letsencrypt.org/ for a free certificate)
+  "SSL": {
+    "CA_PATH": "path/to/chain.pem",
+    "PRIVATE_KEY_PATH": "path/to/privkey.pem",
+    "CERTIFICATE_PATH": "path/to/cert.pem"
+  }
+  ...
+}
+```
+
+Now when your server loads up, it will call this method in the `server.ts` file:
+```typescript
+  /**
+   * Configures SSL (https) if any configured for this environment.
+   */
+  configureSSL() {
+    const sslConfig = config.SSL_CERTIFICATE;
+
+    if (!sslConfig) return;
+
+    this.setSettings({
+      ...this.settings,
+      httpsPort: 443,
+      httpsOptions: {
+        key: sslConfig.KEY,
+        cert: sslConfig.CERT,
+        ca: sslConfig.CA
+      }
+    });
   }
 ```
 
