@@ -5,7 +5,7 @@
     "lib": ["es2015"],
     "declaration": true,
     "types": ["reflect-metadata"],
-    "outDir": "out",
+    "outDir": "dist",
     "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

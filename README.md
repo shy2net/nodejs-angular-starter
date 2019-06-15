@@ -553,7 +553,7 @@ In order to run the server as standalone, simply compile it:
 
     npm run build:node
 
-The output will be projected into the `out` directory.
+The output will be projected into the `dist` directory.
 
 ### Angular as standalone
 
