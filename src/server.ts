@@ -87,8 +87,8 @@ export class Server extends ServerLoader {
       }
     });
 
-    // All logs are saved to the logs directory by default
-    const logsDir = path.join(__dirname, 'logs');
+    // All logs are saved to the logs directory by default, you can specify custom directory in the associated configuration file ('LOGS_DIR')
+    const logsDir = config.LOGS_DIR || path.join(__dirname, 'logs');
 
     // Add file appenders (app.log for all logs, error.log only for errors)
     $log.appenders.set('file-error-log', {
