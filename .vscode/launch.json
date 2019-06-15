@@ -44,6 +44,20 @@
             "name": "Attach to Chrome",
             "port": 9222,
             "webRoot": "${workspaceFolder}/angular-src"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Server Mocha Tests",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--inspect-brk",
+                "-r",
+                "ts-node/register",
+                "${workspaceFolder}/src/**/*.spec.ts",
+            ],
+            "port": 9229,
+            "internalConsoleOptions": "openOnSessionStart"
         }
     ]
 }

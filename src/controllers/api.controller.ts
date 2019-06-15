@@ -5,7 +5,7 @@ import { BodyParams, Controller, Get, Post, QueryParams, UseBefore } from '@tsed
 
 import { ActionResponse, LoginActionResponse, UserProfile } from '../../shared/models';
 import auth from '../auth';
-import { RequestUser } from '../decorators/request-user';
+import { RequestUser } from '../decorators/request-user.decorator';
 import { RegisterForm } from '../forms';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { UserProfileDbModel } from '../models';
