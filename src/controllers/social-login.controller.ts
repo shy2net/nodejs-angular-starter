@@ -6,6 +6,7 @@ import auth from '../auth';
 import * as responses from '../responses';
 import { Request, Response, NextFunction } from 'express';
 import { BadRequest } from 'ts-httpexceptions';
+import { middlewareToPromise } from '../server-utils';
 
 @Controller('/social-login')
 export class SocialLoginController {
@@ -16,15 +17,11 @@ export class SocialLoginController {
     @Req() req?: Request,
     @Res() res?: Response
   ): Promise<LoginActionResponse> {
+    // If this is not unit testing and we have obtained a request
     if (req) {
-      // TODO: Use promisify
-      await new Promise((resolve, reject) => {
-        passport.authenticate(`${provider}-token`, { session: false })(req, res, err => {
-          if (err) throw new BadRequest(err);
-          user = req.user;
-          resolve();
-        });
-      });
+      // Wait for the passport middleware to run
+      await middlewareToPromise(passport.authenticate(`${provider}-token`, { session: false }), req, res); // Authenticate using the provider suitable (google-token, facebook-token)
+      user = req.user;
     }
 
     const token = auth.generateToken(user);

@@ -10,7 +10,7 @@ export class RequestUserFilter implements IFilter {
 }
 
 /**
- * Returns the authenticated user.
+ * Returns the authenticated user (extracted from the request.user object).
  */
 export function RequestUser(): Function {
   return ParamRegistry.decorate(RequestUserFilter);

@@ -1,5 +1,9 @@
 import { ValidationError } from 'class-validator';
 
+/**
+ * Returns a textual presentation of ValidationErrors array detected with the class-validator library.
+ * @param errors
+ */
 export function getFormValidationErrorText(errors: Array<ValidationError>) {
   let output = `Supplied form is invalid, please fix the following issues:\n`;
   errors.map(issue => getTextualValidationError(issue)).forEach(issueStr => (output += issueStr));
@@ -7,6 +11,10 @@ export function getFormValidationErrorText(errors: Array<ValidationError>) {
   return output;
 }
 
+/**
+ * Returns a textual presentation of a validation error.
+ * @param error
+ */
 export function getTextualValidationError(error: ValidationError): string {
   let output = `${error.property}:\n`;
 

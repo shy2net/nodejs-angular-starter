@@ -16,7 +16,7 @@ export abstract class Form {
     if (!formIssues) return null;
     formIssues.map(issue => getTextualValidationError(issue)).forEach(issueStr => (output += issueStr));
 
-    return new Error(getFormValidationErrorText(await this.getFormIssues());
+    return new Error(getFormValidationErrorText(await this.getFormIssues()));
   }
 
   toJson(): Promise<any> {
