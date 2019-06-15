@@ -61,6 +61,6 @@ typings/
 .idea
 
 # Javascript output directory
-out
+dist
 
 package-lock.json

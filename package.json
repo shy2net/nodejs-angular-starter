@@ -5,15 +5,14 @@
     "scripts": {
         "postinstall": "cd angular-src && npm install",
         "build": "sh ./build.sh",
-        "angular": "cd angular-src && ./node_modules/.bin/ng serve",
+        "angular": "cd angular-src && sh ./node_modules/.bin/ng serve",
         "start": "node out/src/index.js",
         "build:node": "rm -rf out && tsc -p .",
         "build:nodelive": "./node_modules/.bin/nodemon --ignore angular-src --exec ./node_modules/.bin/ts-node -- ./src/index.ts -debug",
         "build:angular": "cd angular-src && ng build --aot --prod",
-        "copy-config": "sh ./copy-config.sh",
-        "node": "npm run copy-config && npm run build:nodelive",
+        "node": "npm run predebug && npm run build:nodelive",
         "test": "./node_modules/.bin/mocha -r ts-node/register src/**/*.spec.ts",
-        "predebug": "./node_modules/.bin/tsc -p . && npm run copy-config && echo Building typescript... && echo Ready for debugging!"
+        "predebug": "sh ./predebug.sh"
     },
     "engines": {
         "node": "8.11.3",
