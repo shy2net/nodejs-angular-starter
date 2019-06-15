@@ -1,3 +1,5 @@
+import './middlewares/error-handler.middleware';
+
 import * as cors from 'cors';
 import * as express from 'express';
 import * as path from 'path';
@@ -77,7 +79,7 @@ export class Server extends ServerLoader {
       logger: {
         ...this.settings.logger,
         debug: config.DEBUG_MODE,
-        level: config.DEBUG_MODE ? 'debug' : 'info',
+        level: config.DEBUG_MODE ? 'debug' : 'info'
         /* --> Uncomment to add request logging
         requestFields: ['reqId', 'method', 'url', 'headers', 'body', 'query', 'params', 'duration'],
         logRequest: true

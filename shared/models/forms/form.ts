@@ -1,5 +1,5 @@
 import { validate, ValidationError } from 'class-validator';
-import { getTextualValidationError } from '../../shared-utils';
+import { getTextualValidationError, getFormValidationErrorText } from '../../shared-utils';
 
 export abstract class Form {
   async isValid(): Promise<boolean> {
@@ -16,7 +16,7 @@ export abstract class Form {
     if (!formIssues) return null;
     formIssues.map(issue => getTextualValidationError(issue)).forEach(issueStr => (output += issueStr));
 
-    return new Error(output);
+    return new Error(getFormValidationErrorText(await this.getFormIssues());
   }
 
   toJson(): Promise<any> {

@@ -22,7 +22,7 @@ POST {{api}}/register HTTP/1.1
 content-type: application/json
 
 {
-    "email":"johnny@bravo.com",
+    "email":"johnnybravo.com",
     "password": "mypass",
     "firstName": "Johnny",
     "lastName": "Bravo"
