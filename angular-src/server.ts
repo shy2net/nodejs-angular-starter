@@ -1,9 +1,7 @@
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 
-import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
-import * as cors from 'cors';
 import * as express from 'express';
 import { join } from 'path';
 
@@ -21,10 +19,7 @@ export function init(app, dist_folder) {
 
   // const DIST_FOLDER = join(process.cwd(), 'dist');
 
-  const {
-    AppServerModuleNgFactory,
-    LAZY_MODULE_MAP
-  } = require('./dist/server/main');
+  const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main');
 
   app.engine(
     'html',
