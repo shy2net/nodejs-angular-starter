@@ -69,9 +69,9 @@ export class ApiController {
   }
 
   @Post('/register')
-  register(@BodyParams() userProfile: UserProfile): Promise<UserProfile> {
+  register(@BodyParams() registerForm: RegisterForm): Promise<UserProfile> {
     // Use the class-transformer-validator to build the model from the JSON object and validate it (https://github.com/19majkel94/class-transformer-validator).
-    return transformAndValidate(RegisterForm, userProfile).then((registerForm: RegisterForm) => {
+    return transformAndValidate(RegisterForm, registerForm).then((registerForm: RegisterForm) => {
       // Hash the user password and create it afterwards
       return registerForm.getHashedPassword().then(hashedPassword => {
         return UserProfileDbModel.create({

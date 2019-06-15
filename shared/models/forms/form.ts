@@ -13,6 +13,7 @@ export abstract class Form {
   async getFormError(): Promise<Error> {
     let output = `Supplied form is invalid, please fix the following issues:\n`;
     const formIssues = await this.getFormIssues();
+    if (!formIssues) return null;
     formIssues.map(issue => getTextualValidationError(issue)).forEach(issueStr => (output += issueStr));
 
     return new Error(output);
