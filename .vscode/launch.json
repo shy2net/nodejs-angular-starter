@@ -9,7 +9,7 @@
             "name": "Launch NodeJS",
             "program": "${workspaceRoot}/src/index.ts",
             "outFiles": [
-                "${workspaceRoot}/out/**/*.js"
+                "${workspaceRoot}/dist/**/*.js"
             ],
             "args": [
                 "-debug"
@@ -23,7 +23,7 @@
             "name": "Fast Launch NodeJS (run tsc --watch before in the background)",
             "program": "${workspaceRoot}/src/index.ts",
             "outFiles": [
-                "${workspaceRoot}/out/**/*.js"
+                "${workspaceRoot}/dist/**/*.js"
             ],
             "args": [
                 "-debug"

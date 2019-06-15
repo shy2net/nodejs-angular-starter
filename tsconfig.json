@@ -15,6 +15,6 @@
     "angular-src",
     "src/tests",
     "node_modules",
-    "out"
+    "dist"
   ]
 }
