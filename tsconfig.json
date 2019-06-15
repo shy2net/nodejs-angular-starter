@@ -3,13 +3,21 @@
     "target": "es6",
     "module": "commonjs",
     "lib": ["es2015"],
+    "baseUrl": "./",
     "declaration": true,
     "types": ["reflect-metadata"],
     "outDir": "dist",
     "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strict": false
+    "strict": false,
+    "paths": {
+      "@shared": ["shared/index.ts"],
+      "@shared/*": ["shared/*"],
+      "@models": ["src/models/index.ts"],
+      "@models/*": ["src/models/*"],
+      "@config": ["src/config.ts"]
+    }
   },
   "exclude": [
     "angular-src",

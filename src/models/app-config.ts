@@ -1,5 +1,4 @@
 import * as cors from 'cors';
-import { Model } from 'mongoose';
 
 export interface AppConfig {
   ENVIRONMENT: string;
@@ -11,7 +10,7 @@ export interface AppConfig {
     CERT: string;
     CA: string;
   };
-  SOCIAL_CREDENTAILS: {};
+  SOCIAL_CREDENTIALS: {};
   CORS_OPTIONS: cors.CorsOptions;
   LOGS_DIR: string;
   DEBUG_MODE: boolean;

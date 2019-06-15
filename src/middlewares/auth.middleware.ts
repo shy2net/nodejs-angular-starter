@@ -1,9 +1,13 @@
-import { EndpointInfo, IMiddleware, Middleware, Req } from '@tsed/common';
-import { Forbidden, Unauthorized, InternalServerError } from 'ts-httpexceptions';
-import { AppRequest } from '../models';
 import * as jwt from 'jsonwebtoken';
+import { Forbidden, InternalServerError, Unauthorized } from 'ts-httpexceptions';
+
+import { EndpointInfo, IMiddleware, Middleware, Req } from '@tsed/common';
+
 import config from '../config';
+import { AppRequest } from '../models/app-req-res';
 import { IUserProfileDbModel, UserProfileDbModel } from '../models/user-profile.db.model';
+
+// import { AppRequest, IUserProfileDbModel, UserProfileDbModel } from '@models';
 
 /**
  * This authentication middleware validates the user token, makes sure if it is still valid in the database
@@ -38,6 +42,6 @@ export class AuthMiddleware implements IMiddleware {
       }
     }
 
-    throw new Unauthorized(`No credentails were provided!`);
+    throw new Unauthorized(`No credentials were provided!`);
   }
 }

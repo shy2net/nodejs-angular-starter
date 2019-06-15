@@ -1,3 +1,3 @@
-export { AppConfig } from './app-config';
-export { AppRequest, AppResponse } from './app-req-res';
-export { UserProfileDbModel } from './user-profile.db.model';
+export * from './app-config';
+export * from './app-req-res';
+export * from './user-profile.db.model';
