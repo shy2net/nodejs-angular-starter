@@ -48,7 +48,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Server Mocha Tests",
+            "name": "Debug Server Mocha Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/mocha",
             "args": [
                 "--inspect-brk",

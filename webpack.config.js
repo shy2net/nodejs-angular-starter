@@ -1,15 +1,21 @@
 const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
+
+const { NODE_ENV = 'production' } = process.env;
 
 module.exports = {
   entry: './src/index.ts',
+  mode: NODE_ENV,
+  target: 'node',
   devtool: 'inline-source-map',
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
+        use: 'ts-loader'
+        // exclude: /node_modules/
       }
     ]
   },
@@ -20,6 +26,5 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')
-  },
-  target: 'node'
+  }
 };
