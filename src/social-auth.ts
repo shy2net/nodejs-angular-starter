@@ -17,7 +17,7 @@ export class SocialAuthentication {
   }
 
   initFacebook() {
-    const facebookCredentails = config.SOCIAL_CREDENTAILS['facebook'] as {
+    const facebookCredentails = config.SOCIAL_CREDENTIALS['facebook'] as {
       APP_ID: string;
       APP_SECRET: string;
     };
@@ -49,7 +49,7 @@ export class SocialAuthentication {
   }
 
   initGoogle() {
-    const googleCredentails = config.SOCIAL_CREDENTAILS['google'] as {
+    const googleCredentails = config.SOCIAL_CREDENTIALS['google'] as {
       APP_ID: string;
       APP_SECRET: string;
     };
