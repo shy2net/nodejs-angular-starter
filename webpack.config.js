@@ -1,6 +1,7 @@
 const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const { NODE_ENV = 'production' } = process.env;
 
@@ -23,6 +24,11 @@ module.exports = {
     plugins: [new TsconfigPathsPlugin()],
     extensions: ['.tsx', '.ts', '.js']
   },
+  plugins: [
+    new CopyPlugin([{ from: 'src/config', to: 'config' }], {
+      force: true
+    })
+  ],
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')
