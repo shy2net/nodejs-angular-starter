@@ -25,6 +25,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
+    // Copy all of the configuration files
     new CopyPlugin([{ from: 'src/config', to: 'config' }], {
       force: true
     })
