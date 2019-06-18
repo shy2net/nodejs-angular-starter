@@ -10,6 +10,9 @@ module.exports = {
   mode: NODE_ENV,
   target: 'node',
   devtool: 'inline-source-map',
+  node: {
+    __dirname: false
+  },
   externals: [nodeExternals()],
   module: {
     rules: [
@@ -32,6 +35,7 @@ module.exports = {
   ],
   output: {
     filename: 'main.js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   }
 };
