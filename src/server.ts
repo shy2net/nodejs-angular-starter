@@ -55,6 +55,14 @@ export class Server extends ServerLoader {
   }
 
   /**
+   * Called after routes has been mounted.
+   */
+  $afterRoutesInit(): void {
+    // If we are not on debug mode, mount angular
+    if (!config.DEBUG_MODE) this.mountAngular();
+  }
+
+  /**
    * Mounts angular using Server-Side-Rendering (Recommended for SEO)
    */
   private mountAngularSSR(): void {
@@ -143,9 +151,6 @@ export class Server extends ServerLoader {
     $log.info(`Connecting to database...`);
 
     return db.init().then(result => {
-      // If we are not on debug mode, mount angular
-      if (!config.DEBUG_MODE) this.mountAngular();
-
       return super.start();
     });
   }
