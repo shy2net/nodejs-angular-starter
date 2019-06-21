@@ -5,7 +5,13 @@ import * as express from 'express';
 import * as path from 'path';
 import { $log } from 'ts-log-debug';
 
-import { GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings } from '@tsed/common';
+import {
+  GlobalAcceptMimesMiddleware,
+  ServerLoader,
+  ServerSettings,
+  IServerSettings,
+  ILoggerSettings
+} from '@tsed/common';
 
 import auth from './auth';
 import config from './config';
@@ -71,22 +77,9 @@ export class Server extends ServerLoader {
   }
 
   /**
-   * Configures all of the logging in the server.
+   * Returns the logger configurations.
    */
-  private configureLogging() {
-    this.setSettings({
-      ...this.settings,
-      logger: {
-        ...this.settings.logger,
-        debug: config.DEBUG_MODE,
-        level: config.DEBUG_MODE ? 'debug' : 'info'
-        /* --> Uncomment to add request logging
-        requestFields: ['reqId', 'method', 'url', 'headers', 'body', 'query', 'params', 'duration'],
-        logRequest: true
-        */
-      }
-    });
-
+  private getLoggerConfigurations(settings: IServerSettings): Partial<ILoggerSettings> {
     // All logs are saved to the logs directory by default, you can specify custom directory in the associated configuration file ('LOGS_DIR')
     const logsDir = config.LOGS_DIR || path.join(__dirname, 'logs');
 
@@ -102,31 +95,49 @@ export class Server extends ServerLoader {
     //   type: 'file',
     //   filename: path.join(logsDir, `app.log`)
     // });
+
+    return {
+      ...settings.logger,
+      debug: config.DEBUG_MODE,
+      level: config.DEBUG_MODE ? 'debug' : 'info'
+      /* --> Uncomment to add request logging
+        requestFields: ['reqId', 'method', 'url', 'headers', 'body', 'query', 'params', 'duration'],
+        logRequest: true
+        */
+    };
   }
 
   /**
-   * Configures SSL (https) if any configured for this environment.
+   * Returns the SSL (https) if any configured for this environment.
    */
-  configureSSL() {
+  getSSLConfigurations() {
     const sslConfig = config.SSL_CERTIFICATE;
 
-    if (!sslConfig) return;
+    if (!sslConfig) return {};
 
-    this.setSettings({
-      ...this.settings,
+    return {
       httpsPort: 443,
       httpsOptions: {
         key: sslConfig.KEY,
         cert: sslConfig.CERT,
         ca: sslConfig.CA
       }
+    };
+  }
+
+  /**
+   * Override set settings by configuring custom settings.
+   * @param settings
+   */
+  setSettings(settings: IServerSettings) {
+    super.setSettings({
+      ...settings,
+      logger: this.getLoggerConfigurations(settings),
+      ...this.getSSLConfigurations()
     });
   }
 
   start() {
-    this.configureLogging();
-    this.configureSSL();
-
     if (config.DEBUG_MODE) $log.info(`Debug mode is ON`);
     $log.info(`** Loaded configurations for environment: ${config.ENVIRONMENT} **`);
     $log.info(`Connecting to database...`);
