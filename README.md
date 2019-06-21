@@ -1,29 +1,29 @@
-- [Introduction](#introduction)
-- [Starting with this template](#starting-with-this-template)
-- [Template architecture](#template-architecture)
-  - [Angular 7](#angular-7)
-    - [Angular services & providers](#angular-services--providers)
-    - [Angular components](#angular-components)
-    - [Angular Universal (Server-Side-Rendering)](#angular-universal-server-side-rendering)
-  - [NodeJS](#nodejs)
-    - [How the API works](#how-the-api-works)
-      - [Working with API params](#working-with-api-params)
-      - [API middlewares](#api-middlewares)
-    - [Database](#database)
-    - [Logging using Ts.LogDebug](#logging-using-tslogdebug)
-    - [SSL (https support)](#ssl-https-support)
-    - [Authentication and roles](#authentication-and-roles)
-      - [Social Authentication](#social-authentication)
-    - [Environment configurations](#environment-configurations)
-    - [Unit Testing](#unit-testing)
-  - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
-  - [Form validations](#form-validations)
-- [Running on production](#running-on-production)
-  - [Running Angular and NodeJS on the same server](#running-angular-and-nodejs-on-the-same-server)
-    - [The build script (build.sh)](#the-build-script-buildsh)
-  - [Seperating client and server](#seperating-client-and-server)
-    - [Server as standalone](#server-as-standalone)
-    - [Angular as standalone](#angular-as-standalone)
+- [Introduction](#Introduction)
+- [Starting with this template](#Starting-with-this-template)
+- [Template architecture](#Template-architecture)
+  - [Angular 7](#Angular-7)
+    - [Angular services & providers](#Angular-services--providers)
+    - [Angular components](#Angular-components)
+    - [Angular Universal (Server-Side-Rendering)](#Angular-Universal-Server-Side-Rendering)
+  - [NodeJS](#NodeJS)
+    - [How the API works](#How-the-API-works)
+      - [Working with API params](#Working-with-API-params)
+      - [API middlewares](#API-middlewares)
+    - [Database](#Database)
+    - [Logging using Ts.LogDebug](#Logging-using-TsLogDebug)
+    - [SSL (https support)](#SSL-https-support)
+    - [Authentication and roles](#Authentication-and-roles)
+      - [Social Authentication](#Social-Authentication)
+    - [Environment configurations](#Environment-configurations)
+    - [Unit Testing](#Unit-Testing)
+  - [Sharing code (models, interfaces, etc)](#Sharing-code-models-interfaces-etc)
+  - [Form validations](#Form-validations)
+- [Running on production](#Running-on-production)
+  - [Running Angular and NodeJS on the same server](#Running-Angular-and-NodeJS-on-the-same-server)
+    - [The build script (build.sh)](#The-build-script-buildsh)
+  - [Seperating client and server](#Seperating-client-and-server)
+    - [Server as standalone](#Server-as-standalone)
+    - [Angular as standalone](#Angular-as-standalone)
 
 # Introduction
 
@@ -238,34 +238,34 @@ You can edit the logging configurations in the `server.ts` file:
 
 ```typescript
   /**
-   * Configures all of the logging in the server.
+   * Returns the logger configurations.
    */
-  private configureLogging() {
-    this.setSettings({
-      ...this.settings,
-      logger: {
-        ...this.settings.logger,
-        debug: config.DEBUG_MODE,
-        level: config.DEBUG_MODE ? 'debug' : 'info',
-        requestFields: ['reqId', 'method', 'url', 'headers', 'body', 'query', 'params', 'duration'],
-        logRequest: true
-      }
-    });
-
-    // All logs are saved to the logs directory by default
-    const logsDir = path.join(__dirname, 'logs');
+  private getLoggerConfigurations(settings: IServerSettings): Partial<ILoggerSettings> {
+    // All logs are saved to the logs directory by default, you can specify custom directory in the associated configuration file ('LOGS_DIR')
+    const logsDir = config.LOGS_DIR || path.join(__dirname, 'logs');
 
     // Add file appenders (app.log for all logs, error.log only for errors)
-    $log.appenders
-      .set('file-log', {
-        type: 'file',
-        filename: path.join(logsDir, `app.log`)
-      })
-      .set('file-error-log', {
-        type: 'file',
-        filename: path.join(logsDir, `error.log`),
-        levels: ['error']
-      });
+    $log.appenders.set('file-error-log', {
+      type: 'file',
+      filename: path.join(logsDir, `error.log`),
+      levels: ['error']
+    });
+
+    // --> Uncomment this line if you want to log all data
+    // .set('file-log', {
+    //   type: 'file',
+    //   filename: path.join(logsDir, `app.log`)
+    // });
+
+    return {
+      ...settings.logger,
+      debug: config.DEBUG_MODE,
+      level: config.DEBUG_MODE ? 'debug' : 'info'
+      /* --> Uncomment to add request logging
+        requestFields: ['reqId', 'method', 'url', 'headers', 'body', 'query', 'params', 'duration'],
+        logRequest: true
+        */
+    };
   }
 ```
 
@@ -301,22 +301,21 @@ Let's say we want to configure the production to enable HTTPS, simply open up th
 Now when your server loads up, it will call this method in the `server.ts` file:
 ```typescript
   /**
-   * Configures SSL (https) if any configured for this environment.
+   * Returns the SSL (https) if any configured for this environment.
    */
-  configureSSL() {
+  getSSLConfigurations() {
     const sslConfig = config.SSL_CERTIFICATE;
 
-    if (!sslConfig) return;
+    if (!sslConfig) return {};
 
-    this.setSettings({
-      ...this.settings,
+    return {
       httpsPort: 443,
       httpsOptions: {
         key: sslConfig.KEY,
         cert: sslConfig.CERT,
         ca: sslConfig.CA
       }
-    });
+    };
   }
 ```
 
