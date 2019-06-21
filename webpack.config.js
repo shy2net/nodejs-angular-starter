@@ -5,6 +5,10 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 const { NODE_ENV = 'production' } = process.env;
 
+/**
+ * Using webpack for the server allows us to easily upload it into the cloud. This feature is not yet supported.
+ */
+
 module.exports = {
   entry: './src/index.ts',
   mode: NODE_ENV,
