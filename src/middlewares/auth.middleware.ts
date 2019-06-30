@@ -16,6 +16,9 @@ import { IUserProfileDbModel, UserProfileDbModel } from '../models/user-profile.
 @Middleware()
 export class AuthMiddleware implements IMiddleware {
   public use(@Req() request: AppRequest, @EndpointInfo() endpoint: EndpointInfo) {
+    // Always allow OPTIONS requests to pass
+    if (request.method === 'OPTIONS') return;
+
     // retrieve options given to the @UseAuth decorator
     const options = endpoint.get(AuthMiddleware) || {};
 
