@@ -7,7 +7,6 @@ import { Injectable } from '@angular/core';
 import { UserProfile } from '../../../../../shared/models';
 import { ApiService } from './api.service';
 
-
 @Injectable()
 export class AuthService {
   _user: UserProfile;
@@ -94,10 +93,7 @@ export class AuthService {
     return false;
   }
 
-  constructor(
-    private apiService: ApiService,
-    private cookieService: CookieService
-  ) {}
+  constructor(private apiService: ApiService, private cookieService: CookieService) {}
 
   checkLogin(): Observable<UserProfile> {
     if (!this.hasCredentails) {
@@ -106,27 +102,32 @@ export class AuthService {
     }
 
     this.loginChecked = false;
-    return this.apiService.getProfile().pipe(tap(
-      response => {
-        this.user = response;
-      },
-      error => {
-        this.loginChecked = true;
-      }
-    ));
+    return this.apiService.getProfile().pipe(
+      tap(
+        response => {
+          this.loginChecked = true;
+          this.user = response;
+        },
+        error => {
+          this.loginChecked = true;
+        }
+      )
+    );
   }
 
   login(email: string, password: string) {
-    return this.apiService.login(email, password).pipe(tap(
-      result => {
-        this.cookieService.put(`auth_token`, result.data.token);
-        this.user = result.data.profile;
-      },
-      error => {
-        this.userChanged.error(error);
-        console.error(error);
-      }
-    ));
+    return this.apiService.login(email, password).pipe(
+      tap(
+        result => {
+          this.cookieService.put(`auth_token`, result.data.token);
+          this.user = result.data.profile;
+        },
+        error => {
+          this.userChanged.error(error);
+          console.error(error);
+        }
+      )
+    );
   }
 
   /**
