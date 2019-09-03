@@ -21,15 +21,15 @@ import socialAuth from './social-auth';
 const bodyParser = require('body-parser');
 const compress = require('compression');
 const rootDir = __dirname;
-const port = process.env.PORT || 3000;
+const httpPort = process.env.PORT || 3000;
 
 @ServerSettings({
   rootDir,
   acceptMimes: ['application/json'],
-  port,
   mount: {
     '/api': `${rootDir}/controllers/**/*.ts`
   },
+  httpPort,
   httpsPort: false
 })
 export class Server extends ServerLoader {
@@ -137,12 +137,18 @@ export class Server extends ServerLoader {
    * Override set settings by configuring custom settings.
    * @param settings
    */
-  setSettings(settings: IServerSettings) {
-    super.setSettings({
-      ...settings,
-      logger: this.getLoggerConfigurations(settings),
-      ...this.getSSLConfigurations()
+  protected async loadSettingsAndInjector() {
+    // Apply the logger configurations
+    const loggerConfig = this.getLoggerConfigurations(this.settings);
+    this.settings.set('logger', loggerConfig);
+
+    // Apply the SSL configurations
+    const sslConfig = this.getSSLConfigurations();
+    Object.keys(sslConfig).forEach(key => {
+      this.settings.put(key, sslConfig[key]);
     });
+
+    return super.loadSettingsAndInjector();
   }
 
   start() {

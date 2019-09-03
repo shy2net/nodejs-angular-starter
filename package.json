@@ -55,9 +55,9 @@
         "webpack-node-externals": "^1.7.2"
     },
     "dependencies": {
-        "@tsed/common": "^5.18.1",
-        "@tsed/core": "^5.18.1",
-        "@tsed/di": "^5.18.1",
+        "@tsed/common": "^5.28.0",
+        "@tsed/core": "^5.28.0",
+        "@tsed/di": "^5.28.0",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.2",
         "class-transformer": "^0.2.3",
