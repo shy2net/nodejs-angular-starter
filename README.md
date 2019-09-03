@@ -1,39 +1,39 @@
-- [Introduction](#Introduction)
-- [Starting with this template](#Starting-with-this-template)
-- [Template architecture](#Template-architecture)
-  - [Angular 7](#Angular-7)
-    - [Angular services & providers](#Angular-services--providers)
-    - [Angular components](#Angular-components)
-    - [Angular Universal (Server-Side-Rendering)](#Angular-Universal-Server-Side-Rendering)
-  - [NodeJS](#NodeJS)
-    - [How the API works](#How-the-API-works)
-      - [Working with API params](#Working-with-API-params)
-      - [API middlewares](#API-middlewares)
-    - [Database](#Database)
-    - [Logging using Ts.LogDebug](#Logging-using-TsLogDebug)
-    - [SSL (https support)](#SSL-https-support)
-    - [Authentication and roles](#Authentication-and-roles)
-      - [Social Authentication](#Social-Authentication)
-    - [Environment configurations](#Environment-configurations)
-    - [Unit Testing](#Unit-Testing)
-  - [Sharing code (models, interfaces, etc)](#Sharing-code-models-interfaces-etc)
-  - [Form validations](#Form-validations)
-- [Running on production](#Running-on-production)
-  - [Running Angular and NodeJS on the same server](#Running-Angular-and-NodeJS-on-the-same-server)
-    - [The build script (build.sh)](#The-build-script-buildsh)
-  - [Seperating client and server](#Seperating-client-and-server)
-    - [Server as standalone](#Server-as-standalone)
-    - [Angular as standalone](#Angular-as-standalone)
+- [Introduction](#introduction)
+- [Starting with this template](#starting-with-this-template)
+- [Template architecture](#template-architecture)
+  - [Angular 8](#angular-8)
+    - [Angular services & providers](#angular-services--providers)
+    - [Angular components](#angular-components)
+    - [Angular Universal (Server-Side-Rendering)](#angular-universal-server-side-rendering)
+  - [NodeJS](#nodejs)
+    - [How the API works](#how-the-api-works)
+      - [Working with API params](#working-with-api-params)
+      - [API middlewares](#api-middlewares)
+    - [Database](#database)
+    - [Logging using Ts.LogDebug](#logging-using-tslogdebug)
+    - [SSL (https support)](#ssl-https-support)
+    - [Authentication and roles](#authentication-and-roles)
+      - [Social Authentication](#social-authentication)
+    - [Environment configurations](#environment-configurations)
+    - [Unit Testing](#unit-testing)
+  - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
+  - [Form validations](#form-validations)
+- [Running on production](#running-on-production)
+  - [Running Angular and NodeJS on the same server](#running-angular-and-nodejs-on-the-same-server)
+    - [The build script (build.sh)](#the-build-script-buildsh)
+  - [Seperating client and server](#seperating-client-and-server)
+    - [Server as standalone](#server-as-standalone)
+    - [Angular as standalone](#angular-as-standalone)
 
 # Introduction
 
-This starter template comes with NodeJS (typescript) and Angular 7. It shares models between Angular
-and NodeJS. Both of the NodeJS and and Angular 7 can run on the same webserver as the NodeJS exposes all of the
+This starter template comes with NodeJS (typescript) and Angular 8. It shares models between Angular
+and NodeJS. Both of the NodeJS and and Angular 8 can run on the same webserver as the NodeJS exposes all of the
 default routes to Angular and all of the known routes to the api.
 
 Technologies used in this template:
 
-- Angular 7 (with SSR)
+- Angular 8 (with SSR)
 - NodeJS express typescript (with SSL support) based on [Ts.ED](https://tsed.io/) - for easier express setup using decorators
 - Mongoose (with basic user model)
 - Logging (using [Ts.LogDebug](https://typedproject.github.io/ts-log-debug/#/))
@@ -64,9 +64,9 @@ These list of commands will install, compile and run the output NodeJS.
 
 The template comes with a ready to go server and client integration, authentication and basic styling.
 
-## Angular 7
+## Angular 8
 
-Angular 7 comes with the following features:
+Angular 8 comes with the following features:
 
 - Bootstrap v4 with header and sticky footer.
 - Built in SSR bundled with the api server.
@@ -76,7 +76,7 @@ Angular 7 comes with the following features:
 - Built in social authentication (Google and Facebook).
 - Build in form validations using class-validator (https://github.com/typestack/class-validator) implemented using the `FormValidatorDirective`.
 
-The code of Angular 7 is stored under the `angular-src` directory.
+The code of Angular 8 is stored under the `angular-src` directory.
 
 ### Angular services & providers
 
