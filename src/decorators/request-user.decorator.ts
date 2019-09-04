@@ -1,4 +1,4 @@
-import { IFilter, Filter, ParseService, ParamRegistry } from '@tsed/common';
+import { IFilter, Filter, ParseService, UseFilter } from '@tsed/common';
 
 @Filter()
 export class RequestUserFilter implements IFilter {
@@ -13,5 +13,5 @@ export class RequestUserFilter implements IFilter {
  * Returns the authenticated user (extracted from the request.user object).
  */
 export function RequestUser(): Function {
-  return ParamRegistry.decorate(RequestUserFilter);
+  return UseFilter(RequestUserFilter);
 }

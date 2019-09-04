@@ -37,7 +37,7 @@ export class Server extends ServerLoader {
    * This method let you configure the express middleware required by your application to works.
    * @returns {Server}
    */
-  $onMountingMiddlewares(): void | Promise<any> {
+  $beforeRoutesInit(): void | Promise<any> {
     this.use(GlobalAcceptMimesMiddleware)
       .use(cors(config.CORS_OPTIONS)) // Enable CORS (for angular)
       .use(compress({})) // Compress all data sent to the client
