@@ -1,6 +1,6 @@
 import { Err, GlobalErrorHandlerMiddleware, OverrideProvider, Req, Res } from '@tsed/common';
 import { ValidationError } from 'class-validator';
-import { BadRequest } from 'ts-httpexceptions';
+import { BadRequest, Exception } from 'ts-httpexceptions';
 import { getFormValidationErrorText } from '../../shared/shared-utils';
 
 /**
@@ -17,6 +17,15 @@ export class ErrorHandlerMiddleware extends GlobalErrorHandlerMiddleware {
         error = new BadRequest(getFormValidationErrorText(error));
     }
 
+    // If it's an HTTP exception, return it to the client correctly for the client to handle
+    if (error instanceof Exception) {
+      return response.status(error.status || 500).json({
+        status: 'error',
+        error: error.message
+      });
+    }
+
+    // We don't know of this error, return it
     return super.use(error, request, response);
   }
 }
