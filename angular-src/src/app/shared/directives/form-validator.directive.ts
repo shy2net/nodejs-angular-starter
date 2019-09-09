@@ -23,6 +23,12 @@ import { Form } from '../../../../../shared/models/forms/form';
 export class FormValidatorDirective implements AfterViewInit, OnChanges {
   @Input() appFormValidator: Form;
   /**
+   *Hides all of the form validation errors text.
+   *
+   * @memberof FormValidatorDirective
+   */
+  @Input() appFormValidatorHideErrorText = false;
+  /**
    * Forces all fields to show valid or invalid even if the user hasn't changed the value.
    */
   @Input() appFormValidatorForce: boolean;
@@ -74,7 +80,7 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ('appFormValidator' in changes) this.updateForm();
+    if ('appFormValidator' in changes || 'appFormValidatorHideErrorText' in changes) this.updateForm();
   }
 
   /**
@@ -88,6 +94,8 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges {
     el.classList.remove('is-valid', 'is-invalid');
     el.classList.add(error ? 'is-invalid' : 'is-valid');
 
+    // If we don't want to show any validation error text
+    if (this.appFormValidatorHideErrorText) return;
     const validationDesc = el.nextElementSibling;
 
     if (validationDesc) {
