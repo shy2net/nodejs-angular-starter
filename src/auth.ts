@@ -34,7 +34,7 @@ export class Authentication {
    * @param user
    */
   generateToken(user: UserProfile): string {
-    return jwt.sign(user, config.JWT_SECRET);
+    return jwt.sign(user, config.JWT.SECRET, config.JWT.OPTIONS);
   }
 
   /**
@@ -42,7 +42,7 @@ export class Authentication {
    * @param token
    */
   decodeToken(token: string): UserProfile {
-    return jwt.verify(token, config.JWT_SECRET) as UserProfile;
+    return jwt.verify(token, config.JWT.SECRET, config.JWT.VERIFY_OPTIONS) as UserProfile;
   }
 }
 

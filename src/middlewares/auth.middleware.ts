@@ -25,7 +25,7 @@ export class AuthMiddleware implements IMiddleware {
     // Check if we have a token
     if (request.token) {
       // Decode the token
-      const decodedUser = jwt.verify(request.token, config.JWT_SECRET) as IUserProfileDbModel;
+      const decodedUser = jwt.verify(request.token, config.JWT.SECRET) as IUserProfileDbModel;
 
       if (decodedUser) {
         // If the user has been decoded successfully, check it against the database
