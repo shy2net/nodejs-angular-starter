@@ -153,11 +153,13 @@ export class Server extends ServerLoader {
     const loggerConfig = this.getLoggerConfigurations(this.settings);
     this.settings.set('logger', loggerConfig);
 
-    // Apply the SSL configurations
-    const sslConfig = this.getSSLConfigurations();
-    Object.keys(sslConfig).forEach(key => {
-      this.settings.set(key, sslConfig[key]);
-    });
+    // If SSL configurations are available
+    if (config.SSL_CERTIFICATE) {
+      // Apply the SSL configurations
+      const sslConfig = this.getSSLConfigurations();
+      this.settings.httpsPort = sslConfig.httpsPort;
+      this.settings.httpsOptions = sslConfig.httpsOptions;
+    }
 
     return super.loadSettingsAndInjector();
   }
