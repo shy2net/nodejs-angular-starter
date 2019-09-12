@@ -140,12 +140,12 @@ export class Server extends ServerLoader {
   protected async loadSettingsAndInjector() {
     // Apply the logger configurations
     const loggerConfig = this.getLoggerConfigurations(this.settings);
-    this.settings.set('logger', loggerConfig);
+    this.injector.settings.set('logger', loggerConfig);
 
     // Apply the SSL configurations
     const sslConfig = this.getSSLConfigurations();
     Object.keys(sslConfig).forEach(key => {
-      this.settings.put(key, sslConfig[key]);
+      this.injector.settings.put(key, sslConfig[key]);
     });
 
     return super.loadSettingsAndInjector();

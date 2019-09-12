@@ -42,7 +42,7 @@
         "chai": "^4.2.0",
         "copy-webpack-plugin": "^5.0.3",
         "mocha": "^5.0.0",
-        "nodemon": "^1.12.1",
+        "nodemon": "^1.19.2",
         "reflect-metadata": "^0.1.13",
         "request": "^2.83.0",
         "ts-loader": "^6.0.2",
@@ -55,9 +55,9 @@
         "webpack-node-externals": "^1.7.2"
     },
     "dependencies": {
-        "@tsed/common": "^5.28.0",
-        "@tsed/core": "^5.28.0",
-        "@tsed/di": "^5.28.0",
+        "@tsed/common": "~5.31.0",
+        "@tsed/core": "~5.31.0",
+        "@tsed/di": "~5.31.0",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.2",
         "class-transformer": "^0.2.3",

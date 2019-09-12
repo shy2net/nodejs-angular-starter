@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2016",
     "module": "commonjs",
-    "lib": ["es2015"],
+    "moduleResolution": "node",
+    "lib": ["es2016"],
     "baseUrl": "./",
     "declaration": true,
     "types": ["reflect-metadata"],
@@ -10,6 +11,7 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
     "strict": false,
     "paths": {
       "@shared": ["shared/index.ts"],
