@@ -3,6 +3,7 @@ import './middlewares/error-handler.middleware';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as path from 'path';
+import * as httpsRedirect from 'express-https-redirect';
 import { $log } from 'ts-log-debug';
 
 import {
@@ -22,6 +23,7 @@ const bodyParser = require('body-parser');
 const compress = require('compression');
 const rootDir = __dirname;
 const httpPort = process.env.PORT || 3000;
+const httpsPort = process.env.PORT || 443;
 
 @ServerSettings({
   rootDir,
@@ -47,6 +49,15 @@ export class Server extends ServerLoader {
           extended: true
         })
       );
+
+    // If SSL certificate is configured, enable redirect to HTTPS
+    if (config.SSL_CERTIFICATE) {
+      $log.info(
+        `SSL certificate config detected, port 80 is now being listened and redirected automatically to https!`
+      );
+      this.settings.httpPort = 80; // Use port '80' (usual HTTP port) to redirect all requests
+      this.use('/', httpsRedirect(true));
+    }
 
     auth.init(this.expressApp);
     socialAuth.init(this.expressApp);
@@ -124,7 +135,7 @@ export class Server extends ServerLoader {
     if (!sslConfig) return {};
 
     return {
-      httpsPort: 443,
+      httpsPort,
       httpsOptions: {
         key: sslConfig.KEY,
         cert: sslConfig.CERT,
