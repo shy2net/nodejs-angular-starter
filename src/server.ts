@@ -3,6 +3,7 @@ import './middlewares/error-handler.middleware';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as path from 'path';
+import * as fs from 'fs';
 import * as httpsRedirect from 'express-https-redirect';
 import { $log } from 'ts-log-debug';
 
@@ -18,12 +19,31 @@ import auth from './auth';
 import config from './config';
 import db from './db';
 import socialAuth from './social-auth';
+import { ServerOptions } from 'https';
 
 const bodyParser = require('body-parser');
 const compress = require('compression');
 const rootDir = __dirname;
+
+// Configurations we want to load
 const httpPort = process.env.PORT || 3000;
 const httpsPort = process.env.PORT || 443;
+
+let httpsOptions: ServerOptions = null;
+
+if (config.SSL_CERTIFICATE) {
+  $log.info(`SSL Configurations detected, loading HTTPS certificate...`);
+  try {
+    httpsOptions = {
+      key: fs.readFileSync(config.SSL_CERTIFICATE.KEY, 'utf8'),
+      cert: fs.readFileSync(config.SSL_CERTIFICATE.CERT, 'utf8'),
+      ca: fs.readFileSync(config.SSL_CERTIFICATE.CA, 'utf8')
+    };
+  } catch (e) {
+    httpsOptions = null;
+    $log.error(`Failed to load SSL certificate!`, e);
+  }
+}
 
 @ServerSettings({
   rootDir,
@@ -32,7 +52,8 @@ const httpsPort = process.env.PORT || 443;
     '/api': `${rootDir}/controllers/**/*.ts`
   },
   httpPort,
-  httpsPort: false
+  httpsPort: httpsOptions ? httpsPort : false,
+  httpsOptions
 })
 export class Server extends ServerLoader {
   /**
@@ -98,7 +119,7 @@ export class Server extends ServerLoader {
   /**
    * Returns the logger configurations.
    */
-  private getLoggerConfigurations(settings: IServerSettings): Partial<ILoggerSettings> {
+  private loadLoggerConfigurations() {
     // All logs are saved to the logs directory by default, you can specify custom directory in the associated configuration file ('LOGS_DIR')
     const logsDir = config.LOGS_DIR || path.join(__dirname, 'logs');
 
@@ -115,8 +136,7 @@ export class Server extends ServerLoader {
     //   filename: path.join(logsDir, `app.log`)
     // });
 
-    return {
-      ...settings.logger,
+    const loggerConfig = {
       debug: config.DEBUG_MODE,
       level: config.DEBUG_MODE ? 'debug' : 'info'
       /* --> Uncomment to add request logging
@@ -124,24 +144,8 @@ export class Server extends ServerLoader {
         logRequest: true
         */
     };
-  }
 
-  /**
-   * Returns the SSL (https) if any configured for this environment.
-   */
-  getSSLConfigurations() {
-    const sslConfig = config.SSL_CERTIFICATE;
-
-    if (!sslConfig) return {};
-
-    return {
-      httpsPort,
-      httpsOptions: {
-        key: sslConfig.KEY,
-        cert: sslConfig.CERT,
-        ca: sslConfig.CA
-      }
-    };
+    this.settings.set('logger', loggerConfig);
   }
 
   /**
@@ -150,16 +154,7 @@ export class Server extends ServerLoader {
    */
   protected async loadSettingsAndInjector() {
     // Apply the logger configurations
-    const loggerConfig = this.getLoggerConfigurations(this.settings);
-    this.settings.set('logger', loggerConfig);
-
-    // If SSL configurations are available
-    if (config.SSL_CERTIFICATE) {
-      // Apply the SSL configurations
-      const sslConfig = this.getSSLConfigurations();
-      this.settings.httpsPort = sslConfig.httpsPort;
-      this.settings.httpsOptions = sslConfig.httpsOptions;
-    }
+    this.loadLoggerConfigurations();
 
     return super.loadSettingsAndInjector();
   }

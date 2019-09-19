@@ -11,11 +11,7 @@ export const UserProfileSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    minlength: 4,
-    validate: {
-      validator: email => EmailValidator.validate(email),
-      message: `{VALUE} is not a valid email`
-    }
+    minlength: 4
   },
   firstName: {
     type: String

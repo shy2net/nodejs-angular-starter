@@ -7,6 +7,7 @@
     "baseUrl": "./",
     "declaration": true,
     "types": ["reflect-metadata"],
+    "typeRoots": ["./node_modules/@types"],
     "outDir": "dist",
     "sourceMap": true,
     "experimentalDecorators": true,
