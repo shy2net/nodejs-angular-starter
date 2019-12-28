@@ -1,8 +1,19 @@
 #!/bin/bash
 
+echo "Checking for missing dependencies before build..."
+
+# Check if node_modules exists, if not throw an error
+if [ ! -d "./node_modules" ] || [ ! -d "./angular-src/node_modules" ]; then
+    echo "node_modules are missing! running install script..."
+    npm run install:all
+    echo "Installed all missing dependencies! starting installation..."
+else
+    echo "All dependencies are installed! Ready to run build!"
+fi
+
 # This script compiles typescript and Angular 7 application and puts them into a single NodeJS project
 ENV=${NODE_ENV:-development}
-echo "-- Started build script for Angular & NodeJS (environment $ENV) --"
+echo -e "\n-- Started build script for Angular & NodeJS (environment $ENV) --"
 echo "Removing dist directory..."
 rm -rf dist
 
@@ -12,8 +23,8 @@ echo "Compiling typescript..."
 echo "Copying configuration files..."
 cp -Rf src/config dist/src/config
 
-echo "Installing Angular app dependencies..."
-pushd angular-src && npm install --only=dev
+echo "Starting to configure Angular app..."
+pushd angular-src
 
 echo "Building Angular app for $ENV..."
 ./node_modules/.bin/ng build --aot --prod --configuration $ENV
