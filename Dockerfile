@@ -15,10 +15,7 @@ SHELL ["/bin/bash", "-c"]
 # Give required permissions to files
 RUN chmod +x ./install_all.sh && chmod +x ./build.sh
 
-# Install all dependencies required
-RUN npm run install:all
-
-# Compile and build NodeJS & Angular
+# Install deps, compile and build NodeJS & Angular
 RUN npm run build
 
 EXPOSE 3000
