@@ -1,4 +1,4 @@
-import { $log } from 'ts-log-debug';
+import { $log } from '@tsed/common';
 
 import { Server } from './server';
 

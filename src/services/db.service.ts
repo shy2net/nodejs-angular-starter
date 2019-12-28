@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { $log } from 'ts-log-debug';
+import { $log } from '@tsed/common';
 
 import { Service } from '@tsed/di';
 

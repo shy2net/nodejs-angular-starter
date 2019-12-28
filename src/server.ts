@@ -6,14 +6,12 @@ import * as httpsRedirect from 'express-https-redirect';
 import * as fs from 'fs';
 import { ServerOptions } from 'https';
 import * as path from 'path';
-import { $log } from 'ts-log-debug';
 
-import { GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings } from '@tsed/common';
+import { $log, GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings } from '@tsed/common';
 
 import auth from './auth';
 import config from './config';
 import socialAuth from './social-auth';
-import { DatabaseService } from './services/db.service';
 
 const bodyParser = require('body-parser');
 const compress = require('compression');
