@@ -535,8 +535,7 @@ this.express.get('*', function(req, res) {
 
 When building your image for production it should contain the following commands:
 
-    npm run install:all # Install all required dependencies
-    npm run build # Call the build.sh script to start the build
+    npm run build # Call the build.sh script to start the build (it also installs the deps required if they do not exist)
 
 And to run this code simple:
 
