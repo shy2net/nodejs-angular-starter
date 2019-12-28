@@ -12,8 +12,8 @@ import { GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings } from '@tsed
 
 import auth from './auth';
 import config from './config';
-import db from './db';
 import socialAuth from './social-auth';
+import { DatabaseService } from './services/db.service';
 
 const bodyParser = require('body-parser');
 const compress = require('compression');
@@ -156,10 +156,6 @@ export class Server extends ServerLoader {
   start() {
     if (config.DEBUG_MODE) $log.info(`Debug mode is ON`);
     $log.info(`** Loaded configurations for environment: ${config.ENVIRONMENT} **`);
-    $log.info(`Connecting to database...`);
-
-    return db.init().then(result => {
-      return super.start();
-    });
+    return super.start();
   }
 }

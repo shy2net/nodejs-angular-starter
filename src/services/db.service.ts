@@ -1,11 +1,15 @@
 import * as mongoose from 'mongoose';
-
-import config from './config';
 import { $log } from 'ts-log-debug';
 
-export class Database {
-  init(): Promise<any> {
+import { Service } from '@tsed/di';
+
+import config from '../config';
+
+@Service()
+export class DatabaseService {
+  $onInit() {
     return new Promise((resolve, reject) => {
+      $log.info(`Connecting to database...`);
       mongoose.connect(config.DB_URI);
       const db = mongoose.connection;
 
@@ -22,5 +26,3 @@ export class Database {
     });
   }
 }
-
-export default new Database();
