@@ -1,8 +1,11 @@
 - [Introduction](#introduction)
+  - [Prerequisites](#prerequisites)
+    - [On Windows](#on-windows)
+    - [On Linux](#on-linux)
 - [Starting with this template](#starting-with-this-template)
 - [Template architecture](#template-architecture)
   - [Angular 8](#angular-8)
-    - [Angular services & providers](#angular-services--providers)
+    - [Angular services &amp; providers](#angular-services-amp-providers)
     - [Angular components](#angular-components)
     - [Angular Universal (Server-Side-Rendering)](#angular-universal-server-side-rendering)
   - [NodeJS](#nodejs)
@@ -20,6 +23,7 @@
   - [Form validations](#form-validations)
 - [Running on production](#running-on-production)
   - [Running Angular and NodeJS on the same server](#running-angular-and-nodejs-on-the-same-server)
+    - [Docker image and container](#docker-image-and-container)
     - [The build script (build.sh)](#the-build-script-buildsh)
   - [Seperating client and server](#seperating-client-and-server)
     - [Server as standalone](#server-as-standalone)
@@ -33,7 +37,7 @@ default routes to Angular and all of the known routes to the api.
 
 Technologies used in this template:
 
-- Angular 8 (with SSR)
+- Angular 9 (with SSR)
 - NodeJS express typescript (with SSL support) based on [Ts.ED](https://tsed.io/) - for easier express setup using decorators
 - Mongoose (with basic user model)
 - Logging (using [Ts.LogDebug](https://typedproject.github.io/ts-log-debug/#/))
@@ -41,12 +45,32 @@ Technologies used in this template:
 - [JWT](https://jwt.io/) and token authentication built-in (including user roles)
 - Social Authentication (Google and Facebook)
 - Form validations using ([class-validator](https://www.npmjs.com/package/class-validator)), shared between server and client
+- Docker support based on alpine and node 12
+
+
+## Prerequisites
+
+In order to start with this template you have to set up the environment you are working on to suit the needs.
+
+### On Windows
+
+Make sure to install [git bash](https://git-scm.com/downloads), this allows you to run `bash` commands which are essential for the build process. You can use any other bash for windows, as long as it can run the scripts this template relays on (`./install_all.sh, predebug.sh, build.sh`).
+
+### On Linux
+
+After cloning this repository, make sure to run the following command:
+ ```bash
+ chmod +x ./install_all.sh && chmod +x ./predebug.sh && chmod +x build.sh
+ ```
+
+This will give permission to run all included required to work with this template.
+
 
 # Starting with this template
 
 To work with this template **locally (debug mode)**, follow these commands:
 
-    npm install # Install NodeJS dependencies and angular
+    npm run install:all # Install all dependencies required for both NodeJS and Angular
     npm run node # Run the NodeJS on debug mode
     npm run angular # Run Angular
 
@@ -54,7 +78,7 @@ We don't run the `npm start` command as it is reserved only for the compiled cod
 
 In order to compile and build this template for your **production server** run the following:
 
-    npm install
+    npm run install:all # Install all dependencies required for both NodeJS and Angular
     npm run build # Run the build.sh script to compile and NodeJS and Angular for production
     npm start
 
@@ -511,12 +535,25 @@ this.express.get('*', function(req, res) {
 
 When building your image for production it should contain the following commands:
 
-    npm install
+    npm run install:all # Install all required dependencies
     npm run build # Call the build.sh script to start the build
 
 And to run this code simple:
 
     npm start
+
+
+### Docker image and container
+
+This template comes ready with Dockerfile based on node:12.14.0-alpine3.11 docker image.
+In order to build it simply run the following command:
+
+    docker build -t my-docker-image:0.0.0 .
+
+And in order to run your docker on port 8080 simply run the following command:
+
+    docker run -p 8080:3000 -itd my-docker-image:0.0.0
+
 
 ### The build script (build.sh)
 

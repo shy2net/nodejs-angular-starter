@@ -3,8 +3,8 @@
     "version": "0.6.0",
     "description": "",
     "scripts": {
-        "postinstall": "cd angular-src && npm install",
-        "build": "sh ./build.sh",
+        "install:all": "bash ./install_all.sh",
+        "build": "bash ./build.sh",
         "angular": "cd angular-src && ng serve",
         "start": "node dist/src/index.js",
         "build:node": "rm -rf dist && tsc -p .",
@@ -12,7 +12,7 @@
         "build:angular": "cd angular-src && ng build --aot --prod",
         "node": "npm run predebug && npm run build:nodelive",
         "test": "./node_modules/.bin/mocha -r ts-node/register src/**/*.spec.ts",
-        "predebug": "sh ./predebug.sh"
+        "predebug": "bash ./predebug.sh"
     },
     "engines": {
         "node": "8.11.3",

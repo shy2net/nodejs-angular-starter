@@ -13,7 +13,7 @@ echo "Copying configuration files..."
 cp -Rf src/config dist/src/config
 
 echo "Installing Angular app dependencies..."
-cd angular-src && npm install --only=dev
+pushd angular-src && npm install --only=dev
 
 echo "Building Angular app for $ENV..."
 ./node_modules/.bin/ng build --aot --prod --configuration $ENV
@@ -34,6 +34,6 @@ echo "Removing angular-src dist directory..."
 rm -rf dist
 
 # Go back to the current directory
-cd ..
+popd
 
 echo "-- Finished building Angular & NodeJS, check dist directory --"
