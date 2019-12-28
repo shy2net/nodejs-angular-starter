@@ -4,6 +4,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
@@ -19,13 +20,14 @@ import { HeaderComponent } from './components/header/header.component';
   imports: [
     CommonModule,
     HttpClientModule,
+    BrowserModule,
     BrowserAnimationsModule,
     CookieModule.forRoot(),
     LoadingBarModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right'
-    }) ,
+    }),
     RouterModule,
     SharedModule,
     SocialLoginModule
@@ -43,12 +45,6 @@ import { HeaderComponent } from './components/header/header.component';
     },
     RequestsService
   ],
-  exports: [
-    HeaderComponent,
-    FooterComponent,
-    LoadingBarModule,
-    ToastrModule,
-    SocialLoginModule
-  ]
+  exports: [HeaderComponent, FooterComponent, LoadingBarModule, ToastrModule, SocialLoginModule]
 })
-export class CoreModule { }
+export class CoreModule {}

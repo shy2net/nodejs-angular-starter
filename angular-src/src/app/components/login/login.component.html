@@ -4,7 +4,7 @@
       Login
     </div>
     <div class="card-body">
-      <form name="loginForm" #loginForm>
+      <form name="loginForm" #loginForm="ngForm">
         <div class="form-group">
           <label for="email">Email</label>
           <input name="email" type="email" class="form-control" [(ngModel)]="email" id="email"

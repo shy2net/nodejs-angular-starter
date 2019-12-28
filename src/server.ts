@@ -2,24 +2,18 @@ import './middlewares/error-handler.middleware';
 
 import * as cors from 'cors';
 import * as express from 'express';
-import * as path from 'path';
-import * as fs from 'fs';
 import * as httpsRedirect from 'express-https-redirect';
+import * as fs from 'fs';
+import { ServerOptions } from 'https';
+import * as path from 'path';
 import { $log } from 'ts-log-debug';
 
-import {
-  GlobalAcceptMimesMiddleware,
-  ServerLoader,
-  ServerSettings,
-  IServerSettings,
-  ILoggerSettings
-} from '@tsed/common';
+import { GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings } from '@tsed/common';
 
 import auth from './auth';
 import config from './config';
 import db from './db';
 import socialAuth from './social-auth';
-import { ServerOptions } from 'https';
 
 const bodyParser = require('body-parser');
 const compress = require('compression');
