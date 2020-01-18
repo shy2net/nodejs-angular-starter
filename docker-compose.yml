@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  nodejs-angular-starter:
+    image: nodejs-angular-starter
+    build:
+      context: .
+      args:
+        - NODE_ENV
+    environment:
+      - NODE_ENV
+    ports:
+      - 3000:3000
