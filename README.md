@@ -5,7 +5,7 @@
 - [Starting with this template](#starting-with-this-template)
 - [Template architecture](#template-architecture)
   - [Angular 8](#angular-8)
-    - [Angular services &amp; providers](#angular-services-amp-providers)
+    - [Angular services & providers](#angular-services--providers)
     - [Angular components](#angular-components)
     - [Angular Universal (Server-Side-Rendering)](#angular-universal-server-side-rendering)
   - [NodeJS](#nodejs)
@@ -55,6 +55,8 @@ In order to start with this template you have to set up the environment you are 
 ### On Windows
 
 Make sure to install [git bash](https://git-scm.com/downloads), this allows you to run `bash` commands which are essential for the build process. You can use any other bash for windows, as long as it can run the scripts this template relays on (`./install_all.sh, predebug.sh, build.sh`).
+
+**Make sure to add bash to your system 'PATH'.**
 
 ### On Linux
 
@@ -552,6 +554,13 @@ In order to build it simply run the following command:
 And in order to run your docker on port 8080 simply run the following command:
 
     docker run -p 8080:3000 -itd my-docker-image:0.0.0
+
+Or you can simply use docker compose:
+
+    docker-compose up
+
+
+This will run your container on port 3000.
 
 
 ### The build script (build.sh)
