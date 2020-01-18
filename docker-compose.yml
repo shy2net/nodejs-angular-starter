@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  nodejs-angular-starter:
+  web:
     image: nodejs-angular-starter
     build:
       context: .
