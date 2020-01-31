@@ -1,13 +1,13 @@
 import * as mongoose from 'mongoose';
-import { $log } from '@tsed/common';
 
+import { $log } from '@tsed/common';
 import { Service } from '@tsed/di';
 
 import config from '../config';
 
 @Service()
 export class DatabaseService {
-  $onInit() {
+  protected async $onInit() {
     return new Promise((resolve, reject) => {
       $log.info(`Connecting to database...`);
       mongoose.connect(config.DB_URI);
@@ -24,5 +24,10 @@ export class DatabaseService {
         resolve();
       });
     });
+  }
+
+  $onDestroy() {
+    const db = mongoose.connection;
+    if (db) db.close();
   }
 }

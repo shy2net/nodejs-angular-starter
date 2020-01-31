@@ -3,13 +3,16 @@ import { Application } from 'express';
 import * as bearerToken from 'express-bearer-token';
 import * as jwt from 'jsonwebtoken';
 
-import { UserProfile } from '../shared/models';
-import config from './config';
-import { UserProfileDbModel } from './models';
-import { IUserProfileDbModel } from './models/user-profile.db.model';
+import { Service } from '@tsed/di';
 
-export class Authentication {
-  init(express: Application) {
+import { UserProfile } from '../../shared/models';
+import config from '../config';
+import { UserProfileDbModel } from '../models';
+import { IUserProfileDbModel } from '../models/user-profile.db.model';
+
+@Service()
+export class AuthService {
+  static initMiddleware(express: Application) {
     // Allow parsing bearer tokens easily
     express.use(bearerToken());
   }
@@ -45,5 +48,3 @@ export class Authentication {
     return jwt.verify(token, config.JWT.SECRET, config.JWT.VERIFY_OPTIONS) as UserProfile;
   }
 }
-
-export default new Authentication();

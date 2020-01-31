@@ -58,6 +58,7 @@
         "@tsed/common": "~5.31.2",
         "@tsed/core": "~5.31.2",
         "@tsed/di": "~5.31.2",
+        "@tsed/testing": "~5.31.2",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.2",
         "class-transformer": "^0.2.3",

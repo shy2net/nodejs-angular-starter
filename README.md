@@ -4,7 +4,7 @@
     - [On Linux](#on-linux)
 - [Starting with this template](#starting-with-this-template)
 - [Template architecture](#template-architecture)
-  - [Angular 8](#angular-8)
+  - [Angular 9](#angular-9)
     - [Angular services & providers](#angular-services--providers)
     - [Angular components](#angular-components)
     - [Angular Universal (Server-Side-Rendering)](#angular-universal-server-side-rendering)
@@ -31,8 +31,8 @@
 
 # Introduction
 
-This starter template comes with NodeJS (typescript) and Angular 8. It shares models between Angular
-and NodeJS. Both of the NodeJS and and Angular 8 can run on the same webserver as the NodeJS exposes all of the
+This starter template comes with NodeJS (typescript) and Angular 9. It shares models between Angular
+and NodeJS. Both of the NodeJS and and Angular 9 can run on the same webserver as the NodeJS exposes all of the
 default routes to Angular and all of the known routes to the api.
 
 Technologies used in this template:
@@ -90,9 +90,9 @@ These list of commands will install, compile and run the output NodeJS.
 
 The template comes with a ready to go server and client integration, authentication and basic styling.
 
-## Angular 8
+## Angular 9
 
-Angular 8 comes with the following features:
+Angular 9 comes with the following features:
 
 - Bootstrap v4 with header and sticky footer.
 - Built in SSR bundled with the api server.
@@ -102,7 +102,7 @@ Angular 8 comes with the following features:
 - Built in social authentication (Google and Facebook).
 - Build in form validations using class-validator (https://github.com/typestack/class-validator) implemented using the `FormValidatorDirective`.
 
-The code of Angular 8 is stored under the `angular-src` directory.
+The code of Angular 9 is stored under the `angular-src` directory.
 
 ### Angular services & providers
 

@@ -1,10 +1,19 @@
-import { assert, expect } from 'chai';
 import 'mocha';
+import '../misc/testing';
+
+import { assert, expect } from 'chai';
+
+import { TestContext } from '@tsed/testing';
 
 import { ApiController } from './api.controller';
-const controller = new ApiController();
 
 describe('API Controller', async () => {
+  let controller: ApiController;
+
+  before(() => {
+    controller = TestContext.injector.get(ApiController);
+  });
+
   it('should return ok action response', () => {
     const result = controller.test();
     expect(result.status).to.equal('ok');

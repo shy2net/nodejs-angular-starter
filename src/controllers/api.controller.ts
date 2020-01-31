@@ -4,15 +4,17 @@ import { BadRequest } from 'ts-httpexceptions';
 import { BodyParams, Controller, Get, Post, QueryParams, UseBefore } from '@tsed/common';
 
 import { ActionResponse, LoginActionResponse, UserProfile } from '../../shared/models';
-import auth from '../auth';
 import { RequestUser } from '../decorators/request-user.decorator';
 import { RegisterForm } from '../forms';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { UserProfileDbModel } from '../models';
 import * as responses from '../responses';
+import { AuthService } from '../services/auth.service';
 
 @Controller('/')
 export class ApiController {
+  constructor(private authService: AuthService) {}
+
   @Get('/test')
   test() {
     return responses.getOkayResponse();
@@ -33,10 +35,10 @@ export class ApiController {
     @BodyParams('username') username: string,
     @BodyParams('password') password: string
   ): Promise<LoginActionResponse> {
-    return auth.authenticate(username, password).then(user => {
+    return this.authService.authenticate(username, password).then(user => {
       if (!user) throw new BadRequest(`Username or password are invalid!`);
 
-      const token = auth.generateToken(user.toJSON());
+      const token = this.authService.generateToken(user.toJSON());
       const response = responses.getOkayResponse();
 
       return {

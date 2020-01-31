@@ -9,8 +9,8 @@ import * as path from 'path';
 
 import { $log, GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings } from '@tsed/common';
 
-import auth from './auth';
 import config from './config';
+import { AuthService } from './services/auth.service';
 import socialAuth from './social-auth';
 
 const bodyParser = require('body-parser');
@@ -72,7 +72,7 @@ export class Server extends ServerLoader {
       this.use('/', httpsRedirect(true));
     }
 
-    auth.init(this.expressApp);
+    AuthService.initMiddleware(this.expressApp);
     socialAuth.init(this.expressApp);
 
     return null;
