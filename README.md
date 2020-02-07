@@ -1,5 +1,6 @@
 - [Introduction](#introduction)
   - [Prerequisites](#prerequisites)
+    - [All environments](#all-environments)
     - [On Windows](#on-windows)
     - [On Linux](#on-linux)
 - [Starting with this template](#starting-with-this-template)
@@ -52,6 +53,19 @@ Technologies used in this template:
 
 In order to start with this template you have to set up the environment you are working on to suit the needs.
 
+### All environments
+
+Because this template uses mongo-db by default, if you want to run it easily out-of-the-box you must install docker,
+then run the following command:
+
+```bash
+docker-compose up -d db # Loads up an instance of mongo-db locally with root\root (user\pass) and 'admin' database
+```
+
+This will create a simple mongo database with a username\password of 'root' and database named 'admin'.
+The mongo-db instance will create a volume mounted at: `~/web_mongo` (inside your user home directory)
+Optionally, you can connect to your own mongo-db instance by configuring it (read the config section for more).
+
 ### On Windows
 
 Make sure to install [git bash](https://git-scm.com/downloads), this allows you to run `bash` commands which are essential for the build process. You can use any other bash for windows, as long as it can run the scripts this template relays on (`./install_all.sh, predebug.sh, build.sh`).
@@ -66,7 +80,6 @@ After cloning this repository, make sure to run the following command:
  ```
 
 This will give permission to run all included required to work with this template.
-
 
 # Starting with this template
 

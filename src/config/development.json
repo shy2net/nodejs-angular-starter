@@ -1,5 +1,5 @@
 {
-    "DB_URI": "mongodb://Admin:Aa123456@testcluster-shard-00-00-ycncl.mongodb.net:27017,testcluster-shard-00-01-ycncl.mongodb.net:27017,testcluster-shard-00-02-ycncl.mongodb.net:27017/test?ssl=true&replicaSet=TestCluster-shard-0&authSource=admin",
+    "DB_URI": "mongodb://root:root@localhost:27017/?authSource=admin",
     "CLIENT_URL": "http://localhost:4200",
     "JWT": {
         "SECRET": "T{qVK:zv:4[y'GMPvRBkA3>!BP$C5hnakvZP[f=['.f]Lg9SUJ*Y{:b*G4`3^S/C"

@@ -60,7 +60,7 @@ const routes: Route[] = [
     NgtUniversalModule,
     SharedModule,
     CoreModule,
-    RouterModule.forRoot(routes, { enableTracing: false }),
+    RouterModule.forRoot(routes, { enableTracing: false, initialNavigation: 'enabled' }),
     FormsModule
   ],
   providers: []
