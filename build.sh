@@ -1,14 +1,11 @@
 #!/bin/bash
 
-# Echo colors
-red=$(tput setaf 1)
-
 check_errcode() {
     status=$?
 
     if [ $status -ne 0 ]; then
-        echo "${red}${1}"
-        exit $satus
+        echo "${1}"
+        exit $status
     fi
 }
 
