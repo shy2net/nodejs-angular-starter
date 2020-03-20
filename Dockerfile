@@ -22,7 +22,7 @@ COPY . .
 # Read this guide for more info: https://www.cyberciti.biz/faq/alpine-linux-install-bash-using-apk-command/
 RUN echo "NODE_ENV for build was set to: ${NODE_ENV}, starting build..." \
     && apk add --no-cache bash \
-    # Build cymptom-web and create a distribution
+    # Build web and create a distribution
     && chmod +x ./install_all.sh && chmod +x ./build.sh && npm run build \
     # Copy the files required to run to the workdir
     && mkdir ${workdir} && cp -Rf ./dist ${workdir} \
@@ -47,7 +47,7 @@ WORKDIR /app
 # Copy distribution files
 COPY --from=build /app .
 
-# Expose the port required for cymptom-web (http and https)
+# Expose the port required for web (http and https)
 EXPOSE 3000 443
 
 # Start the built distribution
