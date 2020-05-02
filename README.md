@@ -19,7 +19,9 @@
     - [Authentication and roles](#authentication-and-roles)
       - [Social Authentication](#social-authentication)
     - [Environment configurations](#environment-configurations)
-    - [Unit Testing](#unit-testing)
+    - [Testing (Unit Tests\API Tests)](#testing-unit-testsapi-tests)
+        - [Test database](#test-database)
+        - [Running the tests](#running-the-tests)
   - [Sharing code (models, interfaces, etc)](#sharing-code-models-interfaces-etc)
   - [Form validations](#form-validations)
 - [Running on production](#running-on-production)
@@ -38,8 +40,9 @@ default routes to Angular and all of the known routes to the api.
 
 Technologies used in this template:
 
-- Angular 9 (with SSR)
+- Angular 9 (with SSR) - including unit tests (based on Jasmine + Karma)
 - NodeJS express typescript (with SSL support) based on [Ts.ED](https://tsed.io/) - for easier express setup using decorators
+- Mocha + Chai for backend testing + API tests
 - Mongoose (with basic user model)
 - Logging (using [Ts.LogDebug](https://typedproject.github.io/ts-log-debug/#/))
 - Bootstrap v4 and SCSS by default
@@ -68,7 +71,7 @@ Optionally, you can connect to your own mongo-db instance by configuring it (rea
 
 ### On Windows
 
-Make sure to install [git bash](https://git-scm.com/downloads), this allows you to run `bash` commands which are essential for the build process. You can use any other bash for windows, as long as it can run the scripts this template relays on (`./install_all.sh, predebug.sh, build.sh`).
+Make sure to install [git bash](https://git-scm.com/downloads), this allows you to run `bash` commands which are essential for the build process. You can use any other bash for windows, as long as it can run the scripts this template relays on (`./install_all.sh, predebug.sh, build.sh, test.sh`).
 
 **Make sure to add bash to your system 'PATH'.**
 
@@ -76,7 +79,7 @@ Make sure to install [git bash](https://git-scm.com/downloads), this allows you 
 
 After cloning this repository, make sure to run the following command:
  ```bash
- chmod +x ./install_all.sh && chmod +x ./predebug.sh && chmod +x build.sh
+ chmod +x ./install_all.sh && chmod +x ./predebug.sh && chmod +x ./build.sh && chmod +x ./test.sh
  ```
 
 This will give permission to run all included required to work with this template.
@@ -421,12 +424,64 @@ In order to change the environment you must specify the `NODE_ENV` environment v
 For example, if you run on production specify:
 `NODE_ENV = production`.
 
+There is a special configurations for the `test` environment as it starts up a test server on a different
+port and different credentials.
 
-### Unit Testing
 
-This template comes with Mocha and Chai integrated. It comes with some simple unit testing which can be found under `src/api/api.controller.spec.ts`. This file holds 3 simple tests which checks that the API works correctly.
+### Testing (Unit Tests\API Tests)
 
-In order to run the tests simply run the command: `npm test`.
+This template comes with Mocha and Chai integrated.
+
+There are tests for all of the following:
+
+- API tests
+- Tests for middlewares and services
+- General tests
+
+Each file that has a test has a corresponding `.spec` file with the same name.
+For example, for the api tests:
+
+`/src/controllers/api.controller.spec.ts` - you can find all api tests.
+
+
+##### Test database
+
+When the unit tests are running, they relay on a database connection, especially
+the API tests, as these tests write mock data to the database before running the tests.
+
+Before running the tests, you must setup the tests database.
+You can do this easily using the following docker command:
+> docker-compose up -d test-db
+
+This will start a clean test database on a different port then the normal database.
+
+##### Running the tests
+
+In order to run the tests, enter the following commands:
+
+```bash
+# Start the test database before running the tests
+docker-compose up -d test-db
+
+### ---> Wait for the database to run (at least 30 seconds for the first time)
+
+# Wait for the database to run, and then run the tests
+npm test
+```
+
+All configurations will be taken from the `/src/config/test.json` file, which is configured by default
+to connect a different port and a different user\password (test\test) in order to run the tests.
+
+If you would like to run this in your own CI\CD tool, make sure write the following in the test run pipeline:
+
+```bash
+# Automatically sets up the database using docker-compose
+export SETUP_DB=true
+# Start the unit tests
+npm test
+```
+
+This will automatically setup the test database and close it when the tests were finished.
 
 ## Sharing code (models, interfaces, etc)
 

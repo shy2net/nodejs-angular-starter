@@ -3,7 +3,7 @@
 echo "Building typescript..."
 
 rm -rf ./dist
-./node_modules/.bin/tsc -p .
+./node_modules/.bin/tsc -p ./tsconfig.prod.json
 
 echo "Copying configuration files..."
 rm -rf ./dist/src/config

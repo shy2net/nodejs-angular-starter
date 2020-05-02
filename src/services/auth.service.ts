@@ -4,6 +4,7 @@ import * as bearerToken from 'express-bearer-token';
 import * as jwt from 'jsonwebtoken';
 
 import { Service } from '@tsed/di';
+import { InternalServerError, Unauthorized } from '@tsed/exceptions';
 
 import { UserProfile } from '../../shared/models';
 import config from '../config';
@@ -23,13 +24,27 @@ export class AuthService {
    * @param password
    */
   authenticate(email: string, password: string): Promise<IUserProfileDbModel> {
-    return UserProfileDbModel.findOne({ email }).then(user => {
-      if (!user) return null;
+    return UserProfileDbModel.findOne({ email }).then((user) => {
+      if (!user) throw new Unauthorized('Email or password are invalid!');
 
-      return bcrypt.compare(password, user.password).then(match => {
+      return bcrypt.compare(password, user.password).then((match) => {
         return match && user;
       });
     });
+  }
+
+  getUserFromDB(email: string) {
+    return UserProfileDbModel.findOne({ email });
+  }
+
+  getUserFromToken(token: string) {
+    // Decode the token
+    const decodedUser = jwt.verify(token, config.JWT.SECRET) as IUserProfileDbModel;
+
+    if (decodedUser) {
+      // If the user has been decoded successfully, check it against the database
+      return UserProfileDbModel.findById(decodedUser._id);
+    }
   }
 
   /**

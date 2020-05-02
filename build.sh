@@ -27,7 +27,7 @@ echo "Removing dist directory..."
 rm -rf dist
 
 echo "Compiling typescript..."
-./node_modules/.bin/tsc -p .
+./node_modules/.bin/tsc -p ./tsconfig.prod.json
 check_errcode "Failed to compile typescript! aborting script!"
 
 echo "Copying configuration files..."

@@ -1,13 +1,13 @@
-import * as jwt from 'jsonwebtoken';
-import { Forbidden, InternalServerError, Unauthorized } from 'ts-httpexceptions';
+import { DocumentQuery } from 'mongoose';
 
 import { EndpointInfo, IMiddleware, Middleware, Req } from '@tsed/common';
+import { Forbidden, InternalServerError, Unauthorized } from '@tsed/exceptions';
 
 import config from '../config';
 import { AppRequest } from '../models/app-req-res';
-import { IUserProfileDbModel, UserProfileDbModel } from '../models/user-profile.db.model';
-
+import { IUserProfileDbModel } from '../models/user-profile.db.model';
 // import { AppRequest, IUserProfileDbModel, UserProfileDbModel } from '@models';
+import { AuthService } from '../services/auth.service';
 
 /**
  * This authentication middleware validates the user token, makes sure if it is still valid in the database
@@ -15,34 +15,43 @@ import { IUserProfileDbModel, UserProfileDbModel } from '../models/user-profile.
  */
 @Middleware()
 export class AuthMiddleware implements IMiddleware {
-  public use(@Req() request: AppRequest, @EndpointInfo() endpoint: EndpointInfo) {
+  constructor(private auth: AuthService) {}
+
+  public async use(@Req() request: AppRequest, @EndpointInfo() endpoint: EndpointInfo) {
     // Always allow OPTIONS requests to pass
     if (request.method === 'OPTIONS') return;
 
     // retrieve options given to the @UseAuth decorator
-    const options = endpoint.get(AuthMiddleware) || {};
+    const options = (endpoint && endpoint.get(AuthMiddleware)) || {};
+
+    const handleUserPromise = (promise: DocumentQuery<IUserProfileDbModel, IUserProfileDbModel>) => {
+      return promise
+        .then((user) => {
+          request.user = user;
+
+          // If any roles were specified, check if the user has it
+          if (options && options.role) {
+            if (user.roles.findIndex((role) => options.role) === -1)
+              throw new Forbidden(`You don't have the permissions required!`);
+          }
+        })
+        .catch((err) => {
+          throw new InternalServerError(`An error had occurred while authenticating user`);
+        });
+    };
 
     // Check if we have a token
     if (request.token) {
-      // Decode the token
-      const decodedUser = jwt.verify(request.token, config.JWT.SECRET) as IUserProfileDbModel;
-
-      if (decodedUser) {
-        // If the user has been decoded successfully, check it against the database
-        return UserProfileDbModel.findById(decodedUser._id)
-          .then(user => {
-            request.user = user;
-
-            // If any roles were specified, check if the user has it
-            if (options && options.role) {
-              if (user.roles.findIndex(role => options.role) === -1)
-                throw new Forbidden(`You don't have the permissions required!`);
-            }
-          })
-          .catch(error => {
-            throw new InternalServerError(`An error had occured while authenticating user`);
-          });
+      // If we are working on test, allow special cases instead of using full tokens
+      if (config.ENVIRONMENT === 'test') {
+        switch (request.token) {
+          case 'admin':
+            return handleUserPromise(this.auth.getUserFromDB('root@mail.com'));
+        }
       }
+
+      // if it's a normal authentication scenario, allow it
+      return handleUserPromise(this.auth.getUserFromToken(request.token));
     }
 
     throw new Unauthorized(`No credentials were provided!`);

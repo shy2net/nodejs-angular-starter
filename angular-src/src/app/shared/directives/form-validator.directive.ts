@@ -1,14 +1,7 @@
 import { ValidationError } from 'class-validator';
 
 import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges
+    AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges
 } from '@angular/core';
 
 import { Form } from '../../../../../shared/models/forms/form';
@@ -18,7 +11,7 @@ import { Form } from '../../../../../shared/models/forms/form';
  * It follows the bootstrap standard to mark fields ans invalid or valid (https://getbootstrap.com/docs/4.0/components/forms/#validation).
  */
 @Directive({
-  selector: '[appFormValidator]'
+  selector: '[appFormValidator]',
 })
 export class FormValidatorDirective implements AfterViewInit, OnChanges {
   @Input() appFormValidator: Form;
@@ -121,17 +114,21 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges {
    */
   updateForm(): Promise<boolean> {
     const prevIsFormValid = this._isFormValid;
-    this._isFormValid = true;
 
-    return this.appFormValidator.getFormIssues().then(results => {
+    return this.appFormValidator.getFormIssues().then((results) => {
+      let errorsFound = 0;
       this.getFormGroupInputs().forEach((input: HTMLInputElement) => {
         const name = input.name;
-        const validationError = results.find(result => result.property === name);
+        const validationError = results.find((result) => result.property === name);
         this.updateFormField(input, validationError);
 
-        if (validationError) this._isFormValid = false;
+        if (validationError) errorsFound += 1;
       });
 
+      // Form is only valid if no errors were found
+      this._isFormValid = errorsFound === 0;
+
+      // Check if the form validation state was changed
       if (prevIsFormValid !== this._isFormValid)
         this.appFormValidatorIsFormValidChange.emit(this._isFormValid);
 

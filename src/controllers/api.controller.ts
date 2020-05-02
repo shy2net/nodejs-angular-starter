@@ -1,9 +1,9 @@
 import { transformAndValidate } from 'class-transformer-validator';
-import { BadRequest } from 'ts-httpexceptions';
 
+import { ActionResponse, LoginActionResponse, UserProfile } from '@shared';
 import { BodyParams, Controller, Get, Post, QueryParams, UseBefore } from '@tsed/common';
+import { BadRequest } from '@tsed/exceptions';
 
-import { ActionResponse, LoginActionResponse, UserProfile } from '../../shared/models';
 import { RequestUser } from '../decorators/request-user.decorator';
 import { RegisterForm } from '../forms';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
@@ -35,7 +35,7 @@ export class ApiController {
     @BodyParams('username') username: string,
     @BodyParams('password') password: string
   ): Promise<LoginActionResponse> {
-    return this.authService.authenticate(username, password).then(user => {
+    return this.authService.authenticate(username, password).then((user) => {
       if (!user) throw new BadRequest(`Username or password are invalid!`);
 
       const token = this.authService.generateToken(user.toJSON());
@@ -45,8 +45,8 @@ export class ApiController {
         ...response,
         data: {
           token: token,
-          profile: user
-        }
+          profile: user,
+        },
       };
     });
   }
@@ -70,15 +70,19 @@ export class ApiController {
     return Promise.reject(`Logout has not been implemented!`);
   }
 
+  // TODO: Maybe move to model validations of Ts.ED? http://v4.tsed.io/docs/model.html#example
   @Post('/register')
-  register(@BodyParams() registerForm: RegisterForm): Promise<UserProfile> {
+  register(
+    // Don't validate using the built in models
+    @BodyParams({ useValidation: false, useConverter: false }) registerForm: RegisterForm
+  ): Promise<UserProfile> {
     // Use the class-transformer-validator to build the model from the JSON object and validate it (https://github.com/19majkel94/class-transformer-validator).
     return transformAndValidate(RegisterForm, registerForm).then((registerForm: RegisterForm) => {
       // Hash the user password and create it afterwards
-      return registerForm.getHashedPassword().then(hashedPassword => {
+      return registerForm.getHashedPassword().then((hashedPassword) => {
         return UserProfileDbModel.create({
           ...registerForm,
-          password: hashedPassword
+          password: hashedPassword,
         });
       });
     });

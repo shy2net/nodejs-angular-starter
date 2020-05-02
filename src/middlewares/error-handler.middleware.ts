@@ -1,6 +1,8 @@
-import { Err, GlobalErrorHandlerMiddleware, OverrideProvider, Req, Res } from '@tsed/common';
 import { ValidationError } from 'class-validator';
-import { BadRequest, Exception } from 'ts-httpexceptions';
+
+import { Err, GlobalErrorHandlerMiddleware, OverrideProvider, Req, Res } from '@tsed/common';
+import { BadRequest, Exception } from '@tsed/exceptions';
+
 import { getFormValidationErrorText } from '../../shared/shared-utils';
 
 /**
@@ -21,7 +23,7 @@ export class ErrorHandlerMiddleware extends GlobalErrorHandlerMiddleware {
     if (error instanceof Exception) {
       return response.status(error.status || 500).json({
         status: 'error',
-        error: error.message
+        error: error.message,
       });
     }
 

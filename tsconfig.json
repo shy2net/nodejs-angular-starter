@@ -3,10 +3,10 @@
     "target": "es2016",
     "module": "commonjs",
     "moduleResolution": "node",
-    "lib": ["es2016"],
+    "lib": ["es2016", "DOM"],
     "baseUrl": "./",
     "declaration": true,
-    "types": ["reflect-metadata"],
+    "types": ["reflect-metadata", "node", "mocha", "chai"],
     "typeRoots": ["./node_modules/@types"],
     "outDir": "dist",
     "sourceMap": true,
@@ -23,7 +23,10 @@
     }
   },
   "exclude": [
-    "**/*.spec.ts",
+    /*
+    Because we want to allow intellisense on tests, we don't exclude any test files (*.spec.ts).
+    Instead we only on build using tsconfig.prod.json in order exclude the test files.
+    */
     "angular-src",
     "src/tests",
     "node_modules",
