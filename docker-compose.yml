@@ -21,8 +21,8 @@ services:
       MONGO_INITDB_DATABASE: admin
     ports:
       - 27017:27017
-    # volumes:
-    #   - "~/web_mongo:/data/db"
+    volumes:
+      - "~/web_mongo:/data/db"
 
   # Test database used for running tests only
   test-db:
