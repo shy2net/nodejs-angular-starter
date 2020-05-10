@@ -1,9 +1,9 @@
 import { InjectorService } from '@tsed/di';
 
+import { generateMockRootUser } from '../../shared/testing/mock/user.mock';
 import { saveUser } from '../misc/utils';
 import { UserProfileDbModel } from '../models/user-profile.db.model';
 import { DatabaseService } from '../services/db.service';
-import { generateMockRootUser } from './mock/user.mock';
 
 export class TestDBSetup {
   private dbService: DatabaseService;

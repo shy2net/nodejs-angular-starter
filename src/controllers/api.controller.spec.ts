@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import { ActionResponse, LoginActionResponse, UserProfile } from '@shared';
 
-import { generateMockUser } from '../testing/mock/user.mock';
+import { generateMockUser } from '../../shared/testing/mock/user.mock';
 import { initChaiHttp, setAdminHeaders } from '../testing/test_utils';
 
 describe('API Controller', async () => {

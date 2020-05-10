@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { SharedModule } from '@shared/shared.module';
 
-import { MockCoreModule } from './mock/mock.core.module';
+import { MockCoreModule } from './mock/core.module.mock';
 
 /**
  * Returns the common test bed to be used across all of the project.

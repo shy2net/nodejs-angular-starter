@@ -15,7 +15,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
     private requestsService: RequestsService) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Add our authentication token if existing
-    if (this.authService.hasCredentails) {
+    if (this.authService.hasCredentials) {
 
       // Check if this request does already contains a credentails to send, if so, don't append our token
       if (!request.withCredentials) {

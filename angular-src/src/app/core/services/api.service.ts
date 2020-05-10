@@ -20,7 +20,7 @@ export class ApiService {
     return `${this.apiUrl}/${endpoint}`;
   }
 
-  login(username, password) {
+  login(username: string, password: string) {
     const url = this.getApiEndpoint(`login`);
 
     return this.httpService.post<LoginActionResponse>(url, {

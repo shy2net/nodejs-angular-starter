@@ -36,7 +36,7 @@ export class AuthService {
     this._loginChecked = loginChecked;
   }
 
-  get hasCredentails() {
+  get hasCredentials() {
     return !!this.savedToken;
   }
 
@@ -45,11 +45,11 @@ export class AuthService {
   }
 
   get isLoggedIn() {
-    return this.hasCredentails && !!this._user;
+    return this.hasCredentials && !!this._user;
   }
 
   get isLoggedInAsync() {
-    if (!this.hasCredentails) {
+    if (!this.hasCredentials) {
       return false;
     }
 
@@ -96,7 +96,7 @@ export class AuthService {
   constructor(private apiService: ApiService, private cookieService: CookieService) {}
 
   checkLogin(): Observable<UserProfile> {
-    if (!this.hasCredentails) {
+    if (!this.hasCredentials) {
       this.loginChecked = true;
       return;
     }

@@ -15,6 +15,8 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { ApiService, AppService, AuthGuardService, AuthService, RequestsService } from '@services';
 import { SharedModule } from '@shared/shared.module';
 
+import { MockApiService } from './api.service.mock';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +35,10 @@ import { SharedModule } from '@shared/shared.module';
   ],
   declarations: [HeaderComponent, FooterComponent],
   providers: [
-    ApiService,
+    {
+      useClass: MockApiService,
+      provide: ApiService,
+    },
     AuthService,
     AuthGuardService,
     AppService,

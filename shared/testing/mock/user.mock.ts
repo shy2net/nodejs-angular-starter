@@ -1,6 +1,6 @@
 import * as faker from 'faker';
 
-import { UserProfile } from '@shared';
+import { UserProfile } from '../../models/user-profile';
 
 /**
  * Generates a root user we can connect with to the web interface.

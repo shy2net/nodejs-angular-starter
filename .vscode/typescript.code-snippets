@@ -1,0 +1,75 @@
+{
+    "Angular Component Spec": {
+        "prefix": "ng-comp-spec",
+        "body": [
+            "describe('${0:MyComponent}', () => {",
+            "  let component: ${0};",
+            "  let fixture: ComponentFixture<${0}>;",
+            "",
+            "  let htmlElement: HTMLElement;",
+            "",
+            "  beforeEach(async(() => {",
+            "    getCommonTestBed([${0}], []).compileComponents();",
+            "  }));",
+            "",
+            "  beforeEach(async(() => {",
+            "    fixture = TestBed.createComponent(${0});",
+            "    component = fixture.componentInstance;",
+            "    fixture.detectChanges();",
+            "",
+            "    htmlElement = fixture.debugElement.nativeElement;",
+            "  }));",
+            "",
+            "  it('should create', () => {",
+            "    expect(component).toBeTruthy();",
+            "  });",
+            "});",
+            ""
+        ]
+    },
+    "Angular Service Spec": {
+        "prefix": "ng-service-spec",
+        "body": [
+            "describe('${0:MyService}', () => {",
+            "  let service: ${0};",
+            "  beforeEach(async(() => {",
+            "    getCommonTestBed([], [], [${0}]).compileComponents();",
+            "    service = TestBed.inject(${0});",
+            "  }));",
+            "",
+            "  it('should create', () => {",
+            "    expect(service).toBeTruthy();",
+            "  });",
+            "});"
+        ],
+        "description": "Angular service spec"
+    },
+    "API tests (get)": {
+        "prefix": "test-api-get",
+        "body": [
+            "const response = await request.get('${1:/api}');",
+            "expect(response).to.have.status(200);"
+        ]
+    },
+    "API tests (get-admin)": {
+        "prefix": "test-api-admin-get",
+        "body": [
+            "const response = await setAdminHeaders(request.get('${1:/api}'));",
+            "expect(response).to.have.status(200);"
+        ]
+    },
+    "API tests (post)": {
+        "prefix": "test-api-post",
+        "body": [
+            "const response = await request.post('${1:/api}').send({});",
+            "expect(response).to.have.status(200);"
+        ]
+    },
+    "API tests (post-admin)": {
+        "prefix": "test-api-admin-post",
+        "body": [
+            "const response = await setAdminHeaders(request.post('${1:/api}'));",
+            "expect(response).to.have.status(200);"
+        ]
+    },
+}

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { UserProfile } from '../../shared/models';
-import { generateMockUser } from '../testing/mock/user.mock';
+import { generateMockUser } from '../../shared/testing/mock/user.mock';
 import { RegisterForm } from './register.form';
 
 describe('RegisterForm', () => {
