@@ -31,7 +31,7 @@ export class AuthMiddleware implements IMiddleware {
 
           // If any roles were specified, check if the user has it
           if (options && options.role) {
-            if (user.roles.findIndex((role) => options.role) === -1)
+            if (user.roles.findIndex((role) => role === options.role) === -1)
               throw new Forbidden(`You don't have the permissions required!`);
           }
         })
