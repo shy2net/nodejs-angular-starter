@@ -9,10 +9,15 @@ services:
         - NODE_ENV
     environment:
       - NODE_ENV
+      # If we are running through docker-compose, allows access to the database
+      - WEB_CONF_DB_URI
+      - WEB_CONF_LOGS_DIR
     ports:
       - 3000:3000
     depends_on:
       - db
+    volumes:
+      - '~/dockers_data/web/logs:/logs'
   db:
     image: mongo:latest
     environment:
@@ -22,7 +27,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - "~/web_mongo:/data/db"
+      - 'mongodata:/data/db'
 
   # Test database used for running tests only
   test-db:
@@ -34,3 +39,5 @@ services:
     ports:
       - 27019:27017
 
+volumes:
+  mongodata:

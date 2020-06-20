@@ -26,7 +26,9 @@
   - [Form validations](#form-validations)
 - [Running on production](#running-on-production)
   - [Running Angular and NodeJS on the same server](#running-angular-and-nodejs-on-the-same-server)
-    - [Docker image and container](#docker-image-and-container)
+    - [Docker\Docker-Compose](#dockerdocker-compose)
+      - [Docker-compose](#docker-compose)
+      - [Docker image build](#docker-image-build)
     - [The build script (build.sh)](#the-build-script-buildsh)
   - [Seperating client and server](#seperating-client-and-server)
     - [Server as standalone](#server-as-standalone)
@@ -612,10 +614,33 @@ And to run this code simple:
     npm start
 
 
-### Docker image and container
+### Docker\Docker-Compose
 
-This template comes ready with Dockerfile based on node:12.14.0-alpine3.11 docker image.
-In order to build it simply run the following command:
+This template comes ready with Dockerfile based on node:12.18.1-alpine3.11 docker image.
+
+It also comes with a ready out of the box docker-compose.yml file which can be used
+to start-up the database and the web interface.
+
+
+#### Docker-compose
+
+You can fire-up the database and the web interface using the following command:
+
+    # This will build web docker image automatically if it does not exist
+    docker-compose up -d
+
+You can also build the web image manually like this:
+
+    docker-compose build web
+
+
+The environment variable for communication using docker-compose is already included in the `.env` file.
+This `.env` file contains the DB_URI of the database which the web will be able to to access.
+
+
+#### Docker image build
+
+In order to build the docker image without docker-compose, you can simply run the following command:
 
     docker build -t my-docker-image:0.0.0 .
 

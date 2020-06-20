@@ -4,8 +4,12 @@
  */
 
 import * as cors from 'cors';
+import * as _ from 'lodash';
 import * as path from 'path';
 
+import { $log } from '@tsed/common';
+
+import { getEnvConfig } from './misc/env-config-loader';
 import { AppConfig } from './models';
 
 process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '/config');
@@ -17,8 +21,11 @@ let exportedConfig = config as AppConfig;
  */
 let isDebugging = false;
 
+// Get the environment configurations
+const webEnvConfigs = getEnvConfig();
+
 // Read the supplied arguments
-process.argv.forEach(function(val, index, array) {
+process.argv.forEach(function (val, index, array) {
   if (val != null && typeof val === 'string') {
     if (val === '-debug') isDebugging = true;
   }
@@ -37,11 +44,11 @@ const CORS_OPTIONS: cors.CorsOptions = {
     'Authentication',
     'Authorization',
     'x-auth',
-    'access_token'
+    'access_token',
   ],
   methods: 'GET,HEAD,POST,OPTIONS,PUT,PATCH,DELETE',
   credentials: true,
-  preflightContinue: true
+  preflightContinue: true,
 };
 
 const ENVIRONMENT = process.env['NODE_ENV'] || 'development';
@@ -50,7 +57,16 @@ exportedConfig = {
   ...exportedConfig,
   ENVIRONMENT,
   CORS_OPTIONS,
-  DEBUG_MODE
+  DEBUG_MODE,
 };
+
+/*
+Merge the web env configs with the exported configs (so we won't delete any existing values),
+environment configurations always have higher priority.
+*/
+exportedConfig = _.merge(exportedConfig, webEnvConfigs);
+
+// Print out the configurations we are loading
+$log.info(`Loaded config: ${JSON.stringify(exportedConfig, null, 2)}`);
 
 export default exportedConfig as AppConfig;
