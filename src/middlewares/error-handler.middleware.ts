@@ -1,6 +1,6 @@
 import { ValidationError } from 'class-validator';
 
-import { Err, GlobalErrorHandlerMiddleware, OverrideProvider, Req, Res } from '@tsed/common';
+import { $log, Err, GlobalErrorHandlerMiddleware, OverrideProvider, Req, Res } from '@tsed/common';
 import { BadRequest, Exception } from '@tsed/exceptions';
 
 import { getFormValidationErrorText } from '../../shared/shared-utils';
@@ -21,6 +21,9 @@ export class ErrorHandlerMiddleware extends GlobalErrorHandlerMiddleware {
 
     // If it's an HTTP exception, return it to the client correctly for the client to handle
     if (error instanceof Exception) {
+      // Because we overrided Ts.ED default error handler, we should log all of the errors
+      $log.error(error);
+
       return response.status(error.status || 500).json({
         status: 'error',
         error: error.message,
