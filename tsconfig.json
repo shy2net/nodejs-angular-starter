@@ -3,7 +3,7 @@
     "target": "es2016",
     "module": "commonjs",
     "moduleResolution": "node",
-    "lib": ["es2016", "DOM"],
+    "lib": ["es2016", "DOM", "ESNext.AsyncIterable"],
     "baseUrl": "./",
     "declaration": true,
     "types": ["reflect-metadata", "node", "mocha", "chai"],

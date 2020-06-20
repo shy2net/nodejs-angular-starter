@@ -29,7 +29,7 @@ if (config.SSL_CERTIFICATE) {
     httpsOptions = {
       key: fs.readFileSync(config.SSL_CERTIFICATE.KEY, 'utf8'),
       cert: fs.readFileSync(config.SSL_CERTIFICATE.CERT, 'utf8'),
-      ca: fs.readFileSync(config.SSL_CERTIFICATE.CA, 'utf8')
+      ca: fs.readFileSync(config.SSL_CERTIFICATE.CA, 'utf8'),
     };
   } catch (e) {
     httpsOptions = null;
@@ -41,11 +41,11 @@ if (config.SSL_CERTIFICATE) {
   rootDir,
   acceptMimes: ['application/json'],
   mount: {
-    '/api': `${rootDir}/controllers/**/*.ts`
+    '/api': `${rootDir}/controllers/**/*.ts`,
   },
   httpPort,
   httpsPort: httpsOptions ? httpsPort : false,
-  httpsOptions
+  httpsOptions,
 })
 export class Server extends ServerLoader {
   /**
@@ -59,7 +59,7 @@ export class Server extends ServerLoader {
       .use(bodyParser.json()) // Use body parser for easier JSON parsing
       .use(
         bodyParser.urlencoded({
-          extended: true
+          extended: true,
         })
       );
 
@@ -90,9 +90,14 @@ export class Server extends ServerLoader {
    * Mounts angular using Server-Side-Rendering (Recommended for SEO)
    */
   private mountAngularSSR(): void {
+    // The dist folder of compiled angular
     const DIST_FOLDER = path.join(__dirname, 'dist');
-    const ngApp = require(path.join(DIST_FOLDER, 'server'));
-    ngApp.init(this.expressApp, DIST_FOLDER);
+
+    // The compiled server file (angular-src/server.ts) path
+    const ngApp = require(path.join(DIST_FOLDER, 'server/main'));
+
+    // Init the ng-app using SSR
+    ngApp.init(this.expressApp, path.join(DIST_FOLDER, '/browser'));
   }
 
   /**
@@ -103,7 +108,7 @@ export class Server extends ServerLoader {
     this.expressApp.use(express.static(path.join(__dirname, 'dist/browser')));
 
     // Deliever the Angular 2 distribution
-    this.expressApp.get('*', function(req, res) {
+    this.expressApp.get('*', function (req, res) {
       res.sendFile(path.join(__dirname, 'dist/browser/index.html'));
     });
   }
@@ -119,7 +124,7 @@ export class Server extends ServerLoader {
     $log.appenders.set('file-error-log', {
       type: 'file',
       filename: path.join(logsDir, `error.log`),
-      levels: ['error']
+      levels: ['error'],
     });
 
     // --> Uncomment this line if you want to log all data
@@ -130,7 +135,7 @@ export class Server extends ServerLoader {
 
     const loggerConfig = {
       debug: config.DEBUG_MODE,
-      level: config.DEBUG_MODE ? 'debug' : 'info'
+      level: config.DEBUG_MODE ? 'debug' : 'info',
       /* --> Uncomment to add request logging
         requestFields: ['reqId', 'method', 'url', 'headers', 'body', 'query', 'params', 'duration'],
         logRequest: true

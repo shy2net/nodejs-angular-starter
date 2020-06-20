@@ -44,7 +44,7 @@ check_errcode "Failed to build angular! stopping script!"
 # TODO: Remove this 'if' statment until the 'fi' if you don't want SSR at all
 if [ $ENV == "production" ]; then
     echo "Building Angular app for SSR..."
-    ./node_modules/.bin/ng run angular-src:server:production && ./node_modules/.bin/webpack --config webpack.server.config.js --progress --colors
+    ./node_modules/.bin/ng run angular-src:server:production
     check_errcode "Failed to build Angular app for SSR! aborting script!"
 else
     echo "Skipping build for SSR as environment is NOT production"
