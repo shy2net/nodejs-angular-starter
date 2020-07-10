@@ -19,5 +19,6 @@ export interface AppConfig {
   CORS_OPTIONS: cors.CorsOptions;
   LOGS_DIR: string;
   LOG_LEVEL: 'debug' | 'info';
+  USE_SSR: boolean;
   DEBUG_MODE: boolean;
 }

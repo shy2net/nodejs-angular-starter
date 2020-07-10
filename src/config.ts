@@ -9,6 +9,7 @@ import * as path from 'path';
 
 import { $log } from '@tsed/common';
 
+import { parseConfig } from './config-parser';
 import { getEnvConfig } from './misc/env-config-loader';
 import { AppConfig } from './models';
 
@@ -65,6 +66,9 @@ Merge the web env configs with the exported configs (so we won't delete any exis
 environment configurations always have higher priority.
 */
 exportedConfig = _.merge(exportedConfig, webEnvConfigs);
+
+// Parse all config values to replace special chars such as '~'
+parseConfig(exportedConfig);
 
 // Print out the configurations we are loading
 $log.info(`Loaded config: ${JSON.stringify(exportedConfig, null, 2)}`);

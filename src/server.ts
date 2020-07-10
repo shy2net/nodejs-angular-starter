@@ -82,8 +82,12 @@ export class Server extends ServerLoader {
    * Called after routes has been mounted.
    */
   $afterRoutesInit(): void {
-    // If we are not on debug mode, mount angular
-    if (!config.DEBUG_MODE) this.mountAngular();
+    // If we are not on debug mode, we need to deliver angular as well
+    if (!config.DEBUG_MODE) {
+      // If we want to use SSR, mount it
+      if (config.USE_SSR) this.mountAngularSSR();
+      else this.mountAngular(); // Just use angular normally if no ssr was defined
+    }
   }
 
   /**
