@@ -135,7 +135,7 @@ export class Server extends ServerLoader {
 
     const loggerConfig = {
       debug: config.DEBUG_MODE,
-      level: config.DEBUG_MODE ? 'debug' : 'info',
+      level: config.LOG_LEVEL || 'info',
       /* --> Uncomment to add request logging
         requestFields: ['reqId', 'method', 'url', 'headers', 'body', 'query', 'params', 'duration'],
         logRequest: true

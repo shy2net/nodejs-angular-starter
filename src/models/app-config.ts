@@ -18,5 +18,6 @@ export interface AppConfig {
   SOCIAL_CREDENTIALS: {};
   CORS_OPTIONS: cors.CorsOptions;
   LOGS_DIR: string;
+  LOG_LEVEL: 'debug' | 'info';
   DEBUG_MODE: boolean;
 }

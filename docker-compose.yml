@@ -7,11 +7,8 @@ services:
       context: .
       args:
         - NODE_ENV
-    environment:
-      - NODE_ENV
-      # If we are running through docker-compose, allows access to the database
-      - WEB_CONF_DB_URI
-      - WEB_CONF_LOGS_DIR
+    env_file:
+      - .env
     ports:
       - 3000:3000
     depends_on:
@@ -20,10 +17,8 @@ services:
       - '~/dockers_data/web/logs:/logs'
   db:
     image: mongo:latest
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD
-      - MONGO_INITDB_DATABASE
+    env_file:
+      - .env
     ports:
       - 27017:27017
     volumes:

@@ -13,5 +13,6 @@
             "APP_ID": "1086867360709-69ko7vlgcc3uuq8a42dmmvgjng1vg02l.apps.googleusercontent.com",
             "APP_SECRET": "VCj6R9XOnro6I8sRfFBS19pr"
         }
-    }
+    },
+    "LOG_LEVEL": "debug"
 }
