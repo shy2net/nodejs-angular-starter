@@ -156,9 +156,14 @@ in the `src/app.ts` you have these two methods:
    * Mounts angular using Server-Side-Rendering (Recommended for SEO)
    */
   private mountAngularSSR(): void {
-    const DIST_FOLDER = join(__dirname, 'dist');
-    const ngApp = require(join(DIST_FOLDER, 'server'));
-    ngApp.init(this.express, DIST_FOLDER);
+    // The dist folder of compiled angular
+    const DIST_FOLDER = path.join(__dirname, 'dist');
+
+    // The compiled server file (angular-src/server.ts) path
+    const ngApp = require(path.join(DIST_FOLDER, 'server/main'));
+
+    // Init the ng-app using SSR
+    ngApp.init(this.expressApp, path.join(DIST_FOLDER, '/browser'));
   }
 
   /**
@@ -506,7 +511,7 @@ import { Form } from './forms';
 import { UserProfile } from './user-profile';
 import { IsEmail, MinLength } from 'class-validator';
 
-export class UserProfileModel extends Form implements UserProfile {
+export class UserProfileModel implements UserProfile {
   @IsEmail()
   email: string;
 
@@ -565,19 +570,19 @@ For example, when registering a user validations takes place in this way:
   ```typescript
   @Post('/register')
   register(@BodyParams() userProfile: UserProfile): Promise<UserProfile> {
-    // Use the class-transformer-validator to build the model from the JSON object and validate it (https://github.com/19majkel94/class-transformer-validator).
-    return transformAndValidate(RegisterForm, userProfile).then((registerForm: RegisterForm) => {
-      return registerForm.getHashedPassword().then(hashedPassword => {
-        return UserProfileDbModel.create({
-          ...registerForm,
-          password: hashedPassword
-        });
+    return registerForm.getHashedPassword().then(hashedPassword => {
+      return UserProfileDbModel.create({
+        ...registerForm,
+        password: hashedPassword
       });
     });
   }
   ```
 
-  This will simply validate all fields easily using the provided model (and will transofrom it from the provided JSON object into a class model instance).
+  The validation of class-validator will take place automatically using the class-validator, you can read about it here:
+  [https://tsed.io/docs/validation.html#custom-validation](https://tsed.io/docs/validation.html#custom-validation).
+
+  The pipes required for class-validator to take place, are already implemented at `/src/pipes`;
 
 # Running on production
 
@@ -670,10 +675,10 @@ By default, when building to production, Server Side Rendering (SSR) is set to b
 
 ```bash
 # TODO: Remove this 'if' statment until the 'fi' if you don't want SSR at all
-if [ $ENV == "production" ]
-then
+if [ $ENV == "production" ]; then
     echo "Building Angular app for SSR..."
-    ./node_modules/.bin/ng run angular-src:server:production && ./node_modules/.bin/webpack --config webpack.server.config.js --progress --colors
+    ./node_modules/.bin/ng run angular-src:server:production
+    check_errcode "Failed to build Angular app for SSR! aborting script!"
 else
     echo "Skipping build for SSR as environment is NOT production"
 fi

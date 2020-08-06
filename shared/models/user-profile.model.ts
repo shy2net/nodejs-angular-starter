@@ -1,9 +1,8 @@
 import { IsEmail, MinLength } from 'class-validator';
 
-import { Form } from './forms';
 import { UserProfile } from './user-profile';
 
-export class UserProfileModel extends Form implements UserProfile {
+export class UserProfileModel implements UserProfile {
   @IsEmail()
   email: string;
 

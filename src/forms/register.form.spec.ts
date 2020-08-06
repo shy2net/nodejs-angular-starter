@@ -10,7 +10,10 @@ describe('RegisterForm', () => {
 
   before(async () => {
     user = generateMockUser();
-    registerForm = new RegisterForm(user as any);
+    registerForm = new RegisterForm();
+
+    // Set the user properties in the object
+    Object.assign(registerForm, user);
   });
 
   it('should return a hashed password', async () => {

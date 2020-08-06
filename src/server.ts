@@ -1,4 +1,6 @@
 import './middlewares/error-handler.middleware';
+import './pipes/class-transformer.pipe';
+import './pipes/class-validation.pipe';
 
 import * as cors from 'cors';
 import * as express from 'express';

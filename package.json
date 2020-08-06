@@ -5,14 +5,15 @@
     "scripts": {
         "install:all": "bash ./install_all.sh",
         "build": "bash ./build.sh",
-        "angular": "cd angular-src && ng serve",
+        "angular": "cd angular-src && ./node_modules/.bin/ng serve",
         "start": "node dist/src/index.js",
         "build:node": "rm -rf dist && tsc -p .",
         "build:nodelive": "./node_modules/.bin/nodemon --ignore angular-src --exec ./node_modules/.bin/ts-node -- ./src/index.ts -debug",
         "build:angular": "cd angular-src && ng build --aot --prod",
         "node": "npm run predebug && npm run build:nodelive",
-        "ng:test": "cd ./angular-src && ng test",
-        "ng:e2e": "cd ./angular-src && ng e2e",
+        "ng:test": "cd ./angular-src && ./node_modules/.bin/ng test",
+        "ng:test:ci": "export IS_CI=true; cd ./angular-src && ./node_modules/.bin/ng test --no-watch --no-progress --browsers=Headless_Chrome",
+        "ng:e2e": "cd ./angular-src && ./node_modules/.bin/ng e2e",
         "test": "bash ./test.sh",
         "predebug": "bash ./predebug.sh"
     },

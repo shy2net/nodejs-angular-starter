@@ -1,5 +1,3 @@
-import { transformAndValidate } from 'class-transformer-validator';
-
 import { ActionResponse, LoginActionResponse, UserProfile } from '@shared';
 import { BodyParams, Controller, Get, Post, QueryParams, UseBefore } from '@tsed/common';
 import { BadRequest } from '@tsed/exceptions';
@@ -74,16 +72,13 @@ export class ApiController {
   @Post('/register')
   register(
     // Don't validate using the built in models
-    @BodyParams({ useValidation: false, useConverter: false }) registerForm: RegisterForm
+    @BodyParams() registerForm: RegisterForm
   ): Promise<UserProfile> {
-    // Use the class-transformer-validator to build the model from the JSON object and validate it (https://github.com/19majkel94/class-transformer-validator).
-    return transformAndValidate(RegisterForm, registerForm).then((registerForm: RegisterForm) => {
-      // Hash the user password and create it afterwards
-      return registerForm.getHashedPassword().then((hashedPassword) => {
-        return UserProfileDbModel.create({
-          ...registerForm,
-          password: hashedPassword,
-        });
+    // Hash the user password and create it afterwards
+    return registerForm.getHashedPassword().then((hashedPassword) => {
+      return UserProfileDbModel.create({
+        ...registerForm,
+        password: hashedPassword,
       });
     });
   }

@@ -1,5 +1,3 @@
-import * as bcrypt from 'bcryptjs';
-
 import { UserProfileModel } from '../../shared/models/user-profile.model';
 import { getHashedPassword } from '../misc/utils';
 

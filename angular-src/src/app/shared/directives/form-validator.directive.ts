@@ -1,10 +1,8 @@
-import { ValidationError } from 'class-validator';
+import { validate, ValidationError } from 'class-validator';
 
 import {
     AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges
 } from '@angular/core';
-
-import { Form } from '../../../../../shared/models/forms/form';
 
 /**
  * This directive simply updates all of the fields in the form according to the model validations using class-validator (https://github.com/typestack/class-validator).
@@ -14,7 +12,13 @@ import { Form } from '../../../../../shared/models/forms/form';
   selector: '[appFormValidator]',
 })
 export class FormValidatorDirective implements AfterViewInit, OnChanges {
-  @Input() appFormValidator: Form;
+  /**
+   * A class-validator implemented object, which is used to validate the fields in the form.
+   *
+   * @type {*}
+   * @memberof FormValidatorDirective
+   */
+  @Input() appFormValidator: any;
   /**
    *Hides all of the form validation errors text.
    *
@@ -115,7 +119,7 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges {
   updateForm(): Promise<boolean> {
     const prevIsFormValid = this._isFormValid;
 
-    return this.appFormValidator.getFormIssues().then((results) => {
+    return validate(this.appFormValidator).then((results) => {
       let errorsFound = 0;
       this.getFormGroupInputs().forEach((input: HTMLInputElement) => {
         const name = input.name;
