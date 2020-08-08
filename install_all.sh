@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# We are setting the NODE_env to development only for the installation, in order to install dev and production packages
-export NODE_ENV=development
-
 # Install all of the dependencies, including the development and productin
 function install_deps() {
-    npm install
+    # Install dev depdendencies but ignore postinstall script
+    npm install --only=dev --ignore-scripts
+    # Install prod dependencies and run postinstall script if exists
+    npm install --only=prod
 }
 
 echo "Installing all dependencies for NodeJS & Angular..."
