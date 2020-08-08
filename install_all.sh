@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# We are setting the NODE_env to development, in order to install dev and production packages
-NODE_ENV=development
+# We are setting the NODE_env to development only for the installation, in order to install dev and production packages
+export NODE_ENV=development
 
 # Install all of the dependencies, including the development and productin
 function install_deps() {
