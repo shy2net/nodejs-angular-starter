@@ -161,10 +161,10 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestr
    * Goes through all of the form and checks for any issues, updates all of the fields accordingly.
    */
   updateForm(): Promise<boolean> {
-    const prevIsFormValid = this._isFormValid;
-    this._isFormValid = true;
-
     return validate(this.appFormValidator).then((validationErrors) => {
+      const prevIsFormValid = this._isFormValid;
+      this._isFormValid = true;
+
       this.getFormGroupInputs().forEach((input: HTMLInputElement) => {
         const name = input.name;
         const validationError = this.getValidationErrorFromFieldName(name, validationErrors);
