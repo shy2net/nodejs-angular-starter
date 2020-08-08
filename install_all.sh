@@ -2,7 +2,10 @@
 
 # Install all of the dependencies, including the development and productin
 function install_deps() {
-    npm install --only=dev && npm install --only=prod
+    # Install dev depdendencies but ignore postinstall script
+    npm install --only=dev --ignore-scripts
+    # Install prod dependencies and run postinstall script if exists
+    npm install --only=prod
 }
 
 echo "Installing all dependencies for NodeJS & Angular..."
