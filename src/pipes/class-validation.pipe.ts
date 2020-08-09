@@ -1,9 +1,7 @@
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
 
-import {
-    IPipe, OverrideProvider, ParamMetadata, ValidationError, ValidationPipe
-} from '@tsed/common';
+import { IPipe, OverrideProvider, ParamMetadata, ValidationPipe } from '@tsed/common';
 
 // Based on: https://tsed.io/docs/validation.html#custom-validation
 
@@ -13,6 +11,9 @@ import {
 @OverrideProvider(ValidationPipe)
 export class ClassValidationPipe extends ValidationPipe implements IPipe<any> {
   async transform(value: any, metadata: ParamMetadata) {
+    // Apply super validations if required
+    value = super.transform(value, metadata);
+
     if (!this.shouldValidate(metadata)) {
       // there is no type and collectionType
       return value;
