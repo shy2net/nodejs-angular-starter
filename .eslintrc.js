@@ -8,5 +8,8 @@ module.exports = {
     "prettier",
     "prettier/@typescript-eslint",
   ],
+  env: {
+    node: true,
+  },
   rules: {},
 };

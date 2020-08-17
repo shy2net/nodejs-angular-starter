@@ -15,7 +15,8 @@
         "ng:test:ci": "export IS_CI=true; cd ./angular-src && ./node_modules/.bin/ng test --no-watch --no-progress --browsers=Headless_Chrome",
         "ng:e2e": "cd ./angular-src && ./node_modules/.bin/ng e2e",
         "test": "bash ./test.sh",
-        "predebug": "bash ./predebug.sh"
+        "predebug": "bash ./predebug.sh",
+        "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx~"
     },
     "engines": {
         "node": "12.14.0",
