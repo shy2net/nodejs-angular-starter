@@ -6,3 +6,5 @@ dist
 coverage
 # don't lint eslint conf file
 .eslintrc.js
+# don't lint angular-src
+angular-src
