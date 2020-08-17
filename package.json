@@ -16,7 +16,7 @@
         "ng:e2e": "cd ./angular-src && ./node_modules/.bin/ng e2e",
         "test": "bash ./test.sh",
         "predebug": "bash ./predebug.sh",
-        "lint": "eslint . --ext .js,.jsx,.ts,.tsx~"
+        "lint": "eslint . --ext .js,.jsx,.ts"
     },
     "engines": {
         "node": "12.14.0",
