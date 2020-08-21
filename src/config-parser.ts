@@ -31,7 +31,7 @@ export const parseEnvString = (value: string) => {
 export const parseConfig = (config: any) => {
   if (config instanceof Object) {
     for (const key in config) {
-      let value = config[key];
+      const value = config[key];
 
       if (value instanceof Object) parseConfig(value);
       else if (typeof value === 'string') config[key] = parseEnvString(value);
