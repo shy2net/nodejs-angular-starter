@@ -2,7 +2,7 @@ import 'chai-http';
 import 'superagent';
 
 import * as chai from 'chai';
-import request from 'superagent';
+import superagent from 'superagent';
 
 import { ExpressApplication } from '@tsed/common';
 import { TestContext } from '@tsed/testing';
@@ -35,7 +35,7 @@ export async function getMockRootUserFromDB(): Promise<IUserProfileDbModel> {
 }
 
 export function setAdminHeaders(
-  request: request.SuperAgentRequest
-): request.SuperAgentRequest {
+  request: superagent.SuperAgentRequest
+): superagent.SuperAgentRequest {
   return request.auth('admin', { type: 'bearer' });
 }

@@ -10,13 +10,13 @@ import config from './config';
 import { IUserProfileDbModel, UserProfileDbModel } from './models/user-profile.db.model';
 
 export class SocialAuthentication {
-  init(express: Application) {
+  init(express: Application): void {
     express.use(passport.initialize());
     this.initFacebook();
     this.initGoogle();
   }
 
-  initFacebook() {
+  initFacebook(): void {
     const facebookCredentails = config.SOCIAL_CREDENTIALS['facebook'] as {
       APP_ID: string;
       APP_SECRET: string;
@@ -48,7 +48,7 @@ export class SocialAuthentication {
     );
   }
 
-  initGoogle() {
+  initGoogle(): void {
     const googleCredentails = config.SOCIAL_CREDENTIALS['google'] as {
       APP_ID: string;
       APP_SECRET: string;
