@@ -1,11 +1,13 @@
+import 'chai-http';
+import 'superagent';
+
 import * as chai from 'chai';
-import chaiHttp from 'chai-http';
 import request from 'superagent';
 
 import { ExpressApplication } from '@tsed/common';
 import { TestContext } from '@tsed/testing';
 
-import { UserProfileDbModel } from '../models/user-profile.db.model';
+import { IUserProfileDbModel, UserProfileDbModel } from '../models/user-profile.db.model';
 import { Server } from '../server';
 
 let expressApp: ExpressApplication;
@@ -22,14 +24,18 @@ export async function getExpressApp(): Promise<ExpressApplication> {
   if (expressApp) return expressApp;
 
   await TestContext.bootstrap(Server)();
-  expressApp = TestContext.injector.get(ExpressApplication) as ExpressApplication;
+  expressApp = TestContext.injector.get(
+    ExpressApplication
+  ) as ExpressApplication;
   return expressApp;
 }
 
-export async function getMockRootUserFromDB() {
+export async function getMockRootUserFromDB(): Promise<IUserProfileDbModel> {
   return UserProfileDbModel.findOne({ email: 'root@mail.com' });
 }
 
-export function setAdminHeaders(request: request.SuperAgentRequest): request.SuperAgentRequest {
+export function setAdminHeaders(
+  request: request.SuperAgentRequest
+): request.SuperAgentRequest {
   return request.auth('admin', { type: 'bearer' });
 }

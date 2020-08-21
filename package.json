@@ -54,7 +54,6 @@
         "chai-exclude": "^2.0.2",
         "chai-http": "^4.3.0",
         "chai-spies": "^1.0.0",
-        "copy-webpack-plugin": "^5.1.1",
         "eslint": "^7.7.0",
         "eslint-config-prettier": "^6.11.0",
         "faker": "^4.1.0",
@@ -66,12 +65,7 @@
         "ts-loader": "^6.2.2",
         "ts-node": "^3.3.0",
         "tsconfig-paths": "^3.9.0",
-        "tsconfig-paths-webpack-plugin": "^3.3.0",
-        "typescript": "^3.9.7",
-        "webpack": "^4.44.1",
-        "webpack-cli": "^3.3.12",
-        "webpack-dev-server": "^3.11.0",
-        "webpack-node-externals": "^1.7.2"
+        "typescript": "^3.9.7"
     },
     "dependencies": {
         "@tsed/common": "^5.62.0",
