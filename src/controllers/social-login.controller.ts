@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import * as passport from 'passport';
 
 import { AppRequest, AppResponse } from '@models';
@@ -23,14 +22,18 @@ export class SocialLoginController {
     // If this is not unit testing and we have obtained a request
     if (req) {
       // Wait for the passport middleware to run
-      await middlewareToPromise(passport.authenticate(`${provider}-token`, { session: false }), req, res); // Authenticate using the provider suitable (google-token, facebook-token)
+      await middlewareToPromise(
+        passport.authenticate(`${provider}-token`, { session: false }),
+        req,
+        res
+      ); // Authenticate using the provider suitable (google-token, facebook-token)
       user = req.user;
     }
 
     const token = this.authService.generateToken(user);
     return responses.getOkayResponse({
       token,
-      profile: user
+      profile: user,
     });
   }
 }

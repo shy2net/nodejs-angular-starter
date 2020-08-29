@@ -65,7 +65,7 @@ export class ApiController {
 
   @Get('/logout')
   @UseBefore(AuthMiddleware)
-  logout(): Promise<ActionResponse<any>> {
+  logout(): Promise<ActionResponse<void>> {
     // TODO: Implement your own logout mechanisem (JWT token blacklists, etc...)
     return Promise.reject(`Logout has not been implemented!`);
   }

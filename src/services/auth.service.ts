@@ -2,9 +2,10 @@ import * as bcrypt from 'bcryptjs';
 import { Application } from 'express';
 import * as bearerToken from 'express-bearer-token';
 import * as jwt from 'jsonwebtoken';
+import { DocumentQuery } from 'mongoose';
 
 import { Service } from '@tsed/di';
-import { InternalServerError, Unauthorized } from '@tsed/exceptions';
+import { Unauthorized } from '@tsed/exceptions';
 
 import { UserProfile } from '../../shared/models';
 import config from '../config';
@@ -13,7 +14,7 @@ import { IUserProfileDbModel } from '../models/user-profile.db.model';
 
 @Service()
 export class AuthService {
-  static initMiddleware(express: Application) {
+  static initMiddleware(express: Application): void {
     // Allow parsing bearer tokens easily
     express.use(bearerToken());
   }
@@ -33,13 +34,20 @@ export class AuthService {
     });
   }
 
-  getUserFromDB(email: string) {
+  getUserFromDB(
+    email: string
+  ): DocumentQuery<IUserProfileDbModel, IUserProfileDbModel, unknown> {
     return UserProfileDbModel.findOne({ email });
   }
 
-  getUserFromToken(token: string) {
+  getUserFromToken(
+    token: string
+  ): DocumentQuery<IUserProfileDbModel, IUserProfileDbModel, unknown> {
     // Decode the token
-    const decodedUser = jwt.verify(token, config.JWT.SECRET) as IUserProfileDbModel;
+    const decodedUser = jwt.verify(
+      token,
+      config.JWT.SECRET
+    ) as IUserProfileDbModel;
 
     if (decodedUser) {
       // If the user has been decoded successfully, check it against the database
@@ -60,6 +68,10 @@ export class AuthService {
    * @param token
    */
   decodeToken(token: string): UserProfile {
-    return jwt.verify(token, config.JWT.SECRET, config.JWT.VERIFY_OPTIONS) as UserProfile;
+    return jwt.verify(
+      token,
+      config.JWT.SECRET,
+      config.JWT.VERIFY_OPTIONS
+    ) as UserProfile;
   }
 }

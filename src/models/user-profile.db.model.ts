@@ -1,4 +1,3 @@
-import * as EmailValidator from 'email-validator';
 import { Document, model, Model, Schema } from 'mongoose';
 
 import { UserProfile } from '../../shared/models';
@@ -11,29 +10,28 @@ export const UserProfileSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    minlength: 4
+    minlength: 4,
   },
   firstName: {
-    type: String
+    type: String,
   },
   lastName: {
-    type: String
+    type: String,
   },
   password: {
     type: String,
     required: true,
-    minlength: 6
+    minlength: 6,
   },
-  roles: [String]
+  roles: [String],
 });
 
-UserProfileSchema.methods.toJSON = function() {
+UserProfileSchema.methods.toJSON = function () {
   const instance = (this as IUserProfileDbModel).toObject();
   delete instance.password; // Remove the password field
   return instance;
 };
 
-export const UserProfileDbModel: Model<IUserProfileDbModel> = model<IUserProfileDbModel>(
-  'user',
-  UserProfileSchema
-);
+export const UserProfileDbModel: Model<IUserProfileDbModel> = model<
+  IUserProfileDbModel
+>('user', UserProfileSchema);

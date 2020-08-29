@@ -2,6 +2,8 @@ import './middlewares/error-handler.middleware';
 import './pipes/class-transformer.pipe';
 import './pipes/class-validation.pipe';
 
+import * as bodyParser from 'body-parser';
+import * as compress from 'compression';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as httpsRedirect from 'express-https-redirect';
@@ -9,14 +11,14 @@ import * as fs from 'fs';
 import { ServerOptions } from 'https';
 import * as path from 'path';
 
-import { $log, GlobalAcceptMimesMiddleware, ServerLoader, ServerSettings } from '@tsed/common';
+import {
+    $log, GlobalAcceptMimesMiddleware, IRoute, ServerLoader, ServerSettings
+} from '@tsed/common';
 
 import config from './config';
 import { AuthService } from './services/auth.service';
 import socialAuth from './social-auth';
 
-const bodyParser = require('body-parser');
-const compress = require('compression');
 const rootDir = __dirname;
 
 // Configurations we want to load
@@ -54,7 +56,7 @@ export class Server extends ServerLoader {
    * This method let you configure the express middleware required by your application to works.
    * @returns {Server}
    */
-  $beforeRoutesInit(): void | Promise<any> {
+  $beforeRoutesInit(): void | Promise<void> {
     this.use(GlobalAcceptMimesMiddleware)
       .use(cors(config.CORS_OPTIONS)) // Enable CORS (for angular)
       .use(compress({})) // Compress all data sent to the client
@@ -100,6 +102,7 @@ export class Server extends ServerLoader {
     const DIST_FOLDER = path.join(__dirname, 'dist');
 
     // The compiled server file (angular-src/server.ts) path
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const ngApp = require(path.join(DIST_FOLDER, 'server/main'));
 
     // Init the ng-app using SSR
@@ -155,16 +158,18 @@ export class Server extends ServerLoader {
    * Override set settings by configuring custom settings.
    * @param settings
    */
-  protected async loadSettingsAndInjector() {
+  protected async loadSettingsAndInjector(): Promise<IRoute[]> {
     // Apply the logger configurations
     this.loadLoggerConfigurations();
 
     return super.loadSettingsAndInjector();
   }
 
-  start() {
+  start(): Promise<unknown> {
     if (config.DEBUG_MODE) $log.info(`Debug mode is ON`);
-    $log.info(`** Loaded configurations for environment: ${config.ENVIRONMENT} **`);
+    $log.info(
+      `** Loaded configurations for environment: ${config.ENVIRONMENT} **`
+    );
     return super.start();
   }
 }

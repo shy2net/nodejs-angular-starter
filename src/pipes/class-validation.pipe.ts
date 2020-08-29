@@ -9,8 +9,9 @@ import { IPipe, OverrideProvider, ParamMetadata, ValidationPipe } from '@tsed/co
  * A pipe which validates using built in ts.Ed validation using class-validator.
  */
 @OverrideProvider(ValidationPipe)
-export class ClassValidationPipe extends ValidationPipe implements IPipe<any> {
-  async transform(value: any, metadata: ParamMetadata) {
+export class ClassValidationPipe extends ValidationPipe
+  implements IPipe<unknown> {
+  async transform(value: unknown, metadata: ParamMetadata): Promise<unknown> {
     // Apply super validations if required
     value = super.transform(value, metadata);
 
@@ -29,7 +30,7 @@ export class ClassValidationPipe extends ValidationPipe implements IPipe<any> {
   }
 
   protected shouldValidate(metadata: ParamMetadata): boolean {
-    const types: Function[] = [String, Boolean, Number, Array, Object];
+    const types: unknown[] = [String, Boolean, Number, Array, Object];
 
     return !super.shouldValidate(metadata) || !types.includes(metadata.type);
   }

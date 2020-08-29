@@ -10,7 +10,11 @@ import { getFormValidationErrorText } from '../../shared/shared-utils';
  */
 @OverrideProvider(GlobalErrorHandlerMiddleware)
 export class ErrorHandlerMiddleware extends GlobalErrorHandlerMiddleware {
-  use(@Err() error: any, @Req() request: Req, @Res() response: Res): any {
+  use(
+    @Err() error: unknown,
+    @Req() request: Req,
+    @Res() response: Res
+  ): unknown {
     // Check if the error is a form validation error
     if (error instanceof Array) {
       if (error.length > 0 && error[0] instanceof ValidationError)
