@@ -14,18 +14,20 @@ export class ApiController {
   constructor(private authService: AuthService) {}
 
   @Get('/test')
-  test() {
+  test(): ActionResponse<void> {
     return responses.getOkayResponse();
   }
 
   @Get('/error-test')
-  errorTest() {
+  errorTest(): ActionResponse<void> {
     throw new BadRequest('This is an error!');
   }
 
   @Get('/say-something')
-  saySomething(@QueryParams('whatToSay') whatToSay: string) {
-    return responses.getOkayResponse(whatToSay);
+  saySomething(
+    @QueryParams('whatToSay') whatToSay: string
+  ): ActionResponse<string> {
+    return responses.getOkayResponse<string>(whatToSay);
   }
 
   @Post('/login')
@@ -57,7 +59,7 @@ export class ApiController {
 
   @Get('/admin')
   @UseBefore(AuthMiddleware)
-  adminTest() {
+  adminTest(): ActionResponse<void> {
     return this.test();
   }
 
