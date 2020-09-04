@@ -6,6 +6,6 @@ import { FormValidatorDirective } from './directives';
 @NgModule({
   imports: [CommonModule],
   exports: [FormValidatorDirective],
-  declarations: [FormValidatorDirective]
+  declarations: [FormValidatorDirective],
 })
 export class SharedModule {}

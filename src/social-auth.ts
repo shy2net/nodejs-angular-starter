@@ -10,13 +10,13 @@ import config from './config';
 import { IUserProfileDbModel, UserProfileDbModel } from './models/user-profile.db.model';
 
 export class SocialAuthentication {
-  init(express: Application) {
+  init(express: Application): void {
     express.use(passport.initialize());
     this.initFacebook();
     this.initGoogle();
   }
 
-  initFacebook() {
+  initFacebook(): void {
     const facebookCredentails = config.SOCIAL_CREDENTIALS['facebook'] as {
       APP_ID: string;
       APP_SECRET: string;
@@ -26,7 +26,7 @@ export class SocialAuthentication {
       new FacebookTokenStrategy(
         {
           clientID: facebookCredentails.APP_ID,
-          clientSecret: facebookCredentails.APP_SECRET
+          clientSecret: facebookCredentails.APP_SECRET,
         },
         (accessToken, refreshToken, profile, done) => {
           const fbProfile = profile._json;
@@ -35,12 +35,12 @@ export class SocialAuthentication {
           this.findOrCreateUser(email, fbProfile, {
             email: 'email',
             first_name: 'firstName',
-            last_name: 'lastName'
+            last_name: 'lastName',
           })
-            .then(user => {
+            .then((user) => {
               done(null, user.toJSON());
             })
-            .catch(error => {
+            .catch((error) => {
               done(error, null);
             });
         }
@@ -48,7 +48,7 @@ export class SocialAuthentication {
     );
   }
 
-  initGoogle() {
+  initGoogle(): void {
     const googleCredentails = config.SOCIAL_CREDENTIALS['google'] as {
       APP_ID: string;
       APP_SECRET: string;
@@ -57,7 +57,7 @@ export class SocialAuthentication {
     passport.use(
       new GoogleTokenStrategy(
         {
-          clientID: googleCredentails.APP_ID
+          clientID: googleCredentails.APP_ID,
         },
         (accessToken, refreshToken, profile, done) => {
           const googleProfile = profile._json;
@@ -66,12 +66,12 @@ export class SocialAuthentication {
           this.findOrCreateUser(email, googleProfile, {
             email: 'email',
             given_name: 'firstName',
-            family_name: 'lastName'
+            family_name: 'lastName',
           })
-            .then(user => {
+            .then((user) => {
               done(null, user.toJSON());
             })
-            .catch(error => {
+            .catch((error) => {
               done(error, null);
             });
         }
@@ -87,14 +87,21 @@ export class SocialAuthentication {
    * @param socialProfile
    * @param map
    */
-  async findOrCreateUser(email: string, socialProfile: any, map: {}): Promise<IUserProfileDbModel> {
+  async findOrCreateUser(
+    email: string,
+    socialProfile: unknown,
+    map: unknown
+  ): Promise<IUserProfileDbModel> {
     const user = await UserProfileDbModel.findOne({ email });
 
     if (user) {
       return user;
     }
 
-    const generatedProfile = await this.generateUserFromSocialProfile(socialProfile, map);
+    const generatedProfile = await this.generateUserFromSocialProfile(
+      socialProfile,
+      map
+    );
 
     return UserProfileDbModel.create(generatedProfile);
   }
@@ -105,10 +112,13 @@ export class SocialAuthentication {
    * @param userProfile Our user profile To save the data into
    * @param map A dictionary that associates the social profile fiels to the user profile fields
    */
-  generateUserFromSocialProfile(socialProfile: any, map: {}) {
+  generateUserFromSocialProfile(
+    socialProfile: unknown,
+    map: unknown
+  ): Promise<UserProfile> {
     const userProfile = {} as UserProfile;
 
-    Object.keys(map).forEach(key => {
+    Object.keys(map).forEach((key) => {
       const userKey = map[key];
       userProfile[userKey] = socialProfile[key];
     });
@@ -116,8 +126,8 @@ export class SocialAuthentication {
     const password = randomstring.generate();
 
     // Generate a random password for this user
-    return bcrypt.genSalt().then(salt => {
-      return bcrypt.hash(password, salt).then(hash => {
+    return bcrypt.genSalt().then((salt) => {
+      return bcrypt.hash(password, salt).then((hash) => {
         userProfile.password = hash;
         return userProfile;
       });

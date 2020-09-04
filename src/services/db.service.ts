@@ -9,7 +9,7 @@ import config from '../config';
 export class DatabaseService {
   db: mongoose.Connection;
 
-  protected async $onInit() {
+  protected async $onInit(): Promise<void> {
     return new Promise((resolve, reject) => {
       $log.info(`Connecting to database...`);
       mongoose.connect(config.DB_URI);
@@ -29,7 +29,7 @@ export class DatabaseService {
     });
   }
 
-  $onDestroy() {
+  $onDestroy(): void {
     const db = mongoose.connection;
     if (db) db.close();
   }

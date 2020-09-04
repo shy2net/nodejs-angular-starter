@@ -5,15 +5,22 @@ import * as process from 'process';
  * Parse environment variables, parse out path strings, and boolean values.
  * @param value
  */
-export const parseEnvString = (value: string) => {
+export const parseEnvString = (value: string): string | boolean => {
   // If it's a boolean string, return it as a boolean
   if (value === 'true' || value === 'false') {
     return value === 'true' ? true : false;
   }
 
-  if (value.startsWith('/') || value.startsWith('./') || value.startsWith('~')) {
+  if (
+    value.startsWith('/') ||
+    value.startsWith('./') ||
+    value.startsWith('~')
+  ) {
     // Replace home directory with correct value (if exists)
-    const output = value.replace('~/', `${process.env.HOME || process.env.USERPROFILE}/`);
+    const output = value.replace(
+      '~/',
+      `${process.env.HOME || process.env.USERPROFILE}/`
+    );
 
     // Parse other values
     return path.resolve(output);
@@ -28,10 +35,10 @@ export const parseEnvString = (value: string) => {
  * which represents user home directory.
  * @param config
  */
-export const parseConfig = (config: any) => {
+export const parseConfig = (config: unknown): void => {
   if (config instanceof Object) {
     for (const key in config) {
-      let value = config[key];
+      const value = config[key];
 
       if (value instanceof Object) parseConfig(value);
       else if (typeof value === 'string') config[key] = parseEnvString(value);

@@ -64,6 +64,8 @@
     "@types/jasmine": "^3.5.12",
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "^13.13.15",
+    "@types/bootstrap": "^4.5.0",
+    "@types/jquery": "3.3.29",
     "codelyzer": "^6.0.0",
     "faker": "^4.1.0",
     "jasmine-core": "~3.5.0",

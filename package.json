@@ -15,7 +15,8 @@
         "ng:test:ci": "export IS_CI=true; cd ./angular-src && ./node_modules/.bin/ng test --no-watch --no-progress --browsers=Headless_Chrome",
         "ng:e2e": "cd ./angular-src && ./node_modules/.bin/ng e2e",
         "test": "bash ./test.sh",
-        "predebug": "bash ./predebug.sh"
+        "predebug": "bash ./predebug.sh",
+        "lint": "eslint . --ext .js,.jsx,.ts"
     },
     "engines": {
         "node": "12.14.0",
@@ -46,26 +47,25 @@
         "@types/randomstring": "^1.1.6",
         "@types/request": "^2.48.5",
         "@types/superagent": "^3.8.7",
+        "@typescript-eslint/eslint-plugin": "^3.9.0",
+        "@typescript-eslint/parser": "^3.9.0",
         "chai": "^4.2.0",
         "chai-as-promised": "^7.1.1",
         "chai-exclude": "^2.0.2",
         "chai-http": "^4.3.0",
         "chai-spies": "^1.0.0",
-        "copy-webpack-plugin": "^5.1.1",
+        "eslint": "^7.7.0",
+        "eslint-config-prettier": "^6.11.0",
         "faker": "^4.1.0",
         "mocha": "^7.2.0",
         "nodemon": "^1.19.4",
+        "prettier": "2.0.5",
         "reflect-metadata": "^0.1.13",
         "request": "^2.88.2",
         "ts-loader": "^6.2.2",
         "ts-node": "^3.3.0",
         "tsconfig-paths": "^3.9.0",
-        "tsconfig-paths-webpack-plugin": "^3.3.0",
-        "typescript": "^3.9.7",
-        "webpack": "^4.44.1",
-        "webpack-cli": "^3.3.12",
-        "webpack-dev-server": "^3.11.0",
-        "webpack-node-externals": "^1.7.2"
+        "typescript": "^3.9.7"
     },
     "dependencies": {
         "@tsed/common": "^5.62.0",

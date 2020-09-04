@@ -21,7 +21,7 @@ export class AppService {
     return this.user != null && this.loginChecked;
   }
 
-  get loginChecked() {
+  get loginChecked(): boolean {
     return this.authService.loginChecked;
   }
 

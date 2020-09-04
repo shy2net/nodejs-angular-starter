@@ -15,7 +15,7 @@ export interface AppConfig {
     CERT: string;
     CA: string;
   };
-  SOCIAL_CREDENTIALS: {};
+  SOCIAL_CREDENTIALS: unknown;
   CORS_OPTIONS: cors.CorsOptions;
   LOGS_DIR: string;
   LOG_LEVEL: 'debug' | 'info';

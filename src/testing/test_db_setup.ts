@@ -17,7 +17,7 @@ export class TestDBSetup {
   /**
    * Setup the database with mocks and required data.
    */
-  async setup() {
+  async setup(): Promise<void> {
     await this.format();
     await this.createUsers();
   }
@@ -25,14 +25,14 @@ export class TestDBSetup {
   /**
    * Cleans up the database from any data.
    */
-  async format() {
+  async format(): Promise<void> {
     await UserProfileDbModel.deleteMany({});
   }
 
   /**
    * Create mock users required for the api tests to run.
    */
-  async createUsers() {
+  async createUsers(): Promise<void> {
     // Create a root user which we can connect later to
     const rootUser = generateMockRootUser();
 
@@ -43,10 +43,13 @@ export class TestDBSetup {
    * Cleans up the database with any 'unrelated' mock objects, which are not the required
    * mocks. This is required in order to perform clean api tests.
    */
-  async cleanup() {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async cleanup(): Promise<void> {}
 }
 
-export async function initTestDB(injector: InjectorService) {
+export async function initTestDB(
+  injector: InjectorService
+): Promise<TestDBSetup> {
   const mockSetup = new TestDBSetup(injector);
   await mockSetup.setup();
   return mockSetup;

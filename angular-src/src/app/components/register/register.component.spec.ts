@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -17,16 +17,21 @@ describe('RegisterComponent', () => {
   let lastNameField: HTMLInputElement;
   let registerButton: HTMLInputElement;
 
-  const getAllTextInputFields = (): Array<HTMLInputElement> => {
-    return Array.apply(null, htmlElement.querySelectorAll('input[type="text"] input[type="password"]'));
-  };
+  // const getAllTextInputFields = (): Array<HTMLInputElement> => {
+  //   return Array.apply(
+  //     null,
+  //     htmlElement.querySelectorAll('input[type="text"] input[type="password"]')
+  //   );
+  // };
 
   const anyFieldHasInvalidDescription = () => {
     return document.querySelector('.invalid-feedback');
   };
 
   const fieldHasInvalidDescription = (field: HTMLInputElement) => {
-    return getInputElementValidationDiv(field).classList.contains('invalid-feedback');
+    return getInputElementValidationDiv(field).classList.contains(
+      'invalid-feedback'
+    );
   };
 
   beforeEach(async(() => {

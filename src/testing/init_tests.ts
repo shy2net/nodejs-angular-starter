@@ -15,6 +15,7 @@ import { initTestDB, TestDBSetup } from './test_db_setup';
 chai.use(spies);
 chai.use(promisedChai);
 chai.use(chaiExclude);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 chai.use(require('chai-http'));
 
 let mockSetup: TestDBSetup;
@@ -34,7 +35,8 @@ beforeEach(async function () {
   Because API tests require database to be clean, we clean it up before tests start to run.
   You can call 'disableMockCleanup' in order to disable this feature.
   */
-  if (this.currentTest.parent.title.endsWith('Controller')) await mockSetup.cleanup();
+  if (this.currentTest.parent.title.endsWith('Controller'))
+    await mockSetup.cleanup();
 });
 
 after(TestContext.reset);

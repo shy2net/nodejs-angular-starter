@@ -3,7 +3,7 @@ import { AppConfig } from '@models';
 /**
  * Returns all of the configurations provided from the system environment.
  */
-export function getEnvConfig() {
+export function getEnvConfig(): unknown {
   // Allows initializing configurations from environment, we initialize non-primitive types
   const webEnvConfigs = {} as AppConfig;
 

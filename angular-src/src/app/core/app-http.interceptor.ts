@@ -11,18 +11,22 @@ import { AuthService, RequestsService } from '@services';
  */
 @Injectable()
 export class AppHttpInterceptor implements HttpInterceptor {
-  constructor(public authService: AuthService,
-    private requestsService: RequestsService) { }
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  constructor(
+    public authService: AuthService,
+    private requestsService: RequestsService
+  ) {}
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
     // Add our authentication token if existing
     if (this.authService.hasCredentials) {
-
-      // Check if this request does already contains a credentails to send, if so, don't append our token
+      // Check if this request does already contains a credentials to send, if so, don't append our token
       if (!request.withCredentials) {
         const cloneOptions = {
           setHeaders: {
-            Authorization: `Bearer ${this.authService.savedToken}`
-          }
+            Authorization: `Bearer ${this.authService.savedToken}`,
+          },
         };
 
         request = request.clone(cloneOptions);
@@ -32,7 +36,9 @@ export class AppHttpInterceptor implements HttpInterceptor {
     return this.handleRequest(next.handle(request));
   }
 
-  handleRequest(request: Observable<HttpEvent<any>>) {
+  handleRequest(
+    request: Observable<HttpEvent<unknown>>
+  ): Observable<HttpEvent<unknown>> {
     return this.requestsService.onRequestStarted(request);
   }
 }

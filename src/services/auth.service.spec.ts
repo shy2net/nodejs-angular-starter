@@ -11,7 +11,7 @@ import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let authService: AuthService;
-  let sandbox: ChaiSpies.Sandbox = spy.sandbox();
+  const sandbox: ChaiSpies.Sandbox = spy.sandbox();
 
   before(() => {
     authService = TestContext.injector.get(AuthService);

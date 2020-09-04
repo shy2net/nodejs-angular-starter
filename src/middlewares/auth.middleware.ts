@@ -17,14 +17,19 @@ import { AuthService } from '../services/auth.service';
 export class AuthMiddleware implements IMiddleware {
   constructor(private auth: AuthService) {}
 
-  public async use(@Req() request: AppRequest, @EndpointInfo() endpoint: EndpointInfo) {
+  public async use(
+    @Req() request: AppRequest,
+    @EndpointInfo() endpoint: EndpointInfo
+  ): Promise<unknown> {
     // Always allow OPTIONS requests to pass
     if (request.method === 'OPTIONS') return;
 
     // retrieve options given to the @UseAuth decorator
     const options = (endpoint && endpoint.get(AuthMiddleware)) || {};
 
-    const handleUserPromise = (promise: DocumentQuery<IUserProfileDbModel, IUserProfileDbModel>) => {
+    const handleUserPromise = (
+      promise: DocumentQuery<IUserProfileDbModel, IUserProfileDbModel>
+    ) => {
       return promise
         .then((user) => {
           request.user = user;
@@ -35,8 +40,11 @@ export class AuthMiddleware implements IMiddleware {
               throw new Forbidden(`You don't have the permissions required!`);
           }
         })
-        .catch((err) => {
-          throw new InternalServerError(`An error had occurred while authenticating user`);
+        .catch((err: unknown) => {
+          throw new InternalServerError(
+            `An error had occurred while authenticating user`,
+            err
+          );
         });
     };
 

@@ -14,7 +14,7 @@ import { AuthMiddleware } from './auth.middleware';
 describe('AuthMiddleware', () => {
   let authMiddleware: AuthMiddleware;
   let authService: AuthService;
-  let sandbox: ChaiSpies.Sandbox = spy.sandbox();
+  const sandbox: ChaiSpies.Sandbox = spy.sandbox();
   const validToken = 'thisisavalidtoken';
   const mockedUser = { email: 'validuser' } as UserProfile;
 

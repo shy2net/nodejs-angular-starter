@@ -15,8 +15,10 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
  * @param server The express app we want to mount angular SSR into
  * @param distFolder The angular browser dist directory where angular was compiled to
  */
-export function init(server: express.Application, distFolder: string) {
-  const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+export function init(server: express.Application, distFolder: string): void {
+  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
+    ? 'index.original.html'
+    : 'index';
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine(
@@ -39,14 +41,17 @@ export function init(server: express.Application, distFolder: string) {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
+    res.render(indexHtml, {
+      req,
+      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+    });
   });
 }
 
 /**
  * This is the main express app used for SSR, for development purposes.
  */
-export function app() {
+export function app(): express.Express {
   const server = express();
   const distFolder = join(process.cwd(), 'dist/browser');
   init(server, distFolder);
@@ -54,7 +59,7 @@ export function app() {
   return server;
 }
 
-function run() {
+function run(): void {
   const port = process.env.PORT || 4000;
 
   // Start up the Node server

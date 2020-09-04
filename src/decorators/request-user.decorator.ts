@@ -1,10 +1,10 @@
-import { IFilter, Filter, ParseService, UseFilter } from '@tsed/common';
+import { Filter, IFilter, ParseService, UseFilter } from '@tsed/common';
 
 @Filter()
 export class RequestUserFilter implements IFilter {
   constructor(private parseService: ParseService) {}
 
-  transform(expression: string, request, response) {
+  transform(expression: string, request: unknown): unknown {
     return this.parseService.eval(expression, request['user']);
   }
 }
@@ -12,6 +12,6 @@ export class RequestUserFilter implements IFilter {
 /**
  * Returns the authenticated user (extracted from the request.user object).
  */
-export function RequestUser(): Function {
+export function RequestUser(): ParameterDecorator {
   return UseFilter(RequestUserFilter);
 }

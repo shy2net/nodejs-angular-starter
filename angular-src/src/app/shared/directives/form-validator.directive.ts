@@ -6,14 +6,26 @@ import {
 } from '@angular/core';
 
 /**
- * This directive simply updates all of the fields in the form according to the model validations using class-validator (https://github.com/typestack/class-validator).
+ * This directive simply updates all of the fields in the form according to the model validations
+ * using class-validator (https://github.com/typestack/class-validator).
  * It follows the bootstrap standard to mark fields ans invalid or valid (https://getbootstrap.com/docs/4.0/components/forms/#validation).
  */
 @Directive({
   selector: '[appFormValidator]',
 })
-export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestroy {
-  @Input() appFormValidator: any;
+export class FormValidatorDirective
+  implements AfterViewInit, OnChanges, OnDestroy {
+  /**
+   * Called each time the form is completely valid or invalid.
+   *
+   * @type {EventEmitter<boolean>}
+   * @memberof FormValidatorDirective
+   */
+  @Output() appFormValidatorIsFormValidChange: EventEmitter<
+    boolean
+  > = new EventEmitter<boolean>();
+
+  @Input() appFormValidator: unknown;
   /**
    *Hides all of the form validation errors text.
    *
@@ -26,8 +38,9 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestr
   @Input() appFormValidatorForce: boolean;
   private _isFormValid: boolean;
   private fieldsWritten: { [name: string]: boolean } = {}; // A dictionary containing data about fields already written
+  private inputValueChangeEventFunc: (event) => void;
 
-  get appFormValidatorIsFormValid() {
+  get appFormValidatorIsFormValid(): boolean {
     return this._isFormValid;
   }
 
@@ -40,12 +53,18 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestr
     // We split using '-' which represents a deeper property
     const split = name.split('-');
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       const property = split.shift();
 
       if (lastValidationError)
-        lastValidationError = lastValidationError.children.find((v) => v.property === property);
-      else lastValidationError = validationErrors.find((v) => v.property === property);
+        lastValidationError = lastValidationError.children.find(
+          (v) => v.property === property
+        );
+      else
+        lastValidationError = validationErrors.find(
+          (v) => v.property === property
+        );
 
       // If no validation error was found, return null
       if (!lastValidationError) return;
@@ -56,16 +75,6 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestr
       if (split.length === 0) return lastValidationError;
     }
   }
-
-  /**
-   * Called each time the form is completely valid or invalid.
-   *
-   * @type {EventEmitter<boolean>}
-   * @memberof FormValidatorDirective
-   */
-  @Output() appFormValidatorIsFormValidChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  private inputValueChangeEventFunc: (event) => void;
 
   constructor(private elementRef: ElementRef<HTMLFormElement>) {
     this.inputValueChangeEventFunc = (event: Event) => {
@@ -87,7 +96,7 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestr
   /**
    * Get all of the form group inputs, and listen to all of the input events.
    */
-  attachEventListeners() {
+  attachEventListeners(): void {
     // Get all of the form group inputs
     this.getFormGroupInputs().forEach((input: HTMLInputElement) => {
       // Detect when a value was changed in one of the fields
@@ -106,7 +115,7 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestr
   /**
    * Removes all of the form group input listeners.
    */
-  detachEventListeners() {
+  detachEventListeners(): void {
     this.getFormGroupInputs().forEach((input: HTMLInputElement) => {
       input.removeEventListener('input', this.inputValueChangeEventFunc);
     });
@@ -115,13 +124,17 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestr
   /**
    * Removes the attached event listeners, and re-attaches to them.
    */
-  reattachEventListeners() {
+  reattachEventListeners(): void {
     this.detachEventListeners();
     this.attachEventListeners();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ('appFormValidator' in changes || 'appFormValidatorHideErrorText' in changes) this.updateForm();
+    if (
+      'appFormValidator' in changes ||
+      'appFormValidatorHideErrorText' in changes
+    )
+      this.updateForm();
   }
 
   /**
@@ -129,9 +142,11 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestr
    * @param el
    * @param error
    */
-  updateFormField(el: HTMLInputElement, error?: ValidationError) {
+  updateFormField(el: HTMLInputElement, error?: ValidationError): void {
     const name = el.name;
-    if (!this.appFormValidatorForce && !this.fieldsWritten[name]) return; // Check if this fields has been written, if not don't update it's validation state until it is
+
+    // Check if this fields has been written, if not don't update it's validation state until it is
+    if (!this.appFormValidatorForce && !this.fieldsWritten[name]) return;
     el.classList.remove('is-valid', 'is-invalid');
     el.classList.add(error ? 'is-invalid' : 'is-valid');
 
@@ -141,7 +156,9 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestr
 
     if (validationDesc) {
       validationDesc.classList.remove('invalid-feedback', 'valid-feedback');
-      validationDesc.classList.add(error ? 'invalid-feedback' : 'valid-feedback');
+      validationDesc.classList.add(
+        error ? 'invalid-feedback' : 'valid-feedback'
+      );
       validationDesc.innerHTML = null;
 
       if (error) {
@@ -167,7 +184,10 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestr
 
       this.getFormGroupInputs().forEach((input: HTMLInputElement) => {
         const name = input.name;
-        const validationError = this.getValidationErrorFromFieldName(name, validationErrors);
+        const validationError = this.getValidationErrorFromFieldName(
+          name,
+          validationErrors
+        );
         this.updateFormField(input, validationError);
 
         if (validationError) this._isFormValid = false;
@@ -183,7 +203,7 @@ export class FormValidatorDirective implements AfterViewInit, OnChanges, OnDestr
   /**
    * Returns all of the form groups found according to bootstrap standard.
    */
-  getFormGroupInputs() {
+  getFormGroupInputs(): NodeListOf<Element> {
     const formElement = this.elementRef.nativeElement;
     return formElement.querySelectorAll('.form-group>input');
   }

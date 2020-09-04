@@ -5,7 +5,7 @@ import { OverrideProvider } from '@tsed/di';
 
 @OverrideProvider(DeserializerPipe)
 export class ClassTransformerPipe implements IPipe {
-  transform(value: any, metadata: ParamMetadata) {
+  transform(value: unknown, metadata: ParamMetadata): unknown {
     return plainToClass(metadata.type, value);
   }
 }

@@ -7,10 +7,9 @@ import { Injectable, Input } from '@angular/core';
 
 import { ActionResponse } from '../../../../../shared/models';
 
-
 export enum RequestState {
   started,
-  ended
+  ended,
 }
 
 /**
@@ -25,13 +24,15 @@ export class RequestsService {
   disableErrorToast = false;
   onRequestStateChanged: Subject<RequestState> = new Subject<RequestState>();
 
-  get isRequestLoading() {
+  get isRequestLoading(): boolean {
     return this.requestsCount > 0;
   }
 
   constructor(private toastService: ToastrService) {}
 
-  onRequestStarted(request: Observable<HttpEvent<any>>) {
+  onRequestStarted(
+    request: Observable<HttpEvent<unknown>>
+  ): Observable<HttpEvent<unknown>> {
     // If we have detected that no previous request is running, emit and event that a request is ongoing now
     if (!this.isRequestLoading) {
       this.onRequestStateChanged.next(RequestState.started);
@@ -41,29 +42,28 @@ export class RequestsService {
     ++this.requestsCount;
 
     // Handle the request data obtained and show an error toast if nessecary
-    return request.pipe(tap(
-      (event: HttpEvent<any>) => {
-        if (event instanceof HttpResponse) {
-          this.onRequestEnded();
-        }
-      },
-      errorResponse => {
-        if (errorResponse instanceof HttpErrorResponse) {
-          if (!this.disableErrorToast) {
-            const errorBody = errorResponse.error as ActionResponse<any>;
-            this.toastService.error(
-              `An error had occured`,
-              errorBody.error
-            );
+    return request.pipe(
+      tap(
+        (event: HttpEvent<unknown>) => {
+          if (event instanceof HttpResponse) {
+            this.onRequestEnded();
           }
+        },
+        (errorResponse) => {
+          if (errorResponse instanceof HttpErrorResponse) {
+            if (!this.disableErrorToast) {
+              const errorBody = errorResponse.error as ActionResponse<unknown>;
+              this.toastService.error(`An error had occured`, errorBody.error);
+            }
 
-          this.onRequestEnded();
+            this.onRequestEnded();
+          }
         }
-      }
-    ));
+      )
+    );
   }
 
-  private onRequestEnded() {
+  private onRequestEnded(): void {
     if (--this.requestsCount === 0) {
       this.onRequestStateChanged.next(RequestState.ended);
     }

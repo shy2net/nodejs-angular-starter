@@ -10,9 +10,12 @@ import { AppRequest, AppResponse } from '../models';
  */
 @Middleware()
 export class CorsMiddleware implements IMiddleware {
-  public use(@Req() request: AppRequest, @Res() response: AppResponse) {
+  public use(
+    @Req() request: AppRequest,
+    @Res() response: AppResponse
+  ): Promise<unknown> {
     return new Promise((resolve, reject) => {
-      cors(config.CORS_OPTIONS)(request, response, err => {
+      cors(config.CORS_OPTIONS)(request, response, (err) => {
         if (err) return reject(err);
         resolve();
       });

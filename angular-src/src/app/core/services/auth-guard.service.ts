@@ -1,7 +1,7 @@
+import { Observable } from 'rxjs';
+
 import { Injectable } from '@angular/core';
-import {
-    ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
 
@@ -9,15 +9,15 @@ import { AuthService } from './auth.service';
 export class AuthGuardService implements CanActivate, CanLoad {
   constructor(public router: Router, private authService: AuthService) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(route: ActivatedRouteSnapshot): boolean | Observable<boolean> {
     return this.checkAuthentication(route.data && route.data['roles']);
   }
 
-  canLoad(route: Route) {
+  canLoad(route: Route): boolean | Observable<boolean> {
     return this.checkAuthentication(route.data && route.data['roles']);
   }
 
-  checkAuthentication(roles?: string[]) {
+  checkAuthentication(roles?: string[]): boolean | Observable<boolean> {
     if (roles) {
       return this.authService.hasRolesAsync(roles);
     }

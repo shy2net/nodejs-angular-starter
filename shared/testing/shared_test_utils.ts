@@ -5,7 +5,7 @@
  */
 export function generateMockArray<T>(generateFn: (index: number) => T, count: number): T[] {
   const output: T[] = [];
-  for (var i = 0; i < count; i++) output.push(generateFn(i));
+  for (let i = 0; i < count; i++) output.push(generateFn(i));
 
   return output;
 }

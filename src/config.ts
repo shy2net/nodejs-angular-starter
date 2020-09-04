@@ -14,6 +14,7 @@ import { getEnvConfig } from './misc/env-config-loader';
 import { AppConfig } from './models';
 
 process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '/config');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const config = require('config');
 let exportedConfig = config as AppConfig;
 
@@ -26,7 +27,7 @@ let isDebugging = false;
 const webEnvConfigs = getEnvConfig();
 
 // Read the supplied arguments
-process.argv.forEach(function (val, index, array) {
+process.argv.forEach(function (val) {
   if (val != null && typeof val === 'string') {
     if (val === '-debug') isDebugging = true;
   }

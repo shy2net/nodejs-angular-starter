@@ -1,6 +1,6 @@
 import { ToastrService } from 'ngx-toastr';
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UserProfile } from '../../../../../shared/models/user-profile';
@@ -11,7 +11,7 @@ import { AppService, AuthService } from '../../core/services';
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.scss'],
 })
-export class UserPageComponent implements OnInit {
+export class UserPageComponent {
   constructor(
     private router: Router,
     private appService: AppService,
@@ -19,16 +19,17 @@ export class UserPageComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit() {}
-
   get user(): UserProfile {
     return this.appService.user;
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout().then(() => {
       this.router.navigateByUrl('/');
-      this.toastService.success(`You are logged out`, `You have succesfully logged out!`);
+      this.toastService.success(
+        `You are logged out`,
+        `You have succesfully logged out!`
+      );
     });
   }
 }

@@ -8,9 +8,9 @@ const server = new Server();
 // Start the server
 server
   .start()
-  .then(result => {
+  .then(() => {
     $log.info(`Server is now listening!`);
   })
-  .catch(err => {
+  .catch((err) => {
     $log.error(err);
   });
