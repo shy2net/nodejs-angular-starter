@@ -26,11 +26,11 @@ import { HeaderComponent } from './components/header/header.component';
     LoadingBarModule,
     ToastrModule.forRoot({
       timeOut: 5000,
-      positionClass: 'toast-bottom-right'
+      positionClass: 'toast-bottom-right',
     }),
     RouterModule,
     SharedModule,
-    SocialLoginModule
+    SocialLoginModule,
   ],
   declarations: [HeaderComponent, FooterComponent],
   providers: [
@@ -41,10 +41,16 @@ import { HeaderComponent } from './components/header/header.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,
-      multi: true
+      multi: true,
     },
-    RequestsService
+    RequestsService,
   ],
-  exports: [HeaderComponent, FooterComponent, LoadingBarModule, ToastrModule, SocialLoginModule]
+  exports: [
+    HeaderComponent,
+    FooterComponent,
+    LoadingBarModule,
+    ToastrModule,
+    SocialLoginModule,
+  ],
 })
 export class CoreModule {}

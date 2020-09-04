@@ -31,7 +31,7 @@ export class MockApiService {
     });
   }
 
-  socialLogin(provider: string, authToken: string): Observable<LoginActionResponse> {
+  socialLogin(): Observable<LoginActionResponse> {
     return throwError('Not implemented!');
   }
 

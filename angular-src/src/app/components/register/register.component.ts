@@ -1,30 +1,36 @@
-import { UserProfileModel } from './../../../../../shared/models/user-profile.model';
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../core/services/api.service';
 import { ToastrService } from 'ngx-toastr';
+
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { UserProfileModel } from '../../../../../shared/models/user-profile.model';
+import { ApiService } from '../../core/services/api.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   userProfile: UserProfileModel = new UserProfileModel();
   isFormValid: boolean;
 
-  constructor(private apiService: ApiService, private toastyService: ToastrService, private router: Router) {}
+  constructor(
+    private apiService: ApiService,
+    private toastyService: ToastrService,
+    private router: Router
+  ) {}
 
-  ngOnInit() {}
-
-  onFormValidChange(isValid) {
+  onFormValidChange(isValid: boolean): void {
     this.isFormValid = isValid;
   }
 
-  onRegisterClick() {
-    this.apiService.register(this.userProfile).subscribe(result => {
-      this.toastyService.success(`User successfully registered! please login now`);
+  onRegisterClick(): void {
+    this.apiService.register(this.userProfile).subscribe(() => {
+      this.toastyService.success(
+        `User successfully registered! please login now`
+      );
       this.router.navigateByUrl('/login');
-    }, error => {});
+    });
   }
 }

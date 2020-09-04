@@ -1,20 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SocialLoginService } from '../social-login.service';
 
 @Component({
   selector: 'app-social-login-button',
   templateUrl: './social-login-button.component.html',
-  styleUrls: ['./social-login-button.component.css']
+  styleUrls: ['./social-login-button.component.css'],
 })
-export class SocialLoginButtonComponent implements OnInit {
+export class SocialLoginButtonComponent {
+  constructor(private socialLoginService: SocialLoginService) {}
 
-  constructor(private socialLoginService: SocialLoginService) { }
-
-  ngOnInit() {
-  }
-
-  onSocialLoginClick(provider: string) {
+  onSocialLoginClick(provider: string): Promise<void> {
     return this.socialLoginService.signIn(provider);
   }
 }

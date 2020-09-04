@@ -8,7 +8,7 @@ import { AuthService } from '@services';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   private authSubscription: Subscription;
@@ -19,10 +19,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private toastService: ToastrService
-  ) { }
+  ) {}
 
-  ngOnInit() {
-    this.authSubscription = this.authService.userChanged.subscribe(user => {
+  ngOnInit(): void {
+    this.authSubscription = this.authService.userChanged.subscribe((user) => {
       if (user) {
         this.toastService.success(
           `Login successfully`,
@@ -31,16 +31,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         this.router.navigateByUrl('/user');
       }
-    }, error => {
-
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.authSubscription.unsubscribe();
   }
 
-  onLoginClick() {
+  onLoginClick(): void {
     this.authService.login(this.email, this.password).subscribe();
   }
 }

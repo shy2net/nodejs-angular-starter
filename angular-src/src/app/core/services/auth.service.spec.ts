@@ -34,7 +34,7 @@ describe('AuthService', () => {
     // Expect if userChanged was called
     const spy = spyOn(service.userChanged, 'next');
 
-    const result = await service.login('admin', 'admin').toPromise();
+    await service.login('admin', 'admin').toPromise();
 
     // Expect that the user was set
     expect(service.user).toBeTruthy();
@@ -54,7 +54,9 @@ describe('AuthService', () => {
   it('should fail to login with incorrect credentials and userChanged should not be called', async () => {
     const spy = spyOn(service.userChanged, 'next');
 
-    await expectAsync(service.login('incorrect', 'incorrect').toPromise()).toBeRejected();
+    await expectAsync(
+      service.login('incorrect', 'incorrect').toPromise()
+    ).toBeRejected();
 
     // User should be undefined and no userChanged should be called
     expect(service.user).toBeUndefined();

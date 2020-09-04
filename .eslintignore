@@ -6,5 +6,8 @@ dist
 coverage
 # don't lint eslint conf file
 .eslintrc.js
-# don't lint angular-src
-angular-src
+
+# don't lint specific angular config files
+angular-src/e2e/protractor.conf.js
+angular-src/src/karma.conf.js
+angular-src/local.js

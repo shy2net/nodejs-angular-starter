@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -16,11 +18,11 @@ export class ApiService {
     return `${this.serverUrl}/api`;
   }
 
-  getApiEndpoint(endpoint): string {
+  getApiEndpoint(endpoint: string): string {
     return `${this.apiUrl}/${endpoint}`;
   }
 
-  login(username: string, password: string) {
+  login(username: string, password: string): Observable<LoginActionResponse> {
     const url = this.getApiEndpoint(`login`);
 
     return this.httpService.post<LoginActionResponse>(url, {
@@ -29,7 +31,7 @@ export class ApiService {
     });
   }
 
-  socialLogin(provider: string, authToken: string) {
+  socialLogin(provider: string, authToken: string): Observable<LoginActionResponse> {
     const url = this.getApiEndpoint(`social-login/${provider}`);
     return this.httpService.get<LoginActionResponse>(url, {
       headers: {
@@ -40,17 +42,17 @@ export class ApiService {
     });
   }
 
-  register(user: UserProfile) {
+  register(user: UserProfile): Observable<UserProfile> {
     const url = this.getApiEndpoint('register/');
     return this.httpService.post<UserProfile>(url, user);
   }
 
-  logout() {
+  logout(): Observable<ActionResponse<null>> {
     const url = this.getApiEndpoint('logout/');
     return this.httpService.get<ActionResponse<null>>(url);
   }
 
-  getProfile() {
+  getProfile(): Observable<UserProfile> {
     const url = this.getApiEndpoint(`profile/`);
     return this.httpService.get<UserProfile>(url);
   }

@@ -5,12 +5,15 @@ import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import { UserProfile } from '../../../../../shared/models';
+import { LoginActionResponse } from '../../../../../shared/models/login-action-response';
 import { ApiService } from './api.service';
 
 @Injectable()
 export class AuthService {
   _user: UserProfile;
-  userChanged: BehaviorSubject<UserProfile> = new BehaviorSubject<UserProfile>(null);
+  userChanged: BehaviorSubject<UserProfile> = new BehaviorSubject<UserProfile>(
+    null
+  );
   private _loginChecked: boolean;
 
   get user(): UserProfile {
@@ -28,7 +31,7 @@ export class AuthService {
     }
   }
 
-  get loginChecked() {
+  get loginChecked(): boolean {
     return this._loginChecked;
   }
 
@@ -36,25 +39,25 @@ export class AuthService {
     this._loginChecked = loginChecked;
   }
 
-  get hasCredentials() {
+  get hasCredentials(): boolean {
     return !!this.savedToken;
   }
 
-  get savedToken() {
+  get savedToken(): string {
     return this.cookieService.get('auth_token');
   }
 
-  get isLoggedIn() {
+  get isLoggedIn(): boolean {
     return this.hasCredentials && !!this._user;
   }
 
-  get isLoggedInAsync() {
+  get isLoggedInAsync(): Observable<boolean> | boolean {
     if (!this.hasCredentials) {
       return false;
     }
 
     if (!this.loginChecked) {
-      return this.checkLogin().pipe(map(user => !!user));
+      return this.checkLogin().pipe(map((user) => !!user));
     }
 
     return this.isLoggedIn;
@@ -65,9 +68,9 @@ export class AuthService {
    * @param roleName
    * @param user If not specified, will use the local authenticated user.
    */
-  hasRole(roleName: string, user?: UserProfile) {
+  hasRole(roleName: string, user?: UserProfile): string {
     if (!user) user = this._user;
-    return user.roles.find(role => roleName === role);
+    return user.roles.find((role) => roleName === role);
   }
 
   /**
@@ -75,7 +78,7 @@ export class AuthService {
    * @param roles The roles to check if exists
    * @param user If not specified, will use the local authenticated user.
    */
-  hasRoles(roles: string[], user?: UserProfile) {
+  hasRoles(roles: string[], user?: UserProfile): boolean {
     for (const role of roles) {
       if (!this.hasRole(role, user)) return false;
     }
@@ -83,17 +86,20 @@ export class AuthService {
     return true;
   }
 
-  hasRolesAsync(roles: string[]) {
+  hasRolesAsync(roles: string[]): boolean | Observable<boolean> {
     if (this.isLoggedIn) return this.hasRoles(roles);
 
     if (!this.loginChecked) {
-      return this.checkLogin().pipe(map(user => this.hasRoles(roles, user)));
+      return this.checkLogin().pipe(map((user) => this.hasRoles(roles, user)));
     }
 
     return false;
   }
 
-  constructor(private apiService: ApiService, private cookieService: CookieService) {}
+  constructor(
+    private apiService: ApiService,
+    private cookieService: CookieService
+  ) {}
 
   checkLogin(): Observable<UserProfile> {
     if (!this.hasCredentials) {
@@ -104,25 +110,25 @@ export class AuthService {
     this.loginChecked = false;
     return this.apiService.getProfile().pipe(
       tap(
-        response => {
+        (response) => {
           this.loginChecked = true;
           this.user = response;
         },
-        error => {
+        () => {
           this.loginChecked = true;
         }
       )
     );
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<LoginActionResponse> {
     return this.apiService.login(email, password).pipe(
       tap(
-        result => {
+        (result) => {
           this.cookieService.put(`auth_token`, result.data.token);
           this.user = result.data.profile;
         },
-        error => {
+        (error) => {
           this.userChanged.error(error);
           console.error(error);
         }
@@ -135,22 +141,22 @@ export class AuthService {
    * @param provider
    * @param authToken
    */
-  socialLogin(provider: string, authToken: string) {
+  socialLogin(provider: string, authToken: string): Promise<UserProfile> {
     return this.apiService
       .socialLogin(provider, authToken)
       .toPromise()
-      .then(result => {
+      .then((result) => {
         this.cookieService.put(`auth_token`, result.data.token);
         this.user = result.data.profile;
         return this.user;
       })
-      .catch(error => {
+      .catch((error) => {
         this.userChanged.error(error);
         return error;
       });
   }
 
-  logout() {
+  logout(): Promise<void> {
     this.user = null;
     this.cookieService.remove('auth_token');
     this.loginChecked = true;

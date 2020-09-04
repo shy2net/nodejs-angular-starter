@@ -1,7 +1,7 @@
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 
 import { AppService } from '../../core/services/app.service';
-import { getCommonTestBed, tickAndDetectChanges } from '../../testing/test_utils';
+import { getCommonTestBed } from '../../testing/test_utils';
 import { UserPageComponent } from './user-page.component';
 
 describe('UserPageComponent', () => {

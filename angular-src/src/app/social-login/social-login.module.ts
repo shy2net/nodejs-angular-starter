@@ -13,34 +13,28 @@ import { SocialLoginService } from './social-login.service';
 const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider(environment.socialLogin.google)
+    provider: new GoogleLoginProvider(environment.socialLogin.google),
   },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider(environment.socialLogin.facebook)
-  }
+    provider: new FacebookLoginProvider(environment.socialLogin.facebook),
+  },
 ]);
 
-export function provideConfig() {
+export function provideConfig(): AuthServiceConfig {
   return config;
 }
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NgxSocialLogin
-  ],
+  imports: [CommonModule, NgxSocialLogin],
   declarations: [SocialLoginButtonComponent],
   providers: [
     {
       provide: AuthServiceConfig,
-      useFactory: provideConfig
+      useFactory: provideConfig,
     },
-    SocialLoginService
+    SocialLoginService,
   ],
-  exports: [
-    NgxSocialLogin,
-    SocialLoginButtonComponent
-  ]
+  exports: [NgxSocialLogin, SocialLoginButtonComponent],
 })
-export class SocialLoginModule { }
+export class SocialLoginModule {}
