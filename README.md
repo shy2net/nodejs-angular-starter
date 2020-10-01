@@ -1,3 +1,4 @@
+- [Important Note](#important-note)
 - [Introduction](#introduction)
   - [Prerequisites](#prerequisites)
     - [All environments](#all-environments)
@@ -33,6 +34,12 @@
   - [Seperating client and server](#seperating-client-and-server)
     - [Server as standalone](#server-as-standalone)
     - [Angular as standalone](#angular-as-standalone)
+
+# Important Note
+
+> This template is deprecated and will no longer be maintained. Please use the new [nest-angular-starter](https://github.com/shy2net/nestjs-angular-starter) instead. It has almost the same code-base except the server side which was refactored and is now based on NestJS.
+> 
+> **It is highly recommend to move to the new template instead, as this template is no longer maintained!**
 
 # Introduction
 
