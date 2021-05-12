@@ -69,7 +69,7 @@
     },
     "dependencies": {
         "@tsed/common": "^5.62.0",
-        "@tsed/core": "^5.62.0",
+        "@tsed/core": "^5.65.7",
         "@tsed/di": "^5.62.0",
         "@tsed/exceptions": "^5.62.0",
         "@tsed/testing": "^5.62.0",
