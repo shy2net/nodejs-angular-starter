@@ -82,7 +82,7 @@
         "config": "^1.30.0",
         "cors": "^2.8.4",
         "email-validator": "^2.0.4",
-        "express": "^4.16.2",
+        "express": "^4.17.3",
         "express-bearer-token": "^2.1.1",
         "express-https-redirect": "^1.0.0",
         "express-session": "^1.17.1",
