@@ -62,9 +62,9 @@
         "prettier": "2.0.5",
         "reflect-metadata": "^0.1.13",
         "request": "^2.88.2",
-        "ts-loader": "^6.2.2",
+        "ts-loader": "^9.4.2",
         "ts-node": "^3.3.0",
-        "tsconfig-paths": "^3.9.0",
+        "tsconfig-paths": "^3.10.1",
         "typescript": "^3.9.7"
     },
     "dependencies": {
@@ -79,7 +79,7 @@
         "class-transformer-validator": "^0.8.0",
         "class-validator": "^0.12.2",
         "compression": "^1.7.4",
-        "config": "^1.30.0",
+        "config": "^3.3.8",
         "cors": "^2.8.4",
         "email-validator": "^2.0.4",
         "express": "^4.16.2",
